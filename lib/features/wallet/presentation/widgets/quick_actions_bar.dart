@@ -32,7 +32,7 @@ class QuickActionsBar extends StatelessWidget {
             onTap: onSend ?? () => _showActionNotice(context, 'Send Multi-Currency / Crypto Transfer'),
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 11),
         Expanded(
           child: _buildActionCard(
             context,
@@ -42,7 +42,7 @@ class QuickActionsBar extends StatelessWidget {
             onTap: onReceive ?? () => _showActionNotice(context, 'Display Deposit QR & IBAN Details'),
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 11),
         Expanded(
           child: _buildActionCard(
             context,
@@ -52,7 +52,7 @@ class QuickActionsBar extends StatelessWidget {
             onTap: onSwap ?? () => _showActionNotice(context, 'Instant USD ↔ BTC / ETH Swap Engine'),
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 11),
         Expanded(
           child: _buildActionCard(
             context,
@@ -77,28 +77,28 @@ class QuickActionsBar extends StatelessWidget {
       scaleAmount: 0.94,
       onTap: onTap,
       child: Container(
-        height: 78,
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        height: 64,
+        padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: const Color(0xFF101726), // Frosted obsidian surface
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: color.withValues(alpha: 0.38),
-            width: 1.2,
+            width: 1.1,
           ),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              color.withValues(alpha: 0.18),
+              color.withValues(alpha: 0.16),
               color.withValues(alpha: 0.04),
             ],
           ),
           boxShadow: [
             BoxShadow(
               color: color.withValues(alpha: 0.12),
-              blurRadius: 14,
-              offset: const Offset(0, 4),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -106,8 +106,8 @@ class QuickActionsBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 32,
-              height: 32,
+              width: 28,
+              height: 28,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: color.withValues(alpha: 0.18),
@@ -119,17 +119,17 @@ class QuickActionsBar extends StatelessWidget {
               child: Icon(
                 icon,
                 color: color,
-                size: 19,
+                size: 16.5,
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 4),
             Text(
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.label(
                 color: AppColors.textPrimary,
-                fontSize: 11,
+                fontSize: 10.5,
               ).copyWith(
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.2,
