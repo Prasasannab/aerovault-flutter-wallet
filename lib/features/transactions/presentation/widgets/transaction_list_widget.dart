@@ -101,13 +101,22 @@ class TransactionListWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? (isDark ? colors.surfaceElevated : const Color(0xFFE2E8F0))
+                        ? (isDark ? colors.surfaceElevated : colors.primaryContainer)
                         : colors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: isSelected ? primaryAccent : colors.border,
-                      width: isSelected ? 1.2 : 1.0,
+                      width: isSelected ? 1.4 : 1.0,
                     ),
+                    boxShadow: isDark
+                        ? null
+                        : const [
+                            BoxShadow(
+                              color: Color(0x0C0F172A),
+                              blurRadius: 4,
+                              offset: Offset(0, 1),
+                            ),
+                          ],
                   ),
                   child: Center(
                     child: Text(

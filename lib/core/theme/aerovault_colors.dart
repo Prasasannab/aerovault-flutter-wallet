@@ -163,20 +163,20 @@ class AeroVaultColors extends ThemeExtension<AeroVaultColors> {
   factory AeroVaultColors.light([VaultAccent accent = VaultAccent.emerald]) {
     final primary = accent.primary(false);
     return AeroVaultColors(
-      background: const Color(0xFFF6F8FC), // Scandinavian frost pearl white
-      surface: const Color(0xFFFFFFFF),    // Crisp white cards
-      surfaceElevated: const Color(0xFFF1F5F9),
-      border: const Color(0xFFE2E8F0),     // Subtle platinum hairline
-      textPrimary: const Color(0xFF0F172A), // Slate 900
+      background: const Color(0xFFEDF2F7), // Swiss Cool Slate Mist canvas
+      surface: const Color(0xFFFFFFFF),    // Crisp pure white cards
+      surfaceElevated: const Color(0xFFE2E8F0),
+      border: const Color(0xFFCBD5E1),     // Crisp Slate-300 structural hairline
+      textPrimary: const Color(0xFF0F172A), // Deep Slate 900
       textSecondary: const Color(0xFF334155),
       textMuted: const Color(0xFF64748B),
       textDim: const Color(0xFF94A3B8),
       cardBackground: const Color(0xFFFFFFFF),
-      dockBackground: const Color(0xF2FFFFFF),
+      dockBackground: const Color(0xF5FFFFFF),
       cardGradient: const LinearGradient(
         begin: Alignment(-0.9, -1.0),
         end: Alignment(0.9, 1.0),
-        stops: [0.0, 0.3, 0.6, 1.0],
+        stops: [0.0, 0.35, 0.7, 1.0],
         colors: [
           Color(0xFFFFFFFF),
           Color(0xFFF8FAFC),

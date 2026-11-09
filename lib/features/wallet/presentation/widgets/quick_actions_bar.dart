@@ -87,23 +87,31 @@ class QuickActionsBar extends StatelessWidget {
           color: colors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: color.withValues(alpha: isDark ? 0.38 : 0.28),
+            color: color.withValues(alpha: isDark ? 0.38 : 0.35),
             width: 1.1,
           ),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              color.withValues(alpha: isDark ? 0.16 : 0.08),
+              color.withValues(alpha: isDark ? 0.16 : 0.09),
               color.withValues(alpha: isDark ? 0.04 : 0.01),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: isDark ? 0.12 : 0.06),
-              blurRadius: 10,
+              color: isDark
+                  ? color.withValues(alpha: 0.12)
+                  : const Color(0x120F172A),
+              blurRadius: 8,
               offset: const Offset(0, 3),
             ),
+            if (!isDark)
+              BoxShadow(
+                color: color.withValues(alpha: 0.08),
+                blurRadius: 6,
+                offset: const Offset(0, 1),
+              ),
           ],
         ),
         child: Column(

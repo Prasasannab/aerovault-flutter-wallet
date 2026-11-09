@@ -119,45 +119,43 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
               ? const LinearGradient(
                   colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
                 )
-              : (isDark
-                  ? const LinearGradient(
-                      begin: Alignment(-0.9, -1.0),
-                      end: Alignment(0.9, 1.0),
-                      stops: [0.0, 0.25, 0.5, 0.75, 1.0],
-                      colors: [
-                        Color(0xFF1D2635), // Brushed obsidian highlight
-                        Color(0xFF0D141F), // Deep core
-                        Color(0xFF172230), // Specular light reflection
-                        Color(0xFF090E17), // Deep core
-                        Color(0xFF141F2B), // Edge sheen
-                      ],
-                    )
-                  : const LinearGradient(
-                      begin: Alignment(-0.9, -1.0),
-                      end: Alignment(0.9, 1.0),
-                      stops: [0.0, 0.25, 0.55, 1.0],
-                      colors: [
-                        Color(0xFFFFFFFF), // Apple Card Pearl Titanium
-                        Color(0xFFF8FAFC),
-                        Color(0xFFF1F5F9),
-                        Color(0xFFE2E8F0),
-                      ],
-                    )),
+              : const LinearGradient(
+                  begin: Alignment(-0.9, -1.0),
+                  end: Alignment(0.9, 1.0),
+                  stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+                  colors: [
+                    Color(0xFF1D2635), // Brushed obsidian highlight
+                    Color(0xFF0D141F), // Deep core
+                    Color(0xFF172230), // Specular light reflection
+                    Color(0xFF090E17), // Deep core
+                    Color(0xFF141F2B), // Edge sheen
+                  ],
+                ),
           border: Border.all(
             color: isFrozen
                 ? AppColors.error.withValues(alpha: 0.5)
-                : (isDark ? const Color(0x4400E599) : const Color(0x4000B075)),
-            width: 1.2,
+                : (isDark
+                    ? colors.primary.withValues(alpha: 0.35)
+                    : const Color(0xFF334155)),
+            width: 1.3,
           ),
           boxShadow: [
             BoxShadow(
               color: isFrozen
                   ? AppColors.errorGlow
-                  : (isDark ? colors.primaryGlow : const Color(0x1F000000)),
-              blurRadius: 26,
-              spreadRadius: -6,
+                  : (isDark
+                      ? colors.primaryGlow
+                      : const Color(0x330F172A)),
+              blurRadius: 28,
+              spreadRadius: isDark ? -6 : -2,
               offset: const Offset(0, 10),
             ),
+            if (!isDark)
+              BoxShadow(
+                color: colors.primaryGlow.withValues(alpha: 0.25),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
           ],
         ),
         child: ClipRRect(
@@ -267,7 +265,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                                 Text(
                                   isHidden ? 'Show' : 'Hide',
                                   style: AppTextStyles.label(
-                                    color: isDark ? AppColors.textPrimary : const Color(0xFF0F172A),
+                                    color: Colors.white,
                                     fontSize: 10.5,
                                   ),
                                 ),
@@ -285,7 +283,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                         Text(
                           'AeroVault Platinum Balance',
                           style: AppTextStyles.label(
-                            color: isDark ? const Color(0x99FFFFFF) : const Color(0xFF64748B),
+                            color: const Color(0x99FFFFFF),
                             fontSize: 11,
                           ),
                         ),
@@ -299,16 +297,14 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                             currencyFormatter.format(widget.account.totalPortfolioBalanceUsd),
                             style: AppTextStyles.balanceDisplay(
                               fontSize: 27,
-                              color: isFrozen
-                                  ? AppColors.textMuted
-                                  : (isDark ? AppColors.textPrimary : const Color(0xFF0F172A)),
+                              color: isFrozen ? AppColors.textMuted : Colors.white,
                             ),
                           ),
                           secondChild: Text(
                             '\$••••••••••',
                             style: AppTextStyles.balanceDisplay(
                               fontSize: 27,
-                              color: isDark ? AppColors.textMuted : const Color(0xFF94A3B8),
+                              color: const Color(0x99FFFFFF),
                             ),
                           ),
                         ),
@@ -326,7 +322,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                             Text(
                               widget.card.cardNumberMasked,
                               style: AppTextStyles.cardNumber(
-                                color: isDark ? AppColors.textPrimary : const Color(0xFF0F172A),
+                                color: Colors.white,
                               ).copyWith(
                                 fontSize: 13.5,
                                 letterSpacing: 2.2,
@@ -336,7 +332,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                             Text(
                               widget.account.holderName.toUpperCase(),
                               style: AppTextStyles.label(
-                                color: isDark ? const Color(0xB3FFFFFF) : const Color(0xFF475569),
+                                color: const Color(0xB3FFFFFF),
                                 fontSize: 10,
                               ),
                             ),
@@ -448,24 +444,18 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
-          gradient: isDark
-              ? const LinearGradient(
-                  colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
-              : const LinearGradient(
-                  colors: [Color(0xFFF1F5F9), Color(0xFFE2E8F0)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+          gradient: const LinearGradient(
+            colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           border: Border.all(
-            color: isDark ? const Color(0x26FFFFFF) : const Color(0xFFCBD5E1),
+            color: isDark ? const Color(0x26FFFFFF) : const Color(0xFF334155),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
-              color: isDark ? Colors.black54 : const Color(0x18000000),
+              color: isDark ? Colors.black54 : const Color(0x330F172A),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),

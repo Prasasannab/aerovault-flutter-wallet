@@ -38,9 +38,9 @@ class TransactionTile extends StatelessWidget {
               ? null
               : const [
                   BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
+                    color: Color(0x0E0F172A),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
                   ),
                 ],
         ),

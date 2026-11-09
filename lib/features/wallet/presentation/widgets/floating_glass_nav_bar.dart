@@ -50,7 +50,9 @@ class FloatingGlassNavBar extends StatelessWidget {
               color: colors.dockBackground,
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: primaryAccent.withValues(alpha: isDark ? 0.28 : 0.18),
+                color: isDark
+                    ? primaryAccent.withValues(alpha: 0.28)
+                    : const Color(0xFFCBD5E1),
                 width: 1.2,
               ),
               boxShadow: isDark
@@ -68,9 +70,14 @@ class FloatingGlassNavBar extends StatelessWidget {
                     ]
                   : const [
                       BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 20,
-                        offset: Offset(0, 6),
+                        color: Color(0x1F0F172A),
+                        blurRadius: 24,
+                        offset: Offset(0, 8),
+                      ),
+                      BoxShadow(
+                        color: Color(0x0F0F172A),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
                       ),
                     ],
             ),
