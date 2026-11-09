@@ -40,27 +40,43 @@ class WalletHeader extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xFF8B5CF6), Color(0xFF6366F1), Color(0xFF3B82F6)],
-                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF6366F1).withValues(alpha: 0.35),
-                          blurRadius: 10,
-                          spreadRadius: -2,
+                          color: colors.primaryGlow,
+                          blurRadius: 8,
+                          spreadRadius: -1,
                         ),
                       ],
-                      border: Border.all(color: const Color(0x55FFFFFF), width: 1.5),
+                      border: Border.all(
+                        color: isDark ? const Color(0x66FFFFFF) : colors.border,
+                        width: 1.5,
+                      ),
                     ),
-                    child: Center(
-                      child: Text(
-                        userName.isNotEmpty ? userName[0].toUpperCase() : 'P',
-                        style: AppTextStyles.heading3(color: Colors.white).copyWith(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 16,
-                        ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/sample_avatar.jpg',
+                        fit: BoxFit.cover,
+                        alignment: const Alignment(0, -0.6),
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Color(0xFF8B5CF6), Color(0xFF6366F1), Color(0xFF3B82F6)],
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                userName.isNotEmpty ? userName[0].toUpperCase() : 'P',
+                                style: AppTextStyles.heading3(color: Colors.white).copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
