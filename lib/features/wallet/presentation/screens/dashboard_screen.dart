@@ -16,6 +16,7 @@ import '../../../transactions/presentation/widgets/transaction_list_widget.dart'
 import '../bloc/wallet_bloc.dart';
 import '../bloc/wallet_event.dart';
 import '../bloc/wallet_state.dart';
+import '../widgets/floating_glass_nav_bar.dart';
 import '../widgets/quick_actions_bar.dart';
 import '../widgets/virtual_card_widget.dart';
 import '../widgets/wallet_header.dart';
@@ -45,8 +46,22 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-class _DashboardView extends StatelessWidget {
+class _DashboardView extends StatefulWidget {
   const _DashboardView();
+
+  @override
+  State<_DashboardView> createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<_DashboardView> {
+  int _selectedNavIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<void> _onRefresh(BuildContext context) async {
     HapticFeedback.lightImpact();
@@ -55,18 +70,60 @@ class _DashboardView extends StatelessWidget {
     context.read<AnalyticsBloc>().add(const LoadAnalyticsEvent());
   }
 
+  void _onNavItemSelected(int index) {
+    setState(() {
+      _selectedNavIndex = index;
+    });
+
+    if (index == 0) {
+      // Vault / Home
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+    } else if (index == 1) {
+      // Cards: scroll to card
+      _scrollController.animateTo(
+        50,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+    } else if (index == 2) {
+      // Transfers
+      _showTransfersNotice(context);
+    } else if (index == 3) {
+      // Growth / Analytics: scroll to chart
+      _scrollController.animateTo(
+        320,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+    } else if (index == 4) {
+      // Security
+      _showSecurityAuditDialog(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      extendBody: true,
+      bottomNavigationBar: FloatingGlassNavBar(
+        selectedIndex: _selectedNavIndex,
+        onItemSelected: _onNavItemSelected,
+      ),
       body: SafeArea(
+        bottom: false,
         child: RefreshIndicator(
           onRefresh: () => _onRefresh(context),
           color: AppColors.emerald,
           backgroundColor: AppColors.surfaceElevated,
           child: SingleChildScrollView(
+            controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -83,9 +140,9 @@ class _DashboardView extends StatelessWidget {
                     );
                   },
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 16),
 
-                // 2. 3D Flippable Platinum Virtual Card
+                // 2. 3D Flippable Platinum Virtual Card (Strict ISO 1.586:1 Ratio)
                 BlocBuilder<WalletBloc, WalletState>(
                   builder: (context, state) {
                     if (state is WalletLoaded) {
@@ -111,13 +168,13 @@ class _DashboardView extends StatelessWidget {
                     return _buildCardSkeleton();
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
-                // 3. Quick Actions Bar
+                // 3. Tactile Quick Actions Bar
                 const QuickActionsBar(),
-                const SizedBox(height: 26),
+                const SizedBox(height: 18),
 
-                // 4. Portfolio Growth Curve (Interactive fl_chart)
+                // 4. Portfolio Growth Curve (Interactive fl_chart with Live Tip Dot)
                 BlocBuilder<AnalyticsBloc, AnalyticsState>(
                   builder: (context, state) {
                     if (state is AnalyticsLoaded) {
@@ -133,7 +190,7 @@ class _DashboardView extends StatelessWidget {
                     return _buildChartSkeleton();
                   },
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 20),
 
                 // 5. Real-Time Transactions Ledger
                 BlocBuilder<TransactionBloc, TransactionState>(
@@ -152,7 +209,7 @@ class _DashboardView extends StatelessWidget {
                     return _buildTransactionsSkeleton();
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 100), // Clearance for floating glass bottom dock
               ],
             ),
           ),
@@ -162,18 +219,20 @@ class _DashboardView extends StatelessWidget {
   }
 
   Widget _buildCardSkeleton() {
-    return Container(
-      height: 215,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: const Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: AppColors.emerald,
+    return AspectRatio(
+      aspectRatio: 1.586,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.emerald,
+          ),
         ),
       ),
     );
@@ -181,7 +240,7 @@ class _DashboardView extends StatelessWidget {
 
   Widget _buildChartSkeleton() {
     return Container(
-      height: 240,
+      height: 200,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -202,11 +261,11 @@ class _DashboardView extends StatelessWidget {
       children: List.generate(
         3,
         (index) => Container(
-          height: 68,
+          height: 64,
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: AppColors.border),
           ),
         ),
@@ -242,9 +301,9 @@ class _DashboardView extends StatelessWidget {
     );
   }
 
-
   void _showNotifications(BuildContext context) {
     HapticFeedback.lightImpact();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: AppColors.surfaceElevated,
@@ -255,6 +314,25 @@ class _DashboardView extends StatelessWidget {
         ),
         content: Text(
           'Security alert: New direct deposit from Upwork Global Escrow confirmed.',
+          style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
+        ),
+      ),
+    );
+  }
+
+  void _showTransfersNotice(BuildContext context) {
+    HapticFeedback.lightImpact();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: AppColors.surfaceElevated,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: AppColors.border),
+        ),
+        content: Text(
+          'Multi-Currency Transfer Rails: SEPA Instant, FedNow & Lightning active.',
           style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
         ),
       ),

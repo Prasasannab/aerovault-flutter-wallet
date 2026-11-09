@@ -8,7 +8,7 @@ import '../../domain/entities/virtual_card.dart';
 import '../../domain/entities/wallet_account.dart';
 
 /// 3D Flippable Platinum Neobank Virtual Card
-/// Adheres to impeccable luxury fintech styling and 60fps micro-animations
+/// Adheres strictly to ISO/IEC 7810 ID-1 (1.586:1) banking standard with specular lighting
 class VirtualCardWidget extends StatefulWidget {
   final WalletAccount account;
   final VirtualCard card;
@@ -75,31 +75,34 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
   Widget build(BuildContext context) {
     final currencyFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
 
-    return AnimatedBuilder(
-      animation: _flipAnimation,
-      builder: (context, child) {
-        final angle = _flipAnimation.value * math.pi;
-        final transform = Matrix4.identity()
-          ..setEntry(3, 2, 0.0012) // Realistic perspective depth
-          ..rotateY(angle);
+    return AspectRatio(
+      aspectRatio: 1.586, // ISO/IEC 7810 ID-1 Banking Standard Ratio
+      child: AnimatedBuilder(
+        animation: _flipAnimation,
+        builder: (context, child) {
+          final angle = _flipAnimation.value * math.pi;
+          final transform = Matrix4.identity()
+            ..setEntry(3, 2, 0.0012) // Realistic perspective depth
+            ..rotateY(angle);
 
-        return Transform(
-          transform: transform,
-          alignment: Alignment.center,
-          child: _showBack
-              ? Transform(
-                  // Counter-rotate back side so text is not mirrored
-                  transform: Matrix4.identity()..rotateY(math.pi),
-                  alignment: Alignment.center,
-                  child: _buildBack(context),
-                )
-              : _buildFront(context, currencyFormatter),
-        );
-      },
+          return Transform(
+            transform: transform,
+            alignment: Alignment.center,
+            child: _showBack
+                ? Transform(
+                    // Counter-rotate back side so text is not mirrored
+                    transform: Matrix4.identity()..rotateY(math.pi),
+                    alignment: Alignment.center,
+                    child: _buildBack(context),
+                  )
+                : _buildFront(context, currencyFormatter),
+          );
+        },
+      ),
     );
   }
 
-  /// Front Face: Platinum Luxury Obsidian Card
+  /// Front Face: Platinum Luxury Obsidian Card with Specular Lighting
   Widget _buildFront(BuildContext context, NumberFormat currencyFormatter) {
     final isHidden = widget.account.isBalanceHidden;
     final isFrozen = widget.card.isFrozen;
@@ -107,44 +110,55 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
     return GestureDetector(
       onTap: _flipCard,
       child: Container(
-        height: 215,
-        width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(22),
           gradient: isFrozen
               ? const LinearGradient(
                   colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
                 )
-              : AppColors.platinumCardGradient,
+              : const LinearGradient(
+                  begin: Alignment(-0.9, -1.0),
+                  end: Alignment(0.9, 1.0),
+                  stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+                  colors: [
+                    Color(0xFF1D2635), // Brushed obsidian highlight
+                    Color(0xFF0D141F), // Deep core
+                    Color(0xFF172230), // Specular light reflection
+                    Color(0xFF090E17), // Deep core
+                    Color(0xFF141F2B), // Edge sheen
+                  ],
+                ),
           border: Border.all(
-            color: isFrozen ? AppColors.error.withValues(alpha: 0.4) : const Color(0x3300E599),
+            color: isFrozen
+                ? AppColors.error.withValues(alpha: 0.5)
+                : const Color(0x4400E599),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
               color: isFrozen ? AppColors.errorGlow : AppColors.emeraldGlow,
-              blurRadius: 28,
+              blurRadius: 26,
               spreadRadius: -6,
-              offset: const Offset(0, 12),
+              offset: const Offset(0, 10),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(22),
           child: Stack(
             children: [
-              // Subtle background geometric glow
-              Positioned(
-                right: -40,
-                top: -40,
+              // Specular Diagonal Light Streak (Metallic luxury gloss)
+              Positioned.fill(
                 child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(-1.0, -1.0),
+                      end: Alignment(1.0, 1.0),
+                      stops: [0.0, 0.22, 0.42, 1.0],
                       colors: [
-                        isFrozen ? const Color(0x33FF4D4F) : const Color(0x2600E599),
+                        Color(0x28FFFFFF),
+                        Color(0x0AFFFFFF),
+                        Colors.transparent,
                         Colors.transparent,
                       ],
                     ),
@@ -152,82 +166,93 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                 ),
               ),
 
+              // Subtle Radial Spotlight Glow
+              Positioned(
+                left: -30,
+                top: -30,
+                child: Container(
+                  width: 160,
+                  height: 160,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        isFrozen ? const Color(0x33FF4D4F) : const Color(0x2B00E599),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Card Content Elements
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Card Top Bar
+                    // 1. Top Bar: EMV Chip, Contactless Wave, and Privacy Toggle
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Container(
-                              width: 32,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFD700).withValues(alpha: 0.85),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Container(
-                                  width: 22,
-                                  height: 14,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black45, width: 0.8),
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            _buildEmvChip(),
                             const SizedBox(width: 10),
                             const Icon(
-                              Icons.wifi,
-                              color: AppColors.textSecondary,
-                              size: 18,
+                              Icons.contactless_rounded,
+                              color: Color(0xCCFFFFFF),
+                              size: 20,
                             ),
                             if (isFrozen) ...[
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 8),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
                                   color: AppColors.errorGlow,
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(6),
                                   border: Border.all(color: AppColors.error, width: 0.8),
                                 ),
                                 child: Text(
                                   'CARD FROZEN',
-                                  style: AppTextStyles.label(color: AppColors.error, fontSize: 9),
+                                  style: AppTextStyles.label(color: AppColors.error, fontSize: 8.5),
                                 ),
                               ),
                             ],
                           ],
                         ),
-                        // Balance Privacy Toggle
+
+                        // Balance Privacy Toggle Pill
                         GestureDetector(
                           onTap: () {
                             HapticFeedback.selectionClick();
                             widget.onToggleBalanceVisibility();
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
-                              color: const Color(0x1AFFFFFF),
+                              color: const Color(0x1F00E599),
                               borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: const Color(0x4000E599),
+                                width: 0.8,
+                              ),
                             ),
                             child: Row(
                               children: [
                                 Icon(
-                                  isHidden ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                  isHidden ? Icons.visibility_off_rounded : Icons.visibility_rounded,
                                   color: AppColors.emerald,
-                                  size: 15,
+                                  size: 13,
                                 ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 4),
                                 Text(
                                   isHidden ? 'Show' : 'Hide',
-                                  style: AppTextStyles.label(color: AppColors.textPrimary, fontSize: 10),
+                                  style: AppTextStyles.label(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 10.5,
+                                  ),
                                 ),
                               ],
                             ),
@@ -236,15 +261,18 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                       ],
                     ),
 
-                    // Card Balance
+                    // 2. Center: Card Balance
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'AeroVault Platinum Balance',
-                          style: AppTextStyles.label(color: AppColors.textMuted),
+                          style: AppTextStyles.label(
+                            color: const Color(0x99FFFFFF),
+                            fontSize: 11,
+                          ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         AnimatedCrossFade(
                           duration: const Duration(milliseconds: 200),
                           crossFadeState: isHidden
@@ -253,14 +281,14 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                           firstChild: Text(
                             currencyFormatter.format(widget.account.totalPortfolioBalanceUsd),
                             style: AppTextStyles.balanceDisplay(
-                              fontSize: 30,
+                              fontSize: 27,
                               color: isFrozen ? AppColors.textMuted : AppColors.textPrimary,
                             ),
                           ),
                           secondChild: Text(
-                            '••••••••••••',
+                            '\$••••••••••',
                             style: AppTextStyles.balanceDisplay(
-                              fontSize: 30,
+                              fontSize: 27,
                               color: AppColors.textMuted,
                             ),
                           ),
@@ -268,21 +296,28 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                       ],
                     ),
 
-                    // Card Bottom Details
+                    // 3. Bottom: Card Number & Tier Info
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.card.cardNumberMasked,
-                              style: AppTextStyles.cardNumber(),
+                              style: AppTextStyles.cardNumber().copyWith(
+                                fontSize: 13.5,
+                                letterSpacing: 2.2,
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               widget.account.holderName.toUpperCase(),
-                              style: AppTextStyles.label(color: AppColors.textSecondary),
+                              style: AppTextStyles.label(
+                                color: const Color(0xB3FFFFFF),
+                                fontSize: 10,
+                              ),
                             ),
                           ],
                         ),
@@ -294,12 +329,16 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                               style: AppTextStyles.label(
                                 color: isFrozen ? AppColors.textMuted : AppColors.emerald,
                                 fontWeight: FontWeight.w700,
+                                fontSize: 11,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               'EXP ${widget.card.expiry}',
-                              style: AppTextStyles.label(color: AppColors.textMuted),
+                              style: AppTextStyles.label(
+                                color: const Color(0x80FFFFFF),
+                                fontSize: 9.5,
+                              ),
                             ),
                           ],
                         ),
@@ -315,6 +354,65 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
     );
   }
 
+  /// Authentic Brass Gold EMV Smart Chip with Micro-Circuits
+  Widget _buildEmvChip() {
+    return Container(
+      width: 36,
+      height: 26,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFE082),
+            Color(0xFFD4AF37),
+            Color(0xFFA67C1E),
+            Color(0xFFE5C07B),
+          ],
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black38,
+            blurRadius: 3,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          // Center horizontal circuit line
+          Center(
+            child: Container(
+              width: double.infinity,
+              height: 0.8,
+              color: const Color(0x55000000),
+            ),
+          ),
+          // Center vertical circuit line
+          Center(
+            child: Container(
+              width: 0.8,
+              height: double.infinity,
+              color: const Color(0x55000000),
+            ),
+          ),
+          // Internal central contact core
+          Center(
+            child: Container(
+              width: 14,
+              height: 11,
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0x55000000), width: 0.8),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// Back Face: Magnetic Stripe, CVV, Spending Limits & Instant Freeze Controls
   Widget _buildBack(BuildContext context) {
     final isFrozen = widget.card.isFrozen;
@@ -323,10 +421,8 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
     return GestureDetector(
       onTap: _flipCard,
       child: Container(
-        height: 215,
-        width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
             colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
             begin: Alignment.topLeft,
@@ -346,17 +442,17 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
         ),
         child: Column(
           children: [
-            const SizedBox(height: 18),
+            const SizedBox(height: 14),
             // Black Magnetic Stripe
             Container(
-              height: 42,
+              height: 38,
               width: double.infinity,
               color: const Color(0xFF070B12),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   // Signature panel & CVV
@@ -364,76 +460,103 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 170,
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        width: 150,
+                        height: 26,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0x33FFFFFF),
-                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          widget.account.holderName,
-                          style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
+                          'AUTHORIZED SIGNATURE',
+                          style: AppTextStyles.label(
+                            color: Colors.grey.shade600,
+                            fontSize: 7.5,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6),
+                          color: const Color(0x33FFFFFF),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: const Color(0x44FFFFFF)),
                         ),
                         child: Text(
-                          'CVV 842',
+                          'CVV  842',
                           style: AppTextStyles.label(
-                            color: Colors.black,
+                            color: Colors.white,
+                            fontSize: 10,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 10),
 
-                  // Monthly Spending Limit Tracker
+                  // Daily Spending Limit
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Spending Limit', style: AppTextStyles.label(color: AppColors.textMuted)),
+                      Text(
+                        'Daily Limit',
+                        style: AppTextStyles.label(color: AppColors.textMuted, fontSize: 10),
+                      ),
                       Text(
                         '${currencyFormatter.format(widget.card.currentSpend)} / ${currencyFormatter.format(widget.card.spendingLimit)}',
-                        style: AppTextStyles.label(color: AppColors.textPrimary),
+                        style: AppTextStyles.label(color: AppColors.textPrimary, fontSize: 10),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 5),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
-                      value: widget.card.spendPercentage,
+                      value: widget.card.spendPercentage.clamp(0.0, 1.0),
+                      backgroundColor: const Color(0x22FFFFFF),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        isFrozen ? AppColors.error : AppColors.emerald,
+                      ),
                       minHeight: 5,
-                      backgroundColor: const Color(0x33FFFFFF),
-                      color: AppColors.emerald,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
 
-                  // Quick Action Freeze Switch on Card Back
+                  // Instant Card Freeze Control
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        isFrozen ? 'Unfreeze Card' : 'Freeze Card',
-                        style: AppTextStyles.bodySmall(
-                          color: isFrozen ? AppColors.error : AppColors.textSecondary,
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            isFrozen ? Icons.lock_rounded : Icons.lock_open_rounded,
+                            size: 14,
+                            color: isFrozen ? AppColors.error : AppColors.emerald,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            isFrozen ? 'Card Frozen' : 'Card Active',
+                            style: AppTextStyles.bodySmall(
+                              color: isFrozen ? AppColors.error : AppColors.emerald,
+                            ).copyWith(fontWeight: FontWeight.w700, fontSize: 11),
+                          ),
+                        ],
                       ),
-                      Switch.adaptive(
-                        value: isFrozen,
-                        activeThumbColor: AppColors.error,
-                        onChanged: (val) {
-                          HapticFeedback.mediumImpact();
-                          widget.onToggleCardFreeze(val);
-                        },
+                      Transform.scale(
+                        scale: 0.72,
+                        child: Switch(
+                          value: isFrozen,
+                          activeThumbImage: null,
+                          activeThumbColor: AppColors.error,
+                          inactiveThumbColor: AppColors.emerald,
+                          inactiveTrackColor: const Color(0x22FFFFFF),
+                          onChanged: (val) {
+                            HapticFeedback.heavyImpact();
+                            widget.onToggleCardFreeze(val);
+                          },
+                        ),
                       ),
                     ],
                   ),

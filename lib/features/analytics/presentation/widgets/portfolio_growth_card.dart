@@ -25,7 +25,7 @@ class PortfolioGrowthCard extends StatelessWidget {
     final primaryColor = isPositive ? AppColors.emerald : AppColors.error;
 
     return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,14 +43,27 @@ class PortfolioGrowthCard extends StatelessWidget {
                         Icon(
                           isPositive ? Icons.trending_up : Icons.trending_down,
                           color: primaryColor,
-                          size: 20,
+                          size: 17,
                         ),
-                        const SizedBox(width: 6),
-                        Flexible(
-                          child: Text(
-                            'Portfolio Growth',
-                            style: AppTextStyles.heading3(),
-                            overflow: TextOverflow.ellipsis,
+                        const SizedBox(width: 5),
+                        Text(
+                          'Portfolio Growth',
+                          style: AppTextStyles.heading3().copyWith(fontSize: 14.5),
+                        ),
+                        const SizedBox(width: 5),
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: primaryColor.withValues(alpha: 0.9),
+                                blurRadius: 5,
+                                spreadRadius: 1,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -83,11 +96,11 @@ class PortfolioGrowthCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
 
-          // Interactive fl_chart
+          // Interactive fl_chart with Live Tip Dot
           SizedBox(
-            height: 160,
+            height: 125,
             child: LineChart(
               LineChartData(
                 minY: performance.minValue * 0.98,
@@ -109,7 +122,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      reservedSize: 22,
+                      reservedSize: 20,
                       interval: 1,
                       getTitlesWidget: (value, meta) {
                         final index = value.toInt();
@@ -120,7 +133,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                           }
                           return Text(
                             performance.points[index].dateLabel,
-                            style: AppTextStyles.bodySmall(color: AppColors.textDim),
+                            style: AppTextStyles.bodySmall(color: AppColors.textDim).copyWith(fontSize: 10),
                           );
                         }
                         return const SizedBox.shrink();
@@ -155,7 +168,20 @@ class PortfolioGrowthCard extends StatelessWidget {
                     color: primaryColor,
                     barWidth: 2.8,
                     isStrokeCapRound: true,
-                    dotData: const FlDotData(show: false),
+                    dotData: FlDotData(
+                      show: true,
+                      checkToShowDot: (spot, barData) {
+                        return spot.x == barData.spots.last.x;
+                      },
+                      getDotPainter: (spot, percent, barData, index) {
+                        return FlDotCirclePainter(
+                          radius: 5,
+                          color: primaryColor,
+                          strokeWidth: 2.5,
+                          strokeColor: Colors.white,
+                        );
+                      },
+                    ),
                     belowBarData: BarAreaData(
                       show: true,
                       gradient: LinearGradient(
