@@ -23,10 +23,9 @@ class PortfolioGrowthCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencyFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
     final isPositive = performance.isPositive;
-    final isDark = context.isDarkMode;
     final colors = context.colors;
     final primaryColor = isPositive
-        ? (isDark ? AppColors.emerald : AppColors.emeraldDark)
+        ? colors.primary
         : AppColors.error;
 
     return GlassContainer(

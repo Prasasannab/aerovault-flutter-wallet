@@ -121,7 +121,7 @@ class _DashboardViewState extends State<_DashboardView> {
         bottom: false,
         child: RefreshIndicator(
           onRefresh: () => _onRefresh(context),
-          color: AppColors.emerald,
+          color: colors.primary,
           backgroundColor: colors.surfaceElevated,
           child: SingleChildScrollView(
             controller: _scrollController,
@@ -231,10 +231,10 @@ class _DashboardViewState extends State<_DashboardView> {
           borderRadius: BorderRadius.circular(22),
           border: Border.all(color: context.colors.border),
         ),
-        child: const Center(
+        child: Center(
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: AppColors.emerald,
+            color: context.colors.primary,
           ),
         ),
       ),
@@ -250,10 +250,10 @@ class _DashboardViewState extends State<_DashboardView> {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: context.colors.border),
       ),
-      child: const Center(
+      child: Center(
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: AppColors.emerald,
+          color: context.colors.primary,
         ),
       ),
     );

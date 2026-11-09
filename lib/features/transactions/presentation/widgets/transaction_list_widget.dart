@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/aerovault_colors.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/bounce_button.dart';
 import '../../domain/entities/ledger_transaction.dart';
@@ -26,7 +25,7 @@ class TransactionListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final isDark = context.isDarkMode;
-    final primaryAccent = isDark ? AppColors.emerald : AppColors.emeraldDark;
+    final primaryAccent = colors.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

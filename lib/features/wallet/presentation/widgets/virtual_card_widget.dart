@@ -105,6 +105,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
 
   /// Front Face: Platinum Luxury Obsidian (Dark) / Pearl Titanium (Light) Card
   Widget _buildFront(BuildContext context, NumberFormat currencyFormatter) {
+    final colors = context.colors;
     final isHidden = widget.account.isBalanceHidden;
     final isFrozen = widget.card.isFrozen;
     final isDark = context.isDarkMode;
@@ -152,7 +153,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
             BoxShadow(
               color: isFrozen
                   ? AppColors.errorGlow
-                  : (isDark ? AppColors.emeraldGlow : const Color(0x1F000000)),
+                  : (isDark ? colors.primaryGlow : const Color(0x1F000000)),
               blurRadius: 26,
               spreadRadius: -6,
               offset: const Offset(0, 10),
@@ -259,7 +260,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                               children: [
                                 Icon(
                                   isHidden ? Icons.visibility_off_rounded : Icons.visibility_rounded,
-                                  color: isDark ? AppColors.emerald : AppColors.emeraldDark,
+                                  color: colors.primary,
                                   size: 13,
                                 ),
                                 const SizedBox(width: 4),
@@ -349,7 +350,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                               style: AppTextStyles.label(
                                 color: isFrozen
                                     ? AppColors.textMuted
-                                    : (isDark ? AppColors.emerald : AppColors.emeraldDark),
+                                    : colors.primary,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 11,
                               ),
@@ -437,6 +438,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
 
   /// Back Face: Magnetic Stripe, CVV, Spending Limits & Instant Freeze Controls
   Widget _buildBack(BuildContext context) {
+    final colors = context.colors;
     final isFrozen = widget.card.isFrozen;
     final isDark = context.isDarkMode;
     final currencyFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
@@ -549,7 +551,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                       value: widget.card.spendPercentage.clamp(0.0, 1.0),
                       backgroundColor: const Color(0x22FFFFFF),
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        isFrozen ? AppColors.error : AppColors.emerald,
+                        isFrozen ? AppColors.error : colors.primary,
                       ),
                       minHeight: 5,
                     ),
@@ -565,13 +567,13 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                           Icon(
                             isFrozen ? Icons.lock_rounded : Icons.lock_open_rounded,
                             size: 14,
-                            color: isFrozen ? AppColors.error : AppColors.emerald,
+                            color: isFrozen ? AppColors.error : colors.primary,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             isFrozen ? 'Card Frozen' : 'Card Active',
                             style: AppTextStyles.bodySmall(
-                              color: isFrozen ? AppColors.error : AppColors.emerald,
+                              color: isFrozen ? AppColors.error : colors.primary,
                             ).copyWith(fontWeight: FontWeight.w700, fontSize: 11),
                           ),
                         ],
@@ -582,7 +584,7 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                           value: isFrozen,
                           activeThumbImage: null,
                           activeThumbColor: AppColors.error,
-                          inactiveThumbColor: AppColors.emerald,
+                          inactiveThumbColor: colors.primary,
                           inactiveTrackColor: const Color(0x22FFFFFF),
                           onChanged: (val) {
                             HapticFeedback.heavyImpact();

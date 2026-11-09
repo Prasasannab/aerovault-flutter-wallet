@@ -5,46 +5,50 @@ import 'app_colors.dart';
 import 'app_text_styles.dart';
 
 /// AeroVault Enterprise Dual-Theme Configuration (Dark Obsidian & Swiss Platinum Light)
+/// Supports dynamic configurable Brand Accent Palettes
 class FintechTheme {
   const FintechTheme._();
 
   /// Flagship Luxury Obsidian Dark Theme
-  static ThemeData get darkTheme {
+  static ThemeData darkTheme({VaultAccent accent = VaultAccent.emerald}) {
+    final colors = AeroVaultColors.dark(accent);
+    final primary = colors.primary;
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: AeroVaultColors.dark.background,
-      primaryColor: AppColors.emerald,
-      extensions: const [AeroVaultColors.dark],
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.emerald,
-        onPrimary: AppColors.background,
+      scaffoldBackgroundColor: colors.background,
+      primaryColor: primary,
+      extensions: [colors],
+      colorScheme: ColorScheme.dark(
+        primary: primary,
+        onPrimary: colors.background,
         secondary: AppColors.violet,
-        onSecondary: AppColors.textPrimary,
-        surface: AppColors.surface,
-        onSurface: AppColors.textPrimary,
+        onSecondary: colors.textPrimary,
+        surface: colors.surface,
+        onSurface: colors.textPrimary,
         error: AppColors.error,
-        onError: AppColors.textPrimary,
+        onError: colors.textPrimary,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(color: colors.textPrimary),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.surface,
+        color: colors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: AppColors.border, width: 1),
+          side: BorderSide(color: colors.border, width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.emerald,
-          foregroundColor: AppColors.background,
+          backgroundColor: primary,
+          foregroundColor: colors.background,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
@@ -57,8 +61,8 @@ class FintechTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textPrimary,
-          side: const BorderSide(color: AppColors.border, width: 1.2),
+          foregroundColor: colors.textPrimary,
+          side: BorderSide(color: colors.border, width: 1.2),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -67,29 +71,29 @@ class FintechTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
-        hintStyle: AppTextStyles.bodyMedium(color: AppColors.textDim),
-        labelStyle: AppTextStyles.bodyMedium(color: AppColors.textMuted),
+        fillColor: colors.surface,
+        hintStyle: AppTextStyles.bodyMedium(color: colors.textDim),
+        labelStyle: AppTextStyles.bodyMedium(color: colors.textMuted),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.emerald, width: 1.5),
+          borderSide: BorderSide(color: primary, width: 1.5),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.error),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderSide: BorderSide(color: AppColors.error),
         ),
       ),
-      dividerTheme: const DividerThemeData(
-        color: AppColors.border,
+      dividerTheme: DividerThemeData(
+        color: colors.border,
         thickness: 1,
         space: 24,
       ),
@@ -97,41 +101,44 @@ class FintechTheme {
   }
 
   /// Swiss / Apple Minimalist Platinum Light Theme
-  static ThemeData get lightTheme {
+  static ThemeData lightTheme({VaultAccent accent = VaultAccent.emerald}) {
+    final colors = AeroVaultColors.light(accent);
+    final primary = colors.primary;
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      scaffoldBackgroundColor: AeroVaultColors.light.background,
-      primaryColor: AppColors.emeraldDark,
-      extensions: const [AeroVaultColors.light],
-      colorScheme: const ColorScheme.light(
-        primary: AppColors.emeraldDark,
+      scaffoldBackgroundColor: colors.background,
+      primaryColor: primary,
+      extensions: [colors],
+      colorScheme: ColorScheme.light(
+        primary: primary,
         onPrimary: Colors.white,
         secondary: AppColors.violet,
         onSecondary: Colors.white,
-        surface: Colors.white,
-        onSurface: Color(0xFF0F172A),
+        surface: colors.surface,
+        onSurface: colors.textPrimary,
         error: AppColors.error,
         onError: Colors.white,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        iconTheme: IconThemeData(color: Color(0xFF0F172A)),
+        iconTheme: IconThemeData(color: colors.textPrimary),
       ),
       cardTheme: CardThemeData(
-        color: Colors.white,
+        color: colors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
+          side: BorderSide(color: colors.border, width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.emeraldDark,
+          backgroundColor: primary,
           foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -145,8 +152,8 @@ class FintechTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: const Color(0xFF0F172A),
-          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2),
+          foregroundColor: colors.textPrimary,
+          side: BorderSide(color: colors.border, width: 1.2),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -155,29 +162,29 @@ class FintechTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
-        hintStyle: AppTextStyles.bodyMedium(color: const Color(0xFF94A3B8)),
-        labelStyle: AppTextStyles.bodyMedium(color: const Color(0xFF64748B)),
+        fillColor: colors.surface,
+        hintStyle: AppTextStyles.bodyMedium(color: colors.textDim),
+        labelStyle: AppTextStyles.bodyMedium(color: colors.textMuted),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.emeraldDark, width: 1.5),
+          borderSide: BorderSide(color: primary, width: 1.5),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.error),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderSide: BorderSide(color: AppColors.error),
         ),
       ),
-      dividerTheme: const DividerThemeData(
-        color: Color(0xFFE2E8F0),
+      dividerTheme: DividerThemeData(
+        color: colors.border,
         thickness: 1,
         space: 24,
       ),

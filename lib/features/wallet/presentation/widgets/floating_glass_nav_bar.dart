@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/aerovault_colors.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class _NavItem {
@@ -36,7 +35,7 @@ class FloatingGlassNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final isDark = context.isDarkMode;
-    final primaryAccent = isDark ? AppColors.emerald : AppColors.emeraldDark;
+    final primaryAccent = colors.primary;
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
@@ -55,14 +54,14 @@ class FloatingGlassNavBar extends StatelessWidget {
                 width: 1.2,
               ),
               boxShadow: isDark
-                  ? const [
-                      BoxShadow(
+                  ? [
+                      const BoxShadow(
                         color: Colors.black54,
                         blurRadius: 28,
                         offset: Offset(0, 10),
                       ),
                       BoxShadow(
-                        color: Color(0x1A00E599),
+                        color: colors.primaryGlow,
                         blurRadius: 16,
                         spreadRadius: -4,
                       ),

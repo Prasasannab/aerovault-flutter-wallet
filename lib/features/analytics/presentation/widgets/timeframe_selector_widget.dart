@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/aerovault_colors.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/bounce_button.dart';
 
@@ -21,7 +20,6 @@ class TimeframeSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final isDark = context.isDarkMode;
 
     return Container(
       padding: const EdgeInsets.all(3),
@@ -48,13 +46,13 @@ class TimeframeSelectorWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? (isDark ? AppColors.emerald : AppColors.emeraldDark)
+                    ? colors.primary
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: AppColors.emeraldGlow,
+                          color: colors.primaryGlow,
                           blurRadius: 10,
                           offset: const Offset(0, 2),
                         ),

@@ -46,14 +46,14 @@ class AeroVaultApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ThemeCubit>(
       create: (_) => sl<ThemeCubit>(),
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, themeState) {
           return MaterialApp(
             title: AppConstants.appName,
             debugShowCheckedModeBanner: false,
-            theme: FintechTheme.lightTheme,
-            darkTheme: FintechTheme.darkTheme,
-            themeMode: themeMode,
+            theme: FintechTheme.lightTheme(accent: themeState.accent),
+            darkTheme: FintechTheme.darkTheme(accent: themeState.accent),
+            themeMode: themeState.mode,
             home: const DashboardScreen(),
           );
         },
