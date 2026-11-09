@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
@@ -12,7 +13,7 @@ class _NavItem {
 }
 
 /// Enterprise Frosted Glass Floating Dock Navigation Bar
-/// Adheres to luxury neobank aesthetics with real-time blur and micro-haptics
+/// Dynamically adapts to Dark Obsidian and Swiss Platinum Light themes
 class FloatingGlassNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onItemSelected;
@@ -33,6 +34,10 @@ class FloatingGlassNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
+    final primaryAccent = isDark ? AppColors.emerald : AppColors.emeraldDark;
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
       child: ClipRRect(
@@ -43,24 +48,32 @@ class FloatingGlassNavBar extends StatelessWidget {
             height: 68,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xE60D131F), // Frosted obsidian
+              color: colors.dockBackground,
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: const Color(0x3300E599), // Subtle neon emerald hairline
+                color: primaryAccent.withValues(alpha: isDark ? 0.28 : 0.18),
                 width: 1.2,
               ),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black54,
-                  blurRadius: 28,
-                  offset: Offset(0, 10),
-                ),
-                BoxShadow(
-                  color: Color(0x1A00E599),
-                  blurRadius: 16,
-                  spreadRadius: -4,
-                ),
-              ],
+              boxShadow: isDark
+                  ? const [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 28,
+                        offset: Offset(0, 10),
+                      ),
+                      BoxShadow(
+                        color: Color(0x1A00E599),
+                        blurRadius: 16,
+                        spreadRadius: -4,
+                      ),
+                    ]
+                  : const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 20,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -85,12 +98,12 @@ class FloatingGlassNavBar extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? AppColors.emerald.withValues(alpha: 0.16)
+                          ? primaryAccent.withValues(alpha: isDark ? 0.16 : 0.10)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                       border: isSelected
                           ? Border.all(
-                              color: AppColors.emerald.withValues(alpha: 0.4),
+                              color: primaryAccent.withValues(alpha: 0.35),
                               width: 1,
                             )
                           : null,
@@ -101,13 +114,13 @@ class FloatingGlassNavBar extends StatelessWidget {
                         Icon(
                           item.icon,
                           size: 20,
-                          color: isSelected ? AppColors.emerald : AppColors.textMuted,
+                          color: isSelected ? primaryAccent : colors.textMuted,
                         ),
                         const SizedBox(height: 2),
                         Text(
                           item.label,
                           style: AppTextStyles.label(
-                            color: isSelected ? AppColors.emerald : AppColors.textDim,
+                            color: isSelected ? primaryAccent : colors.textDim,
                             fontSize: 9.5,
                           ).copyWith(
                             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,

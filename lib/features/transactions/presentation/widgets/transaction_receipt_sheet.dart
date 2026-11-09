@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/glass_decorations.dart';
@@ -27,17 +28,29 @@ class TransactionReceiptSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
     final currencyFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
     final dateFormatter = DateFormat('MMM dd, yyyy • HH:mm:ss');
     final isIncome = transaction.isIncome;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
-          top: BorderSide(color: Color(0x3300E599), width: 1.2),
+          top: BorderSide(
+            color: isIncome ? AppColors.emerald.withValues(alpha: 0.3) : colors.border,
+            width: 1.2,
+          ),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: isDark ? Colors.black.withValues(alpha: 0.5) : const Color(0x1A0F172A),
+            blurRadius: 24,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: SafeArea(
@@ -50,7 +63,7 @@ class TransactionReceiptSheet extends StatelessWidget {
               width: 42,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.border,
+                color: colors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -89,13 +102,13 @@ class TransactionReceiptSheet extends StatelessWidget {
               '${isIncome ? '+' : ''}${currencyFormatter.format(transaction.amount)}',
               style: AppTextStyles.balanceDisplay(
                 fontSize: 32,
-                color: isIncome ? AppColors.emerald : AppColors.textPrimary,
+                color: isIncome ? AppColors.emerald : colors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               transaction.title,
-              style: AppTextStyles.bodyMedium(color: AppColors.textMuted),
+              style: AppTextStyles.bodyMedium(color: colors.textMuted),
             ),
             const SizedBox(height: 24),
 
@@ -104,17 +117,17 @@ class TransactionReceiptSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               child: Column(
                 children: [
-                  _buildReceiptRow('Status', 'Completed (Settled)'),
+                  _buildReceiptRow(context, 'Status', 'Completed (Settled)'),
                   const Divider(),
-                  _buildReceiptRow('Counterparty', transaction.counterparty),
+                  _buildReceiptRow(context, 'Counterparty', transaction.counterparty),
                   const Divider(),
-                  _buildReceiptRow('Reference Code', transaction.referenceCode),
+                  _buildReceiptRow(context, 'Reference Code', transaction.referenceCode),
                   const Divider(),
-                  _buildReceiptRow('Timestamp', dateFormatter.format(transaction.timestamp)),
+                  _buildReceiptRow(context, 'Timestamp', dateFormatter.format(transaction.timestamp)),
                   const Divider(),
-                  _buildReceiptRow('Payment Method', 'AeroVault Visa •••• 8842'),
+                  _buildReceiptRow(context, 'Payment Method', 'AeroVault Visa •••• 8842'),
                   const Divider(),
-                  _buildReceiptRow('Network Ledger Fee', '\$${transaction.fee.toStringAsFixed(2)}'),
+                  _buildReceiptRow(context, 'Network Ledger Fee', '\$${transaction.fee.toStringAsFixed(2)}'),
                 ],
               ),
             ),
@@ -155,16 +168,17 @@ class TransactionReceiptSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildReceiptRow(String label, String value) {
+  Widget _buildReceiptRow(BuildContext context, String label, String value) {
+    final colors = context.colors;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTextStyles.bodySmall(color: AppColors.textDim)),
+          Text(label, style: AppTextStyles.bodySmall(color: colors.textMuted)),
           Text(
             value,
-            style: AppTextStyles.bodySmall(color: AppColors.textPrimary).copyWith(
+            style: AppTextStyles.bodySmall(color: colors.textPrimary).copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -174,12 +188,13 @@ class TransactionReceiptSheet extends StatelessWidget {
   }
 
   void _showFeedback(BuildContext context, String message) {
+    final colors = context.colors;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppColors.surfaceElevated,
+        backgroundColor: colors.surfaceElevated,
         content: Text(
           message,
-          style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
+          style: AppTextStyles.bodySmall(color: colors.textPrimary),
         ),
       ),
     );

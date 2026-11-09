@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/bounce_button.dart';
@@ -23,6 +24,10 @@ class TransactionListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
+    final primaryAccent = isDark ? AppColors.emerald : AppColors.emeraldDark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,35 +38,40 @@ class TransactionListWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Recent Transactions', style: AppTextStyles.heading3()),
+                Text(
+                  'Recent Transactions',
+                  style: AppTextStyles.heading3().copyWith(color: colors.textPrimary),
+                ),
                 const SizedBox(height: 2),
                 Text(
                   'Real-Time Settled Ledger',
-                  style: AppTextStyles.label(color: AppColors.textDim),
+                  style: AppTextStyles.label(color: colors.textDim),
                 ),
               ],
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.emeraldGlow,
+                color: primaryAccent.withValues(alpha: isDark ? 0.2 : 0.12),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.emerald.withValues(alpha: 0.3)),
+                border: Border.all(color: primaryAccent.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
                   Container(
                     width: 6,
                     height: 6,
-                    decoration: const BoxDecoration(
-                      color: AppColors.emerald,
+                    decoration: BoxDecoration(
+                      color: primaryAccent,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 6),
                   Text(
                     'LIVE',
-                    style: AppTextStyles.label(color: AppColors.emerald, fontSize: 10),
+                    style: AppTextStyles.label(color: primaryAccent, fontSize: 10).copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
@@ -91,10 +101,12 @@ class TransactionListWidget extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.surfaceElevated : AppColors.surface,
+                    color: isSelected
+                        ? (isDark ? colors.surfaceElevated : const Color(0xFFE2E8F0))
+                        : colors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: isSelected ? AppColors.emerald : AppColors.border,
+                      color: isSelected ? primaryAccent : colors.border,
                       width: isSelected ? 1.2 : 1.0,
                     ),
                   ),
@@ -102,7 +114,7 @@ class TransactionListWidget extends StatelessWidget {
                     child: Text(
                       cat,
                       style: AppTextStyles.label(
-                        color: isSelected ? AppColors.emerald : AppColors.textMuted,
+                        color: isSelected ? primaryAccent : colors.textMuted,
                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                         fontSize: 12,
                       ),
@@ -122,11 +134,11 @@ class TransactionListWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                const Icon(Icons.inbox_outlined, color: AppColors.textDim, size: 36),
+                Icon(Icons.inbox_outlined, color: colors.textDim, size: 36),
                 const SizedBox(height: 8),
                 Text(
                   'No transactions found in "$selectedCategory"',
-                  style: AppTextStyles.bodyMedium(color: AppColors.textDim),
+                  style: AppTextStyles.bodyMedium(color: colors.textDim),
                 ),
               ],
             ),

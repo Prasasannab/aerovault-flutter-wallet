@@ -28,6 +28,7 @@ import '../security/anti_tamper_service.dart';
 import '../security/biometric_service.dart';
 import '../security/hardware_keystore_service.dart';
 import '../security/security_service.dart';
+import '../theme/theme_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -141,5 +142,10 @@ Future<void> initCoreDependencies() async {
   );
   sl.registerFactory<AnalyticsBloc>(
     () => AnalyticsBloc(getPortfolioPerformanceUseCase: sl()),
+  );
+
+  // 7. Theme Management
+  sl.registerLazySingleton<ThemeCubit>(
+    () => ThemeCubit(),
   );
 }

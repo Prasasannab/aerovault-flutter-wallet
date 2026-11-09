@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/bounce_button.dart';
@@ -73,6 +74,9 @@ class QuickActionsBar extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
+
     return BounceButton(
       scaleAmount: 0.94,
       onTap: onTap,
@@ -80,23 +84,23 @@ class QuickActionsBar extends StatelessWidget {
         height: 64,
         padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
-          color: const Color(0xFF101726), // Frosted obsidian surface
+          color: colors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: color.withValues(alpha: 0.38),
+            color: color.withValues(alpha: isDark ? 0.38 : 0.28),
             width: 1.1,
           ),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              color.withValues(alpha: 0.16),
-              color.withValues(alpha: 0.04),
+              color.withValues(alpha: isDark ? 0.16 : 0.08),
+              color.withValues(alpha: isDark ? 0.04 : 0.01),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: 0.12),
+              color: color.withValues(alpha: isDark ? 0.12 : 0.06),
               blurRadius: 10,
               offset: const Offset(0, 3),
             ),
@@ -110,9 +114,9 @@ class QuickActionsBar extends StatelessWidget {
               height: 28,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: color.withValues(alpha: 0.18),
+                color: color.withValues(alpha: isDark ? 0.18 : 0.10),
                 border: Border.all(
-                  color: color.withValues(alpha: 0.45),
+                  color: color.withValues(alpha: isDark ? 0.45 : 0.25),
                   width: 1,
                 ),
               ),
@@ -128,7 +132,7 @@ class QuickActionsBar extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.label(
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
                 fontSize: 10.5,
               ).copyWith(
                 fontWeight: FontWeight.w700,

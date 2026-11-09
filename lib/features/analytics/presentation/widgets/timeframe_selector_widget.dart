@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/bounce_button.dart';
@@ -19,12 +20,15 @@ class TimeframeSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
+
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surfaceElevated,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -43,7 +47,9 @@ class TimeframeSelectorWidget extends StatelessWidget {
               curve: Curves.easeInOutCubic,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.emerald : Colors.transparent,
+                color: isSelected
+                    ? (isDark ? AppColors.emerald : AppColors.emeraldDark)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: isSelected
                     ? [
@@ -58,7 +64,7 @@ class TimeframeSelectorWidget extends StatelessWidget {
               child: Text(
                 tf,
                 style: AppTextStyles.label(
-                  color: isSelected ? AppColors.background : AppColors.textMuted,
+                  color: isSelected ? Colors.white : colors.textMuted,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   fontSize: 11,
                 ),

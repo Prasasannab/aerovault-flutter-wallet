@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/theme_cubit.dart';
 import '../../../../core/widgets/bounce_button.dart';
 
-/// Top App Header with User Avatar, Security Badge, and Notifications
+/// Top App Header with User Avatar, Security Badge, Theme Switcher, and Notifications
 class WalletHeader extends StatelessWidget {
   final String userName;
   final VoidCallback? onSecurityTap;
@@ -18,6 +22,9 @@ class WalletHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final isDark = context.isDarkMode;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -69,7 +76,7 @@ class WalletHeader extends StatelessWidget {
                           blurRadius: 6,
                         ),
                       ],
-                      border: Border.all(color: AppColors.background, width: 2),
+                      border: Border.all(color: colors.background, width: 2),
                     ),
                   ),
                 ),
@@ -84,7 +91,7 @@ class WalletHeader extends StatelessWidget {
                     Text(
                       'Welcome back,',
                       style: AppTextStyles.label(
-                        color: AppColors.textMuted,
+                        color: colors.textMuted,
                         fontSize: 10.5,
                       ),
                     ),
@@ -99,7 +106,7 @@ class WalletHeader extends StatelessWidget {
                       child: Text(
                         'VIP',
                         style: AppTextStyles.label(
-                          color: AppColors.emerald,
+                          color: AppColors.emeraldDark,
                           fontSize: 7.5,
                           fontWeight: FontWeight.w800,
                         ),
@@ -113,6 +120,7 @@ class WalletHeader extends StatelessWidget {
                   style: AppTextStyles.heading3().copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 17,
+                    color: colors.textPrimary,
                   ),
                 ),
               ],
@@ -120,9 +128,10 @@ class WalletHeader extends StatelessWidget {
           ],
         ),
 
-        // Action Badges (Security Shield & Notifications)
+        // Action Badges (Security Shield, Theme Switcher & Notifications)
         Row(
           children: [
+            // 1. Security Badge
             BounceButton(
               scaleAmount: 0.95,
               onTap: onSecurityTap,
@@ -130,12 +139,12 @@ class WalletHeader extends StatelessWidget {
                 height: 36,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.emerald.withValues(alpha: 0.4), width: 1),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.emerald.withValues(alpha: 0.1),
+                      color: AppColors.emerald.withValues(alpha: isDark ? 0.1 : 0.05),
                       blurRadius: 8,
                     ),
                   ],
@@ -145,14 +154,14 @@ class WalletHeader extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.shield_outlined,
-                      color: AppColors.emerald,
+                      color: AppColors.emeraldDark,
                       size: 15,
                     ),
                     const SizedBox(width: 5),
                     Text(
                       'SECURE',
                       style: AppTextStyles.label(
-                        color: AppColors.emerald,
+                        color: AppColors.emeraldDark,
                         fontSize: 9.5,
                         fontWeight: FontWeight.w700,
                       ),
@@ -162,6 +171,49 @@ class WalletHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
+
+            // 2. Dynamic Dark/Light Theme Switcher (☀️ / 🌙)
+            BounceButton(
+              scaleAmount: 0.95,
+              onTap: () {
+                HapticFeedback.lightImpact();
+                context.read<ThemeCubit>().toggleTheme();
+              },
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: colors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: colors.border, width: 1),
+                  boxShadow: isDark
+                      ? null
+                      : const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 6,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, anim) => RotationTransition(
+                    turns: anim,
+                    child: FadeTransition(opacity: anim, child: child),
+                  ),
+                  child: Icon(
+                    isDark ? Icons.wb_sunny_rounded : Icons.nightlight_round,
+                    key: ValueKey(isDark),
+                    color: isDark ? const Color(0xFFFFD700) : const Color(0xFF6366F1),
+                    size: 18,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+
+            // 3. Notification Bell
             BounceButton(
               scaleAmount: 0.95,
               onTap: onNotificationTap,
@@ -169,16 +221,25 @@ class WalletHeader extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border, width: 1),
+                  border: Border.all(color: colors.border, width: 1),
+                  boxShadow: isDark
+                      ? null
+                      : const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 6,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                 ),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.notifications_none_rounded,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                       size: 18,
                     ),
                     Positioned(

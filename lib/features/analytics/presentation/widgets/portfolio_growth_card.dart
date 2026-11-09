@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/glass_decorations.dart';
@@ -22,9 +23,15 @@ class PortfolioGrowthCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencyFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
     final isPositive = performance.isPositive;
-    final primaryColor = isPositive ? AppColors.emerald : AppColors.error;
+    final isDark = context.isDarkMode;
+    final colors = context.colors;
+    final primaryColor = isPositive
+        ? (isDark ? AppColors.emerald : AppColors.emeraldDark)
+        : AppColors.error;
 
     return GlassContainer(
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +55,10 @@ class PortfolioGrowthCard extends StatelessWidget {
                         const SizedBox(width: 5),
                         Text(
                           'Portfolio Growth',
-                          style: AppTextStyles.heading3().copyWith(fontSize: 14.5),
+                          style: AppTextStyles.heading3().copyWith(
+                            fontSize: 14.5,
+                            color: colors.textPrimary,
+                          ),
                         ),
                         const SizedBox(width: 5),
                         Container(
@@ -82,7 +92,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                         ),
                         Text(
                           '(+${currencyFormatter.format(performance.netGrowthUsd)})',
-                          style: AppTextStyles.bodySmall(color: AppColors.textMuted),
+                          style: AppTextStyles.bodySmall(color: colors.textMuted),
                         ),
                       ],
                     ),
@@ -110,7 +120,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                   drawVerticalLine: false,
                   horizontalInterval: (performance.maxValue - performance.minValue) / 3,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: AppColors.border.withValues(alpha: 0.5),
+                    color: colors.border.withValues(alpha: 0.6),
                     strokeWidth: 1,
                     dashArray: [6, 4],
                   ),
@@ -133,7 +143,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                           }
                           return Text(
                             performance.points[index].dateLabel,
-                            style: AppTextStyles.bodySmall(color: AppColors.textDim).copyWith(fontSize: 10),
+                            style: AppTextStyles.bodySmall(color: colors.textDim).copyWith(fontSize: 10),
                           );
                         }
                         return const SizedBox.shrink();
@@ -145,7 +155,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                 lineTouchData: LineTouchData(
                   handleBuiltInTouches: true,
                   touchTooltipData: LineTouchTooltipData(
-                    getTooltipColor: (spot) => AppColors.surfaceElevated,
+                    getTooltipColor: (spot) => colors.surfaceElevated,
                     tooltipBorderRadius: BorderRadius.circular(10),
                     getTooltipItems: (touchedSpots) {
                       return touchedSpots.map((spot) {
@@ -153,7 +163,7 @@ class PortfolioGrowthCard extends StatelessWidget {
                           currencyFormatter.format(spot.y),
                           AppTextStyles.bodySmall().copyWith(
                             fontWeight: FontWeight.w700,
-                            color: AppColors.emerald,
+                            color: primaryColor,
                           ),
                         );
                       }).toList();

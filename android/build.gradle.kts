@@ -16,6 +16,27 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
+    plugins.withId("com.android.library") {
+        val android = extensions.findByName("android")
+        if (android != null) {
+            try {
+                val getNamespace = android.javaClass.getMethod("getNamespace")
+                val currentNamespace = getNamespace.invoke(android)
+                if (currentNamespace == null) {
+                    val setNamespace = android.javaClass.getMethod("setNamespace", String::class.java)
+                    val ns = when (name) {
+                        "flutter_jailbreak_detection" -> "app.gspd.jailbreakdetection"
+                        else -> "com.aerovault.${name.replace('-', '_')}"
+                    }
+                    setNamespace.invoke(android, ns)
+                }
+            } catch (_: Exception) {
+            }
+        }
+    }
+}
+
+subprojects {
     project.evaluationDependsOn(":app")
 }
 

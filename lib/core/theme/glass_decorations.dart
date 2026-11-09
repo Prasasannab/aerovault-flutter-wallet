@@ -76,8 +76,8 @@ class GlassContainer extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final double blur;
   final BorderRadius? borderRadius;
-  final Color backgroundColor;
-  final Color borderColor;
+  final Color? backgroundColor;
+  final Color? borderColor;
   final double borderWidth;
   final VoidCallback? onTap;
 
@@ -88,8 +88,8 @@ class GlassContainer extends StatelessWidget {
     this.margin,
     this.blur = 16.0,
     this.borderRadius,
-    this.backgroundColor = const Color(0x1A1E293B),
-    this.borderColor = const Color(0x26FFFFFF),
+    this.backgroundColor,
+    this.borderColor,
     this.borderWidth = 1.0,
     this.onTap,
   });
@@ -97,6 +97,11 @@ class GlassContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveRadius = borderRadius ?? BorderRadius.circular(20);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveBg = backgroundColor ??
+        (isDark ? const Color(0x1A1E293B) : const Color(0xF0FFFFFF));
+    final effectiveBorder = borderColor ??
+        (isDark ? const Color(0x26FFFFFF) : const Color(0x1A000000));
 
     Widget container = ClipRRect(
       borderRadius: effectiveRadius,
@@ -105,12 +110,21 @@ class GlassContainer extends StatelessWidget {
         child: Container(
           padding: padding ?? const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: backgroundColor,
+            color: effectiveBg,
             borderRadius: effectiveRadius,
             border: Border.all(
-              color: borderColor,
+              color: effectiveBorder,
               width: borderWidth,
             ),
+            boxShadow: isDark
+                ? null
+                : const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 14,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
           ),
           child: child,
         ),

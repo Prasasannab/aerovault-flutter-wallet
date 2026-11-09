@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
+import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/glass_decorations.dart';
@@ -107,8 +108,10 @@ class _DashboardViewState extends State<_DashboardView> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       extendBody: true,
       bottomNavigationBar: FloatingGlassNavBar(
         selectedIndex: _selectedNavIndex,
@@ -119,7 +122,7 @@ class _DashboardViewState extends State<_DashboardView> {
         child: RefreshIndicator(
           onRefresh: () => _onRefresh(context),
           color: AppColors.emerald,
-          backgroundColor: AppColors.surfaceElevated,
+          backgroundColor: colors.surfaceElevated,
           child: SingleChildScrollView(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
@@ -165,7 +168,7 @@ class _DashboardViewState extends State<_DashboardView> {
                     } else if (state is WalletError) {
                       return _buildErrorCard(context, state.message);
                     }
-                    return _buildCardSkeleton();
+                    return _buildCardSkeleton(context);
                   },
                 ),
                 const SizedBox(height: 14),
@@ -187,7 +190,7 @@ class _DashboardViewState extends State<_DashboardView> {
                     } else if (state is AnalyticsError) {
                       return _buildErrorCard(context, state.message);
                     }
-                    return _buildChartSkeleton();
+                    return _buildChartSkeleton(context);
                   },
                 ),
                 const SizedBox(height: 20),
@@ -206,7 +209,7 @@ class _DashboardViewState extends State<_DashboardView> {
                     } else if (state is TransactionError) {
                       return _buildErrorCard(context, state.message);
                     }
-                    return _buildTransactionsSkeleton();
+                    return _buildTransactionsSkeleton(context);
                   },
                 ),
                 const SizedBox(height: 100), // Clearance for floating glass bottom dock
@@ -218,15 +221,15 @@ class _DashboardViewState extends State<_DashboardView> {
     );
   }
 
-  Widget _buildCardSkeleton() {
+  Widget _buildCardSkeleton(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.586,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
         ),
         child: const Center(
           child: CircularProgressIndicator(
@@ -238,14 +241,14 @@ class _DashboardViewState extends State<_DashboardView> {
     );
   }
 
-  Widget _buildChartSkeleton() {
+  Widget _buildChartSkeleton(BuildContext context) {
     return Container(
       height: 200,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: const Center(
         child: CircularProgressIndicator(
@@ -256,7 +259,7 @@ class _DashboardViewState extends State<_DashboardView> {
     );
   }
 
-  Widget _buildTransactionsSkeleton() {
+  Widget _buildTransactionsSkeleton(BuildContext context) {
     return Column(
       children: List.generate(
         3,
@@ -264,9 +267,9 @@ class _DashboardViewState extends State<_DashboardView> {
           height: 64,
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.colors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.colors.border),
           ),
         ),
       ),
@@ -306,15 +309,15 @@ class _DashboardViewState extends State<_DashboardView> {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppColors.surfaceElevated,
+        backgroundColor: context.colors.surfaceElevated,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: context.colors.border),
         ),
         content: Text(
           'Security alert: New direct deposit from Upwork Global Escrow confirmed.',
-          style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
+          style: AppTextStyles.bodySmall(color: context.colors.textPrimary),
         ),
       ),
     );
@@ -325,15 +328,15 @@ class _DashboardViewState extends State<_DashboardView> {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppColors.surfaceElevated,
+        backgroundColor: context.colors.surfaceElevated,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: context.colors.border),
         ),
         content: Text(
           'Multi-Currency Transfer Rails: SEPA Instant, FedNow & Lightning active.',
-          style: AppTextStyles.bodySmall(color: AppColors.textPrimary),
+          style: AppTextStyles.bodySmall(color: context.colors.textPrimary),
         ),
       ),
     );

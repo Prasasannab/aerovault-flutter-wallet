@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/constants/app_constants.dart';
 import 'core/di/injection_container.dart';
 import 'core/security/anti_tamper_service.dart';
 import 'core/security/biometric_service.dart';
 import 'core/security/security_service.dart';
+import 'core/theme/aerovault_colors.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_text_styles.dart';
 import 'core/theme/fintech_theme.dart';
 import 'core/theme/glass_decorations.dart';
+import 'core/theme/theme_cubit.dart';
 
 import 'features/wallet/presentation/screens/dashboard_screen.dart';
 
@@ -41,11 +44,20 @@ class AeroVaultApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      debugShowCheckedModeBanner: false,
-      theme: FintechTheme.darkTheme,
-      home: const DashboardScreen(),
+    return BlocProvider<ThemeCubit>(
+      create: (_) => sl<ThemeCubit>(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: AppConstants.appName,
+            debugShowCheckedModeBanner: false,
+            theme: FintechTheme.lightTheme,
+            darkTheme: FintechTheme.darkTheme,
+            themeMode: themeMode,
+            home: const DashboardScreen(),
+          );
+        },
+      ),
     );
   }
 }
@@ -123,7 +135,10 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Scaffold(
+      backgroundColor: colors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -160,11 +175,11 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
                     children: [
                       Text(
                         AppConstants.appName,
-                        style: AppTextStyles.heading1(),
+                        style: AppTextStyles.heading1(color: colors.textPrimary),
                       ),
                       Text(
                         'ENTERPRISE SECURITY CORE',
-                        style: AppTextStyles.label(color: AppColors.emerald),
+                        style: AppTextStyles.label(color: AppColors.emeraldDark),
                       ),
                     ],
                   ),
@@ -174,8 +189,9 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
 
               // Status Card
               GlassContainer(
+                backgroundColor: colors.surface,
                 borderColor: _isChecking
-                    ? AppColors.border
+                    ? colors.border
                     : (_integrityResult?.isSecure ?? false)
                         ? AppColors.emerald.withValues(alpha: 0.5)
                         : AppColors.error.withValues(alpha: 0.5),
@@ -206,14 +222,14 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
                         const SizedBox(width: 12),
                         Text(
                           'Environment Security Audit',
-                          style: AppTextStyles.heading3(),
+                          style: AppTextStyles.heading3(color: colors.textPrimary),
                         ),
                       ],
                     ),
                     const SizedBox(height: 14),
                     Text(
                       _statusMessage,
-                      style: AppTextStyles.bodyMedium(color: AppColors.textSecondary),
+                      style: AppTextStyles.bodyMedium(color: colors.textSecondary),
                     ),
                   ],
                 ),
@@ -228,6 +244,7 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
               const SizedBox(height: 12),
 
               _buildSecurityTile(
+                context,
                 icon: Icons.vpn_key_outlined,
                 title: 'Hardware Keystore / Secure Enclave',
                 subtitle: 'iOS Keychain first_unlock_this_device / Android Keystore AES-256 GCM',
@@ -236,6 +253,7 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
               const SizedBox(height: 10),
 
               _buildSecurityTile(
+                context,
                 icon: Icons.fingerprint,
                 title: 'Biometric Authentication Engine',
                 subtitle: _biometricsAvailable
@@ -246,6 +264,7 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
               const SizedBox(height: 10),
 
               _buildSecurityTile(
+                context,
                 icon: Icons.lock_outline,
                 title: 'SSL Certificate & Public Key Pinning',
                 subtitle: 'SHA-256 host verification active on Dio transport',
@@ -254,6 +273,7 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
               const SizedBox(height: 10),
 
               _buildSecurityTile(
+                context,
                 icon: Icons.security,
                 title: 'Anti-Tamper & Root Detection',
                 subtitle: 'Automated memory wipe active on integrity breach',
@@ -287,25 +307,30 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
     );
   }
 
-  Widget _buildSecurityTile({
+  Widget _buildSecurityTile(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
     required bool isActive,
   }) {
+    final colors = context.colors;
+
     return GlassContainer(
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: isActive ? AppColors.emeraldGlow : AppColors.surfaceElevated,
+              color: isActive ? AppColors.emeraldGlow : colors.surfaceElevated,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              color: isActive ? AppColors.emerald : AppColors.textMuted,
+              color: isActive ? AppColors.emeraldDark : colors.textMuted,
               size: 20,
             ),
           ),
@@ -316,19 +341,20 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
               children: [
                 Text(
                   title,
-                  style: AppTextStyles.bodyMedium().copyWith(fontWeight: FontWeight.w600),
+                  style: AppTextStyles.bodyMedium(color: colors.textPrimary)
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: AppTextStyles.bodySmall(),
+                  style: AppTextStyles.bodySmall(color: colors.textMuted),
                 ),
               ],
             ),
           ),
           Icon(
             isActive ? Icons.check_circle : Icons.radio_button_unchecked,
-            color: isActive ? AppColors.emerald : AppColors.textDim,
+            color: isActive ? AppColors.emeraldDark : colors.textDim,
             size: 18,
           ),
         ],
