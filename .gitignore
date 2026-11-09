@@ -8,6 +8,11 @@ ios/.generated/
 *.lock
 .env
 
+# IDEs
+.idea/
+*.iml
+.metadata
+
 # macOS
 .DS_Store
 .AppleDouble
