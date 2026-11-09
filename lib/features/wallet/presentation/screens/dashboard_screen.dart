@@ -168,11 +168,11 @@ class _DashboardViewState extends State<_DashboardView> {
                     return _buildCardSkeleton();
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
 
-                // 3. Tactile Quick Actions Bar
+                // 3. Proportional Quick Action Cards
                 const QuickActionsBar(),
-                const SizedBox(height: 18),
+                const SizedBox(height: 14),
 
                 // 4. Portfolio Growth Curve (Interactive fl_chart with Live Tip Dot)
                 BlocBuilder<AnalyticsBloc, AnalyticsState>(
