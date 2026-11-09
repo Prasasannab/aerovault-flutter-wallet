@@ -99,4 +99,17 @@ class AppTextStyles {
       letterSpacing: 2.0,
     );
   }
+
+  // Monospace code & identifiers
+  static TextStyle monospace({
+    Color color = AppColors.textPrimary,
+    double fontSize = 13,
+    FontWeight fontWeight = FontWeight.w500,
+  }) {
+    return GoogleFonts.spaceGrotesk(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+    );
+  }
 }

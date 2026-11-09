@@ -25,6 +25,16 @@ class TransactionLoaded extends TransactionState {
     this.selectedCategory = 'All',
   });
 
+  TransactionLoaded copyWith({
+    List<LedgerTransaction>? transactions,
+    String? selectedCategory,
+  }) {
+    return TransactionLoaded(
+      transactions: transactions ?? this.transactions,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
+    );
+  }
+
   @override
   List<Object?> get props => [transactions, selectedCategory];
 }

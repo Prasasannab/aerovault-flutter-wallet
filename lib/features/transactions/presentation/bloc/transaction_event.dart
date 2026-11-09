@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import '../../domain/entities/ledger_transaction.dart';
+
 
 abstract class TransactionEvent extends Equatable {
   const TransactionEvent();
@@ -22,3 +24,12 @@ class FilterTransactionsEvent extends TransactionEvent {
   @override
   List<Object?> get props => [category];
 }
+
+class AddTransactionEvent extends TransactionEvent {
+  final LedgerTransaction transaction;
+  const AddTransactionEvent(this.transaction);
+
+  @override
+  List<Object?> get props => [transaction];
+}
+

@@ -104,6 +104,8 @@ class AeroVaultColors extends ThemeExtension<AeroVaultColors> {
   final Color primaryContainer;
   final LinearGradient primaryGradient;
 
+  Color get cardBorder => border;
+
   const AeroVaultColors({
     required this.background,
     required this.surface,

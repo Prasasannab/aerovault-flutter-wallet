@@ -89,5 +89,35 @@ void main() {
         const TransactionError('Database error'),
       ],
     );
+
+    blocTest<TransactionBloc, TransactionState>(
+      'prepends transaction to loaded state when AddTransactionEvent is added',
+      seed: () => TransactionLoaded(transactions: testTransactions, selectedCategory: 'All'),
+      build: () => transactionBloc,
+      act: (bloc) => bloc.add(
+        AddTransactionEvent(
+          LedgerTransaction(
+            id: 'TX-2',
+            title: 'Elena Rostova',
+            subtitle: 'Wire Transfer',
+            amount: -500.0,
+            currency: 'USD',
+            timestamp: DateTime(2026, 11, 9),
+            type: TransactionType.debit,
+            status: TransactionStatus.completed,
+            category: 'Transfer',
+            counterparty: 'Elena Rostova',
+            referenceCode: 'REF-2',
+          ),
+        ),
+      ),
+      expect: () => [
+        isA<TransactionLoaded>().having(
+          (s) => s.transactions.length,
+          'transactions length',
+          2,
+        ),
+      ],
+    );
   });
 }

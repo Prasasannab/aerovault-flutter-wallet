@@ -26,3 +26,19 @@ class ToggleBalanceVisibilityEvent extends WalletEvent {
   @override
   List<Object?> get props => [hide];
 }
+
+class AdjustWalletBalanceEvent extends WalletEvent {
+  final double fiatDelta;
+  final double btcDelta;
+  final double ethDelta;
+
+  const AdjustWalletBalanceEvent({
+    this.fiatDelta = 0.0,
+    this.btcDelta = 0.0,
+    this.ethDelta = 0.0,
+  });
+
+  @override
+  List<Object?> get props => [fiatDelta, btcDelta, ethDelta];
+}
+

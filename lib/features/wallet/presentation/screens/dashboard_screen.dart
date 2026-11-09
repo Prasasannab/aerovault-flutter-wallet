@@ -21,6 +21,10 @@ import '../widgets/floating_glass_nav_bar.dart';
 import '../widgets/quick_actions_bar.dart';
 import '../widgets/virtual_card_widget.dart';
 import '../widgets/wallet_header.dart';
+import '../../../transfers/presentation/widgets/receive_funds_sheet.dart';
+import '../../../transfers/presentation/widgets/send_money_sheet.dart';
+import '../../../transfers/presentation/widgets/swap_crypto_sheet.dart';
+import '../../../transfers/presentation/widgets/top_up_sheet.dart';
 
 import '../../../../main.dart';
 
@@ -174,7 +178,12 @@ class _DashboardViewState extends State<_DashboardView> {
                 const SizedBox(height: 14),
 
                 // 3. Proportional Quick Action Cards
-                const QuickActionsBar(),
+                QuickActionsBar(
+                  onSend: () => SendMoneySheet.show(context),
+                  onReceive: () => ReceiveFundsSheet.show(context),
+                  onSwap: () => SwapCryptoSheet.show(context),
+                  onTopUp: () => TopUpSheet.show(context),
+                ),
                 const SizedBox(height: 14),
 
                 // 4. Portfolio Growth Curve (Interactive fl_chart with Live Tip Dot)

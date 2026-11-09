@@ -140,5 +140,21 @@ void main() {
         verify(() => mockToggleBalanceVisibilityUseCase(hide: true)).called(1);
       },
     );
+
+    blocTest<WalletBloc, WalletState>(
+      'adjusts fiat and crypto balances when AdjustWalletBalanceEvent is dispatched',
+      build: () => walletBloc,
+      seed: () => const WalletLoaded(account: testAccount, card: testCard),
+      act: (bloc) => bloc.add(const AdjustWalletBalanceEvent(fiatDelta: -500.0, btcDelta: 0.1)),
+      expect: () => [
+        WalletLoaded(
+          account: testAccount.copyWith(
+            fiatBalance: testAccount.fiatBalance - 500.0,
+            btcBalance: testAccount.btcBalance + 0.1,
+          ),
+          card: testCard,
+        ),
+      ],
+    );
   });
 }

@@ -10,6 +10,21 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       : super(const TransactionInitial()) {
     on<LoadTransactionsEvent>(_onLoadTransactions);
     on<FilterTransactionsEvent>(_onFilterTransactions);
+    on<AddTransactionEvent>(_onAddTransaction);
+  }
+
+  void _onAddTransaction(
+    AddTransactionEvent event,
+    Emitter<TransactionState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is TransactionLoaded) {
+      emit(
+        currentState.copyWith(
+          transactions: [event.transaction, ...currentState.transactions],
+        ),
+      );
+    }
   }
 
   Future<void> _onLoadTransactions(

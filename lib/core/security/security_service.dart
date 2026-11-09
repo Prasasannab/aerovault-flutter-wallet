@@ -52,14 +52,16 @@ class SecurityService {
   }
 
   /// Authenticate using Biometrics with immediate fallback to PIN
-  Future<bool> authenticateBiometric() async {
+  Future<bool> authenticateBiometric({
+    String localizedReason = 'Authenticate with Face ID / Biometrics to access AeroVault',
+  }) async {
     final isEnabled = await keystoreService.isBiometricsEnabled();
     if (!isEnabled) {
       return false;
     }
 
     final authenticated = await biometricService.authenticate(
-      localizedReason: 'Authenticate with Face ID / Biometrics to access AeroVault',
+      localizedReason: localizedReason,
     );
 
     if (authenticated) {

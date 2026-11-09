@@ -21,6 +21,29 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<LoadWalletEvent>(_onLoadWallet);
     on<ToggleCardFreezeEvent>(_onToggleCardFreeze);
     on<ToggleBalanceVisibilityEvent>(_onToggleBalanceVisibility);
+    on<AdjustWalletBalanceEvent>(_onAdjustWalletBalance);
+  }
+
+  void _onAdjustWalletBalance(
+    AdjustWalletBalanceEvent event,
+    Emitter<WalletState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is WalletLoaded) {
+      final updatedFiat = (currentState.account.fiatBalance + event.fiatDelta).clamp(0.0, double.infinity);
+      final updatedBtc = (currentState.account.btcBalance + event.btcDelta).clamp(0.0, double.infinity);
+      final updatedEth = (currentState.account.ethBalance + event.ethDelta).clamp(0.0, double.infinity);
+
+      emit(
+        currentState.copyWith(
+          account: currentState.account.copyWith(
+            fiatBalance: updatedFiat,
+            btcBalance: updatedBtc,
+            ethBalance: updatedEth,
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> _onLoadWallet(

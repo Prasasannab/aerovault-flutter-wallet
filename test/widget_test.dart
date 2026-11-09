@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:aerovault/core/constants/app_constants.dart';
 import 'package:aerovault/core/di/injection_container.dart';
+import 'package:aerovault/core/theme/aerovault_colors.dart';
+import 'package:aerovault/features/transfers/presentation/widgets/receive_funds_sheet.dart';
+import 'package:aerovault/features/transfers/presentation/widgets/send_money_sheet.dart';
+import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sheet.dart';
+import 'package:aerovault/features/transfers/presentation/widgets/top_up_sheet.dart';
+import 'package:aerovault/features/transactions/presentation/bloc/transaction_bloc.dart';
+import 'package:aerovault/features/transactions/presentation/bloc/transaction_event.dart';
+import 'package:aerovault/features/wallet/presentation/bloc/wallet_bloc.dart';
+import 'package:aerovault/features/wallet/presentation/bloc/wallet_event.dart';
 import 'package:aerovault/main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 void main() {
   setUp(() async {
@@ -35,6 +46,8 @@ void main() {
     expect(find.text('LIVE'), findsOneWidget);
   });
 
+
+
   testWidgets('SecurityAuditScreen renders all bank-grade security indicators', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
@@ -50,4 +63,95 @@ void main() {
     expect(find.text('SSL Certificate & Public Key Pinning'), findsOneWidget);
     expect(find.text('Anti-Tamper & Root Detection'), findsOneWidget);
   });
+
+  testWidgets('ReceiveFundsSheet renders wire details and switches to crypto QR', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const Scaffold(body: ReceiveFundsSheet()),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Receive Funds'), findsOneWidget);
+    expect(find.text('Fiat Wire (IBAN/SWIFT)'), findsOneWidget);
+    expect(find.text('Crypto (QR / Address)'), findsOneWidget);
+    expect(find.text('AeroVault Sovereign Trust Ltd'), findsOneWidget);
+    expect(find.text('CH93 0076 2011 6238 5295 7'), findsOneWidget);
+
+    // Switch to crypto tab
+    await tester.tap(find.text('Crypto (QR / Address)'));
+    await tester.pump();
+    expect(find.text('Bitcoin Native SegWit'), findsOneWidget);
+  });
+
+  testWidgets('SendMoneySheet renders recipient selector and numeric keypad', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<WalletBloc>(create: (_) => sl<WalletBloc>()..add(const LoadWalletEvent())),
+          BlocProvider<TransactionBloc>(create: (_) => sl<TransactionBloc>()..add(const LoadTransactionsEvent())),
+        ],
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const Scaffold(body: SendMoneySheet()),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.text('Send Money'), findsOneWidget);
+    expect(find.text('SELECT RECIPIENT'), findsOneWidget);
+    expect(find.text('Elena'), findsOneWidget);
+    expect(find.text('ENTER AMOUNT'), findsOneWidget);
+    expect(find.text('Authorize \$500.00 Transfer'), findsOneWidget);
+  });
+
+  testWidgets('SwapCryptoSheet renders asset cards and flip button', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<WalletBloc>(create: (_) => sl<WalletBloc>()..add(const LoadWalletEvent())),
+          BlocProvider<TransactionBloc>(create: (_) => sl<TransactionBloc>()..add(const LoadTransactionsEvent())),
+        ],
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const Scaffold(body: SwapCryptoSheet()),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.text('Instant Swap'), findsOneWidget);
+    expect(find.text('YOU PAY'), findsOneWidget);
+    expect(find.text('YOU RECEIVE (ESTIMATED)'), findsOneWidget);
+    expect(find.text('Confirm Instant Swap'), findsOneWidget);
+  });
+
+  testWidgets('TopUpSheet renders deposit methods and instant CTA', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<WalletBloc>(create: (_) => sl<WalletBloc>()..add(const LoadWalletEvent())),
+          BlocProvider<TransactionBloc>(create: (_) => sl<TransactionBloc>()..add(const LoadTransactionsEvent())),
+        ],
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const Scaffold(body: TopUpSheet()),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.text('Add Funds'), findsOneWidget);
+    expect(find.text('DEPOSIT AMOUNT'), findsOneWidget);
+    expect(find.text('CHOOSE PAYMENT METHOD'), findsOneWidget);
+    expect(find.text('Apple Pay'), findsOneWidget);
+    expect(find.text('Deposit \$1000.00 Instantly'), findsOneWidget);
+  });
 }
+
+
