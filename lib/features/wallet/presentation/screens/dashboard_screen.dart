@@ -28,6 +28,7 @@ import '../../../transfers/presentation/widgets/top_up_sheet.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../analytics/presentation/screens/growth_screen.dart';
 import '../../../transfers/presentation/screens/transfers_screen.dart';
+import '../../../notifications/presentation/widgets/notifications_sheet.dart';
 
 import '../../../../main.dart';
 
@@ -314,20 +315,6 @@ class _DashboardViewState extends State<_DashboardView> {
 
   void _showNotifications(BuildContext context) {
     HapticFeedback.lightImpact();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: context.colors.surfaceElevated,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: context.colors.border),
-        ),
-        content: Text(
-          'Security alert: New direct deposit from Upwork Global Escrow confirmed.',
-          style: AppTextStyles.bodySmall(color: context.colors.textPrimary),
-        ),
-      ),
-    );
+    NotificationsSheet.show(context);
   }
 }

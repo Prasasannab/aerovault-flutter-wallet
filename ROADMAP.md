@@ -215,6 +215,13 @@ lib/
 - [x] **Complete Dock Navigation Integration**: Elevated "Transfers" (index 2) into a first-class screen inside `IndexedStack`, achieving 100% full-screen coverage across all bottom navigation tabs.
 - [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `transfers_bloc_test.dart` and widget tests, achieving **45/45 tests green** and **0 analyzer warnings**.
 
+### Phase 10: Bank-Grade Notifications & Compliance Audit Activity Center (Completed)
+- [x] **Notification & Audit Domain**: Engineered `AppNotification`, `NotificationCategory` (`security`, `transfer`, `compliance`, `system`), and `NotificationPriority` entities with use cases (`GetNotificationsUseCase`, `MarkNotificationReadUseCase`, `MarkAllNotificationsReadUseCase`).
+- [x] **Reactive Audit BLoC (`NotificationsBloc`)**: Built state management for category-filtered telemetry streams, dynamic unread badge counter, and single/bulk read mutations.
+- [x] **Ultra-Luxury Audit Drawer (`NotificationsSheet`)**: Interactive glassmorphic modal with category pill selectors (`All`, `Security`, `Transfers`, `Compliance`), reference code chips (e.g., `TX-UPWORK-8842`), formatted wire inflow pills (`+$14,850.00`), and encrypted telemetry security footer.
+- [x] **Header Bell Action Integration**: Linked the dashboard top header notification bell directly to `NotificationsSheet.show(context)` with micro-haptic feedback.
+- [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `notifications_bloc_test.dart` and widget tests, achieving **51/51 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)

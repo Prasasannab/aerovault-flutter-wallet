@@ -9,6 +9,7 @@ import 'package:aerovault/features/auth/presentation/screens/scrambled_pin_scree
 import 'package:aerovault/features/auth/presentation/screens/security_lockout_screen.dart';
 import 'package:aerovault/features/cards/presentation/screens/cards_screen.dart';
 import 'package:aerovault/features/transfers/presentation/screens/transfers_screen.dart';
+import 'package:aerovault/features/notifications/presentation/widgets/notifications_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/receive_funds_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/send_money_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sheet.dart';
@@ -250,6 +251,27 @@ void main() {
     expect(find.text('Instant Interbank Converter'), findsOneWidget);
     expect(find.text('STANDING ORDERS & RECURRING TRANSFERS'), findsOneWidget);
     expect(find.text('Swiss Wire Routing Specs'), findsOneWidget);
+  });
+
+  testWidgets('NotificationsSheet renders audit alerts, filter chips, and encrypted footer', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const Scaffold(
+          body: NotificationsSheet(),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+
+    expect(find.text('Audit & Alerts'), findsOneWidget);
+    expect(find.text('FINMA AUDIT & TELEMETRY STREAM'), findsOneWidget);
+    expect(find.text('Security'), findsOneWidget);
+    expect(find.text('Transfers'), findsOneWidget);
+    expect(find.text('Compliance'), findsOneWidget);
+    expect(find.text('Upwork Global Escrow Wire Credited'), findsOneWidget);
+    expect(find.text('Mark All Read'), findsOneWidget);
   });
 }
 

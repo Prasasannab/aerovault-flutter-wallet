@@ -36,6 +36,13 @@ import '../../features/wallet/domain/usecases/get_wallet_account_usecase.dart';
 import '../../features/wallet/domain/usecases/toggle_balance_visibility_usecase.dart';
 import '../../features/wallet/domain/usecases/toggle_card_freeze_usecase.dart';
 import '../../features/wallet/presentation/bloc/wallet_bloc.dart';
+import '../../features/notifications/data/datasources/notifications_data_source.dart';
+import '../../features/notifications/data/repositories/notifications_repository_impl.dart';
+import '../../features/notifications/domain/repositories/notifications_repository.dart';
+import '../../features/notifications/domain/usecases/get_notifications_use_case.dart';
+import '../../features/notifications/domain/usecases/mark_all_notifications_read_use_case.dart';
+import '../../features/notifications/domain/usecases/mark_notification_read_use_case.dart';
+import '../../features/notifications/presentation/bloc/notifications_bloc.dart';
 import '../../features/transfers/data/datasources/transfers_data_source.dart';
 import '../../features/transfers/data/repositories/transfers_repository_impl.dart';
 import '../../features/transfers/domain/repositories/transfers_repository.dart';
@@ -258,6 +265,30 @@ Future<void> initCoreDependencies() async {
       getScheduledTransfersUseCase: sl(),
       toggleScheduledTransferUseCase: sl(),
       getWireRoutingUseCase: sl(),
+    ),
+  );
+
+  // 11. Feature: Bank Notifications & Compliance Activity Center
+  sl.registerLazySingleton<NotificationsDataSource>(
+    () => NotificationsLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<NotificationsRepository>(
+    () => NotificationsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetNotificationsUseCase>(
+    () => GetNotificationsUseCase(sl()),
+  );
+  sl.registerLazySingleton<MarkNotificationReadUseCase>(
+    () => MarkNotificationReadUseCase(sl()),
+  );
+  sl.registerLazySingleton<MarkAllNotificationsReadUseCase>(
+    () => MarkAllNotificationsReadUseCase(sl()),
+  );
+  sl.registerFactory<NotificationsBloc>(
+    () => NotificationsBloc(
+      getNotificationsUseCase: sl(),
+      markNotificationReadUseCase: sl(),
+      markAllNotificationsReadUseCase: sl(),
     ),
   );
 }
