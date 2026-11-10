@@ -156,5 +156,18 @@ void main() {
         ),
       ],
     );
+
+    blocTest<WalletBloc, WalletState>(
+      'switches active currency holding when SwitchCurrencyHoldingEvent is dispatched',
+      build: () => walletBloc,
+      seed: () => const WalletLoaded(account: testAccount, card: testCard),
+      act: (bloc) => bloc.add(const SwitchCurrencyHoldingEvent('EUR')),
+      expect: () => [
+        WalletLoaded(
+          account: testAccount.copyWith(selectedCurrencyCode: 'EUR'),
+          card: testCard,
+        ),
+      ],
+    );
   });
 }

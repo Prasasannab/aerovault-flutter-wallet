@@ -42,3 +42,11 @@ class AdjustWalletBalanceEvent extends WalletEvent {
   List<Object?> get props => [fiatDelta, btcDelta, ethDelta];
 }
 
+class SwitchCurrencyHoldingEvent extends WalletEvent {
+  final String currencyCode;
+  const SwitchCurrencyHoldingEvent(this.currencyCode);
+
+  @override
+  List<Object?> get props => [currencyCode];
+}
+

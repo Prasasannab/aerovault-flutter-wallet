@@ -1,4 +1,5 @@
 import '../../domain/entities/wallet_account.dart';
+import 'currency_holding_model.dart';
 
 /// Data Model for Wallet Account with JSON serialization
 class WalletAccountModel extends WalletAccount {
@@ -12,6 +13,8 @@ class WalletAccountModel extends WalletAccount {
     required super.ethPriceUsd,
     super.currencyCode = 'USD',
     super.isBalanceHidden = false,
+    super.holdings = const [],
+    super.selectedCurrencyCode = 'USD',
   });
 
   factory WalletAccountModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +28,11 @@ class WalletAccountModel extends WalletAccount {
       ethPriceUsd: (json['eth_price_usd'] as num).toDouble(),
       currencyCode: json['currency_code'] as String? ?? 'USD',
       isBalanceHidden: json['is_balance_hidden'] as bool? ?? false,
+      holdings: (json['holdings'] as List<dynamic>?)
+              ?.map((item) => CurrencyHoldingModel.fromJson(item as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      selectedCurrencyCode: json['selected_currency_code'] as String? ?? 'USD',
     );
   }
 
@@ -39,6 +47,10 @@ class WalletAccountModel extends WalletAccount {
       'eth_price_usd': ethPriceUsd,
       'currency_code': currencyCode,
       'is_balance_hidden': isBalanceHidden,
+      'holdings': holdings
+          .map((h) => CurrencyHoldingModel.fromEntity(h).toJson())
+          .toList(),
+      'selected_currency_code': selectedCurrencyCode,
     };
   }
 
@@ -53,6 +65,8 @@ class WalletAccountModel extends WalletAccount {
       ethPriceUsd: entity.ethPriceUsd,
       currencyCode: entity.currencyCode,
       isBalanceHidden: entity.isBalanceHidden,
+      holdings: entity.holdings,
+      selectedCurrencyCode: entity.selectedCurrencyCode,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'currency_holding.dart';
 
 /// Domain Entity representing the primary multi-currency & crypto wallet account
 class WalletAccount extends Equatable {
@@ -11,6 +12,8 @@ class WalletAccount extends Equatable {
   final double ethPriceUsd;
   final String currencyCode;
   final bool isBalanceHidden;
+  final List<CurrencyHolding> holdings;
+  final String selectedCurrencyCode;
 
   const WalletAccount({
     required this.id,
@@ -22,11 +25,35 @@ class WalletAccount extends Equatable {
     required this.ethPriceUsd,
     this.currencyCode = 'USD',
     this.isBalanceHidden = false,
+    this.holdings = const [],
+    this.selectedCurrencyCode = 'USD',
   });
 
   /// Total Portfolio Net Worth converted to fiat USD equivalent
   double get totalPortfolioBalanceUsd =>
       fiatBalance + (btcBalance * btcPriceUsd) + (ethBalance * ethPriceUsd);
+
+  /// Active selected currency holding (e.g. USD, EUR, CHF, GBP)
+  CurrencyHolding get activeHolding {
+    if (holdings.isEmpty) {
+      return CurrencyHolding(
+        code: currencyCode,
+        name: 'US Dollar',
+        symbol: '\$',
+        flagEmoji: '🇺🇸',
+        balance: fiatBalance,
+        balanceUsdEquivalent: fiatBalance,
+        iban: 'US02 0260 0959 3884 21',
+        clearingNetwork: 'Fedwire & ACH',
+      );
+    }
+    for (final holding in holdings) {
+      if (holding.code == selectedCurrencyCode) {
+        return holding;
+      }
+    }
+    return holdings.first;
+  }
 
   WalletAccount copyWith({
     String? id,
@@ -38,6 +65,8 @@ class WalletAccount extends Equatable {
     double? ethPriceUsd,
     String? currencyCode,
     bool? isBalanceHidden,
+    List<CurrencyHolding>? holdings,
+    String? selectedCurrencyCode,
   }) {
     return WalletAccount(
       id: id ?? this.id,
@@ -49,6 +78,8 @@ class WalletAccount extends Equatable {
       ethPriceUsd: ethPriceUsd ?? this.ethPriceUsd,
       currencyCode: currencyCode ?? this.currencyCode,
       isBalanceHidden: isBalanceHidden ?? this.isBalanceHidden,
+      holdings: holdings ?? this.holdings,
+      selectedCurrencyCode: selectedCurrencyCode ?? this.selectedCurrencyCode,
     );
   }
 
@@ -63,5 +94,7 @@ class WalletAccount extends Equatable {
         ethPriceUsd,
         currencyCode,
         isBalanceHidden,
+        holdings,
+        selectedCurrencyCode,
       ];
 }

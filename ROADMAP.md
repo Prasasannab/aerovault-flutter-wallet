@@ -222,6 +222,14 @@ lib/
 - [x] **Header Bell Action Integration**: Linked the dashboard top header notification bell directly to `NotificationsSheet.show(context)` with micro-haptic feedback.
 - [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `notifications_bloc_test.dart` and widget tests, achieving **51/51 tests green** and **0 analyzer warnings**.
 
+### Phase 11: Multi-Currency Foreign Sub-Accounts & Spot Switcher Studio (Completed)
+- [x] **Multi-Currency Domain Architecture**: Engineered `CurrencyHolding` entity featuring dedicated international sub-accounts (`USD`, `EUR`, `CHF`, `GBP`, `BTC`, `ETH`), custom national flag emojis, local clearing networks (Fedwire, SEPA Instant, SIX Swiss SIC, FPS, Multi-Sig Cold Vault), and individual international IBANs.
+- [x] **Dynamic Card Multi-Currency Reflection**: Updated `WalletAccount` with active holding resolution and enhanced `VirtualCardWidget` so the 3D card dynamically morphs its primary displayed currency, balance, national flag, and network badge based on the user's active sub-account selection.
+- [x] **Horizontal Spot Currency Selector Bar (`MultiCurrencySelectorBar`)**: Seamlessly integrated between the 3D flippable card and quick action launchpad, providing single-tap spot balance switching with micro-haptic selection feedback and active neon emerald highlighting.
+- [x] **Global IBANs & Holdings Portfolio Studio (`MultiCurrencySheet`)**: Full-height bottom sheet presenting all multi-currency sub-accounts, international IBANs, clearing network specifications, one-tap clipboard copy with floating feedback toasts, and a direct launchpad to `SwapCryptoSheet`.
+- [x] **Concurrent Banking Asset Fetching**: Optimized `WalletBloc._onLoadWallet` using Dart 3 concurrent tuple records `(getWalletAccountUseCase(), getVirtualCardUseCase()).wait` to cut initial network latency in half.
+- [x] **100% Test Pass Rate & Zero Regressions**: Expanded unit tests in `wallet_bloc_test.dart` and added `MultiCurrencySheet` and `MultiCurrencySelectorBar` tests in `test/widget_test.dart`, achieving **54/54 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)

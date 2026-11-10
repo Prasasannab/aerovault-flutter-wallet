@@ -277,38 +277,60 @@ class _VirtualCardWidgetState extends State<VirtualCardWidget>
                     ),
 
                     // 2. Center: Card Balance
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'AeroVault Platinum Balance',
-                          style: AppTextStyles.label(
-                            color: const Color(0x99FFFFFF),
-                            fontSize: 11,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 200),
-                          crossFadeState: isHidden
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          firstChild: Text(
-                            currencyFormatter.format(widget.account.totalPortfolioBalanceUsd),
-                            style: AppTextStyles.balanceDisplay(
-                              fontSize: 27,
-                              color: isFrozen ? AppColors.textMuted : Colors.white,
+                    Builder(
+                      builder: (context) {
+                        final activeHolding = widget.account.activeHolding;
+                        final isUsd = widget.account.selectedCurrencyCode == 'USD';
+
+                        final String title = isUsd
+                            ? 'AeroVault Platinum Balance (USD)'
+                            : '${activeHolding.flagEmoji} ${activeHolding.name} Sub-Account';
+
+                        final String displayAmount;
+                        if (isUsd) {
+                          displayAmount = currencyFormatter.format(widget.account.totalPortfolioBalanceUsd);
+                        } else if (activeHolding.isCrypto) {
+                          displayAmount = '${NumberFormat('#,##0.0000').format(activeHolding.balance)} ${activeHolding.code}';
+                        } else if (activeHolding.code == 'CHF') {
+                          displayAmount = '${NumberFormat('#,##0.00').format(activeHolding.balance)} CHF';
+                        } else {
+                          displayAmount = '${activeHolding.symbol}${NumberFormat('#,##0.00').format(activeHolding.balance)}';
+                        }
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: AppTextStyles.label(
+                                color: const Color(0x99FFFFFF),
+                                fontSize: 11,
+                              ),
                             ),
-                          ),
-                          secondChild: Text(
-                            '\$••••••••••',
-                            style: AppTextStyles.balanceDisplay(
-                              fontSize: 27,
-                              color: const Color(0x99FFFFFF),
+                            const SizedBox(height: 2),
+                            AnimatedCrossFade(
+                              duration: const Duration(milliseconds: 200),
+                              crossFadeState: isHidden
+                                  ? CrossFadeState.showSecond
+                                  : CrossFadeState.showFirst,
+                              firstChild: Text(
+                                displayAmount,
+                                style: AppTextStyles.balanceDisplay(
+                                  fontSize: 27,
+                                  color: isFrozen ? AppColors.textMuted : Colors.white,
+                                ),
+                              ),
+                              secondChild: Text(
+                                '${activeHolding.symbol}••••••••••',
+                                style: AppTextStyles.balanceDisplay(
+                                  fontSize: 27,
+                                  color: const Color(0x99FFFFFF),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
+                          ],
+                        );
+                      },
                     ),
 
                     // 3. Bottom: Card Number & Tier Info

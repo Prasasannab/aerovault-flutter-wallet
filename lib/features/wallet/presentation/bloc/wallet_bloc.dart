@@ -22,6 +22,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<ToggleCardFreezeEvent>(_onToggleCardFreeze);
     on<ToggleBalanceVisibilityEvent>(_onToggleBalanceVisibility);
     on<AdjustWalletBalanceEvent>(_onAdjustWalletBalance);
+    on<SwitchCurrencyHoldingEvent>(_onSwitchCurrencyHolding);
   }
 
   void _onAdjustWalletBalance(
@@ -52,8 +53,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   ) async {
     emit(const WalletLoading());
 
-    final accountResult = await getWalletAccountUseCase();
-    final cardResult = await getVirtualCardUseCase();
+    final (accountResult, cardResult) = await (
+      getWalletAccountUseCase(),
+      getVirtualCardUseCase(),
+    ).wait;
 
     if (accountResult.isSuccess && cardResult.isSuccess) {
       emit(
@@ -101,6 +104,22 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           ),
         );
       }
+    }
+  }
+
+  void _onSwitchCurrencyHolding(
+    SwitchCurrencyHoldingEvent event,
+    Emitter<WalletState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is WalletLoaded) {
+      emit(
+        currentState.copyWith(
+          account: currentState.account.copyWith(
+            selectedCurrencyCode: event.currencyCode,
+          ),
+        ),
+      );
     }
   }
 }

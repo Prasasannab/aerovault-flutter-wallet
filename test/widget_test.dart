@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:aerovault/core/constants/app_constants.dart';
 import 'package:aerovault/core/di/injection_container.dart';
@@ -16,14 +17,18 @@ import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sh
 import 'package:aerovault/features/transfers/presentation/widgets/top_up_sheet.dart';
 import 'package:aerovault/features/transactions/presentation/bloc/transaction_bloc.dart';
 import 'package:aerovault/features/transactions/presentation/bloc/transaction_event.dart';
+import 'package:aerovault/features/wallet/presentation/widgets/multi_currency_sheet.dart';
+import 'package:aerovault/features/wallet/presentation/widgets/multi_currency_selector_bar.dart';
 import 'package:aerovault/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:aerovault/features/wallet/presentation/bloc/wallet_event.dart';
+import 'package:aerovault/features/wallet/presentation/bloc/wallet_state.dart';
 import 'package:aerovault/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 void main() {
   setUp(() async {
+    FlutterSecureStorage.setMockInitialValues({});
     await sl.reset();
     await initCoreDependencies();
   });
@@ -272,6 +277,58 @@ void main() {
     expect(find.text('Compliance'), findsOneWidget);
     expect(find.text('Upwork Global Escrow Wire Credited'), findsOneWidget);
     expect(find.text('Mark All Read'), findsOneWidget);
+  });
+
+  testWidgets('MultiCurrencySheet renders multi-currency sub-accounts and IBANs', (WidgetTester tester) async {
+    final bloc = sl<WalletBloc>();
+    await tester.pumpWidget(
+      BlocProvider<WalletBloc>.value(
+        value: bloc..add(const LoadWalletEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const Scaffold(
+            body: MultiCurrencySheet(),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.text('Multi-Currency Studio'), findsOneWidget);
+    expect(find.text('GLOBAL DEDICATED IBANS & HOLDINGS'), findsOneWidget);
+    expect(find.text('Exchange'), findsOneWidget);
+    expect(find.text('US Dollar'), findsOneWidget);
+    expect(find.text('Euro'), findsOneWidget);
+    expect(find.text('Swiss Franc'), findsOneWidget);
+  });
+
+  testWidgets('MultiCurrencySelectorBar renders currency pills and drawer toggle', (WidgetTester tester) async {
+    final bloc = sl<WalletBloc>();
+    await tester.pumpWidget(
+      BlocProvider<WalletBloc>.value(
+        value: bloc..add(const LoadWalletEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: Scaffold(
+            body: BlocBuilder<WalletBloc, WalletState>(
+              builder: (context, state) {
+                if (state is! WalletLoaded) return const SizedBox.shrink();
+                return MultiCurrencySelectorBar(account: state.account);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.text('USD'), findsOneWidget);
+    expect(find.text('EUR'), findsOneWidget);
+    expect(find.text('CHF'), findsOneWidget);
   });
 }
 

@@ -21,6 +21,7 @@ import '../widgets/floating_glass_nav_bar.dart';
 import '../widgets/quick_actions_bar.dart';
 import '../widgets/virtual_card_widget.dart';
 import '../widgets/wallet_header.dart';
+import '../widgets/multi_currency_selector_bar.dart';
 import '../../../transfers/presentation/widgets/receive_funds_sheet.dart';
 import '../../../transfers/presentation/widgets/send_money_sheet.dart';
 import '../../../transfers/presentation/widgets/swap_crypto_sheet.dart';
@@ -170,7 +171,18 @@ class _DashboardViewState extends State<_DashboardView> {
                     return _buildCardSkeleton(context);
                   },
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
+
+                // Multi-Currency Sub-Account Selector & Portfolio Drawer
+                BlocBuilder<WalletBloc, WalletState>(
+                  builder: (context, state) {
+                    if (state is WalletLoaded) {
+                      return MultiCurrencySelectorBar(account: state.account);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                const SizedBox(height: 12),
 
                 // 3. Proportional Quick Action Cards
                 QuickActionsBar(
