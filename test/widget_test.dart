@@ -53,7 +53,7 @@ void main() {
 
 
 
-  testWidgets('SecurityAuditScreen renders all bank-grade security indicators', (WidgetTester tester) async {
+  testWidgets('SecurityAuditScreen renders all bank-grade security indicators and navigation controls', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: SecurityAuditScreen(),
@@ -67,6 +67,11 @@ void main() {
     expect(find.text('Hardware Keystore / Secure Enclave'), findsOneWidget);
     expect(find.text('SSL Certificate & Public Key Pinning'), findsOneWidget);
     expect(find.text('Anti-Tamper & Root Detection'), findsOneWidget);
+
+    // Verify back and close navigation controls
+    expect(find.byIcon(Icons.arrow_back_ios_new_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.close_rounded), findsOneWidget);
+    expect(find.text('RETURN TO MAIN DASHBOARD'), findsOneWidget);
   });
 
   testWidgets('ReceiveFundsSheet renders wire details and switches to crypto QR', (WidgetTester tester) async {

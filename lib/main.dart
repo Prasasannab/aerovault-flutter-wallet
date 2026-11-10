@@ -137,6 +137,17 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
     }
   }
 
+  void _handleClose(BuildContext context) {
+    HapticFeedback.lightImpact();
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -149,16 +160,36 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
-              // Brand Header
+              const SizedBox(height: 10),
+              // Top Navigation & Brand Header
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () => _handleClose(context),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Container(
+                      padding: const EdgeInsets.all(9),
+                      decoration: BoxDecoration(
+                        color: colors.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: colors.border),
+                      ),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: colors.textPrimary,
+                        size: 16,
+                      ),
+                    ),
+                    tooltip: 'Back to Dashboard',
+                  ),
+                  const SizedBox(width: 12),
                   Container(
-                    width: 44,
-                    height: 44,
+                    width: 42,
+                    height: 42,
                     decoration: BoxDecoration(
                       gradient: AppColors.emeraldGradient,
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       boxShadow: const [
                         BoxShadow(
                           color: AppColors.emeraldGlow,
@@ -170,26 +201,50 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
                     child: const Icon(
                       Icons.shield_outlined,
                       color: AppColors.background,
-                      size: 26,
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppConstants.appName,
-                        style: AppTextStyles.heading1(color: colors.textPrimary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppConstants.appName,
+                          style: AppTextStyles.heading2(color: colors.textPrimary),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          'ENTERPRISE SECURITY CORE',
+                          style: AppTextStyles.label(color: AppColors.emeraldDark, fontSize: 9.5),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () => _handleClose(context),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Container(
+                      padding: const EdgeInsets.all(9),
+                      decoration: BoxDecoration(
+                        color: colors.surface,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: colors.border),
                       ),
-                      Text(
-                        'ENTERPRISE SECURITY CORE',
-                        style: AppTextStyles.label(color: AppColors.emeraldDark),
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: colors.textSecondary,
+                        size: 18,
                       ),
-                    ],
+                    ),
+                    tooltip: 'Close',
                   ),
                 ],
               ),
-              const SizedBox(height: 36),
+              const SizedBox(height: 28),
 
               // Status Card
               GlassContainer(
@@ -345,6 +400,20 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
                 ),
               ),
               const SizedBox(height: 14),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _handleClose(context),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: colors.textSecondary,
+                    side: BorderSide(color: colors.border),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                  label: const Text('RETURN TO MAIN DASHBOARD'),
+                ),
+              ),
+              const SizedBox(height: 16),
 
               Center(
                 child: Text(
