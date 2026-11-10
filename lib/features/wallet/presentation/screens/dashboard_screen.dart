@@ -25,6 +25,7 @@ import '../../../transfers/presentation/widgets/receive_funds_sheet.dart';
 import '../../../transfers/presentation/widgets/send_money_sheet.dart';
 import '../../../transfers/presentation/widgets/swap_crypto_sheet.dart';
 import '../../../transfers/presentation/widgets/top_up_sheet.dart';
+import '../../../cards/presentation/screens/cards_screen.dart';
 
 import '../../../../main.dart';
 
@@ -76,37 +77,41 @@ class _DashboardViewState extends State<_DashboardView> {
   }
 
   void _onNavItemSelected(int index) {
+    if (index == 2) {
+      // Transfers: prompt or sheet
+      _showTransfersNotice(context);
+      return;
+    } else if (index == 4) {
+      // Security
+      _showSecurityAuditDialog(context);
+      return;
+    }
+
     setState(() {
       _selectedNavIndex = index;
     });
 
     if (index == 0) {
       // Vault / Home
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeOutCubic,
-      );
-    } else if (index == 1) {
-      // Cards: scroll to card
-      _scrollController.animateTo(
-        50,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeOutCubic,
-      );
-    } else if (index == 2) {
-      // Transfers
-      _showTransfersNotice(context);
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+        );
+      }
     } else if (index == 3) {
-      // Growth / Analytics: scroll to chart
-      _scrollController.animateTo(
-        320,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeOutCubic,
-      );
-    } else if (index == 4) {
-      // Security
-      _showSecurityAuditDialog(context);
+      // Growth / Analytics: switch to Vault and scroll to chart
+      setState(() {
+        _selectedNavIndex = 0;
+      });
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          320,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+        );
+      }
     }
   }
 
@@ -121,19 +126,22 @@ class _DashboardViewState extends State<_DashboardView> {
         selectedIndex: _selectedNavIndex,
         onItemSelected: _onNavItemSelected,
       ),
-      body: SafeArea(
-        bottom: false,
-        child: RefreshIndicator(
-          onRefresh: () => _onRefresh(context),
-          color: colors.primary,
-          backgroundColor: colors.surfaceElevated,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+      body: IndexedStack(
+        index: _selectedNavIndex == 1 ? 1 : 0,
+        children: [
+          SafeArea(
+            bottom: false,
+            child: RefreshIndicator(
+              onRefresh: () => _onRefresh(context),
+              color: colors.primary,
+              backgroundColor: colors.surfaceElevated,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                 // 1. Top Header Bar
                 BlocBuilder<WalletBloc, WalletState>(
                   builder: (context, state) {
@@ -227,8 +235,11 @@ class _DashboardViewState extends State<_DashboardView> {
           ),
         ),
       ),
-    );
-  }
+      const CardsScreen(isStandalone: false),
+    ],
+  ),
+);
+}
 
   Widget _buildCardSkeleton(BuildContext context) {
     return AspectRatio(

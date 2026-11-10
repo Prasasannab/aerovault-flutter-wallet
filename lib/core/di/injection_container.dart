@@ -11,6 +11,17 @@ import '../../features/analytics/presentation/bloc/analytics_bloc.dart';
 import '../../features/auth/domain/usecases/authenticate_biometric_usecase.dart';
 import '../../features/auth/domain/usecases/verify_pin_usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/cards/data/datasources/cards_local_datasource.dart';
+import '../../features/cards/data/repositories/cards_repository_impl.dart';
+import '../../features/cards/domain/repositories/cards_repository.dart';
+import '../../features/cards/domain/usecases/get_cards_usecase.dart';
+import '../../features/cards/domain/usecases/issue_new_card_usecase.dart';
+import '../../features/cards/domain/usecases/regenerate_disposable_card_usecase.dart';
+import '../../features/cards/domain/usecases/reveal_card_details_usecase.dart';
+import '../../features/cards/domain/usecases/toggle_card_channel_usecase.dart';
+import '../../features/cards/domain/usecases/toggle_card_freeze_usecase.dart';
+import '../../features/cards/domain/usecases/update_card_limit_usecase.dart';
+import '../../features/cards/presentation/bloc/cards_bloc.dart';
 import '../../features/transactions/data/datasources/transaction_mock_datasource.dart';
 import '../../features/transactions/data/repositories/transaction_repository_impl.dart';
 import '../../features/transactions/domain/repositories/transaction_repository.dart';
@@ -164,6 +175,46 @@ Future<void> initCoreDependencies() async {
       verifyPinUseCase: sl(),
       authenticateBiometricUseCase: sl(),
       securityService: sl(),
+    ),
+  );
+
+  // 9. Feature: Cards Management Studio
+  sl.registerLazySingleton<CardsDataSource>(
+    () => CardsLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<CardsRepository>(
+    () => CardsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetCardsUseCase>(
+    () => GetCardsUseCase(sl()),
+  );
+  sl.registerLazySingleton<TogglePaymentCardFreezeUseCase>(
+    () => TogglePaymentCardFreezeUseCase(sl()),
+  );
+  sl.registerLazySingleton<UpdateCardLimitUseCase>(
+    () => UpdateCardLimitUseCase(sl()),
+  );
+  sl.registerLazySingleton<ToggleCardChannelUseCase>(
+    () => ToggleCardChannelUseCase(sl()),
+  );
+  sl.registerLazySingleton<RevealCardDetailsUseCase>(
+    () => RevealCardDetailsUseCase(sl()),
+  );
+  sl.registerLazySingleton<RegenerateDisposableCardUseCase>(
+    () => RegenerateDisposableCardUseCase(sl()),
+  );
+  sl.registerLazySingleton<IssueNewCardUseCase>(
+    () => IssueNewCardUseCase(sl()),
+  );
+  sl.registerFactory<CardsBloc>(
+    () => CardsBloc(
+      getCardsUseCase: sl(),
+      toggleCardFreezeUseCase: sl(),
+      updateCardLimitUseCase: sl(),
+      toggleCardChannelUseCase: sl(),
+      revealCardDetailsUseCase: sl(),
+      regenerateDisposableCardUseCase: sl(),
+      issueNewCardUseCase: sl(),
     ),
   );
 }

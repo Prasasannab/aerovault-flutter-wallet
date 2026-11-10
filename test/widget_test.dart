@@ -6,6 +6,7 @@ import 'package:aerovault/core/theme/aerovault_colors.dart';
 import 'package:aerovault/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:aerovault/features/auth/presentation/screens/scrambled_pin_screen.dart';
 import 'package:aerovault/features/auth/presentation/screens/security_lockout_screen.dart';
+import 'package:aerovault/features/cards/presentation/screens/cards_screen.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/receive_funds_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/send_money_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sheet.dart';
@@ -188,6 +189,25 @@ void main() {
     expect(find.text('Hardware Keystore'), findsOneWidget);
     expect(find.text('PURGED & CLEARED'), findsOneWidget);
     expect(find.text('Restore Access (Reset Demo Lockout)'), findsOneWidget);
+  });
+
+  testWidgets('CardsScreen renders multi-card studio, carousel, and channel security switches', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const CardsScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+
+    expect(find.text('Cards Studio'), findsOneWidget);
+    expect(find.text('NEW CARD'), findsOneWidget);
+    expect(find.text('CARD SECRETS'), findsOneWidget);
+    expect(find.text('MONTHLY SPENDING BUDGET'), findsOneWidget);
+    expect(find.text('SECURITY & CHANNEL PERMISSIONS'), findsOneWidget);
+    expect(find.text('Freeze & Lock Card'), findsOneWidget);
+    expect(find.text('Online & In-App Purchases'), findsOneWidget);
   });
 }
 

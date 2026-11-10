@@ -14,6 +14,7 @@ import 'core/theme/glass_decorations.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/auth/presentation/screens/scrambled_pin_screen.dart';
 import 'features/auth/presentation/screens/security_lockout_screen.dart';
+import 'features/cards/presentation/screens/cards_screen.dart';
 
 import 'features/wallet/presentation/screens/dashboard_screen.dart';
 
@@ -291,6 +292,15 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
                   onPressed: () => ScrambledPinScreen.push(context),
                   icon: const Icon(Icons.dialpad_rounded),
                   label: const Text('LAUNCH SCRAMBLED PIN PAD'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => CardsScreen.push(context),
+                  icon: const Icon(Icons.credit_card_rounded),
+                  label: const Text('OPEN CARDS STUDIO'),
                 ),
               ),
               const SizedBox(height: 10),
