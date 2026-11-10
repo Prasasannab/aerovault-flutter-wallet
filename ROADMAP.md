@@ -174,10 +174,18 @@ lib/
 - [x] **Dynamic State Dispatch**: Integrated `AddTransactionEvent` in `TransactionBloc` and `AdjustWalletBalanceEvent` in `WalletBloc` for zero-latency balance and ledger updates.
 - [x] **Zero Regressions & 100% Test Pass Rate**: 25/25 unit and widget tests green, 0 analysis warnings.
 
+### Phase 6: Biometric Scrambled PIN Pad & Security Lockout Flow (Completed)
+- [x] **Hardware Biometric & PIN Domain**: Implemented `VerifyPinUseCase` and `AuthenticateBiometricUseCase` adhering strictly to Clean Architecture and banking security requirements.
+- [x] **Dynamic Scrambled Keypad (`ScrambledKeypad`)**: Anti-spy numeric pad with randomized digit grid, preventing touchscreen smudge tracking and shoulder-surfing. Integrated live manual reshuffle trigger.
+- [x] **Damped Sine-Wave Error Animation (`PinDotsIndicator`)**: 6 cryptographic glowing dot indicators with spring-damped horizontal oscillation on failed verification (`timing-under-300ms`).
+- [x] **Bank-Grade Scrambled PIN Screen (`ScrambledPinScreen`)**: Fullscreen authentication experience featuring remaining attempts countdown badge, biometric Face ID trigger, and responsive scroll support.
+- [x] **Emergency Lockout Screen (`SecurityLockoutScreen`)**: Triggered on 3 failed PIN attempts or root/jailbreak compromise. Features pulsing crimson alert shield, keystore purge status audit, concierge dispatch, and demo recovery reset action.
+- [x] **Auth State Management (`AuthBloc`)**: Engineered BLoC handling `VerifyPinEvent`, `BiometricAuthEvent`, `ResetLockoutEvent`, and `LockSessionEvent` with automatic lockout throttling.
+- [x] **Zero Regressions & 100% Test Coverage**: Added comprehensive `auth_bloc_test.dart` and widget tests for both screens, achieving 32/32 tests green and 0 analyzer warnings.
 
 ---
 
-## 6. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)
+## 7. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)
 
 ### Upwork Portfolio Case Study Copy:
 * **Project Title**: AeroVault - Enterprise Multi-Currency Neobank & Crypto Mobile App (Flutter)

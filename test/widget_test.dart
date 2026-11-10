@@ -3,6 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:aerovault/core/constants/app_constants.dart';
 import 'package:aerovault/core/di/injection_container.dart';
 import 'package:aerovault/core/theme/aerovault_colors.dart';
+import 'package:aerovault/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:aerovault/features/auth/presentation/screens/scrambled_pin_screen.dart';
+import 'package:aerovault/features/auth/presentation/screens/security_lockout_screen.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/receive_funds_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/send_money_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sheet.dart';
@@ -151,6 +154,40 @@ void main() {
     expect(find.text('CHOOSE PAYMENT METHOD'), findsOneWidget);
     expect(find.text('Apple Pay'), findsOneWidget);
     expect(find.text('Deposit \$1000.00 Instantly'), findsOneWidget);
+  });
+
+  testWidgets('ScrambledPinScreen renders security emblem, scrambled digits, and attempt count', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      BlocProvider<AuthBloc>(
+        create: (_) => sl<AuthBloc>(),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const ScrambledPinScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Security Authentication'), findsOneWidget);
+    expect(find.text('Anti-Spy Scramble Active • Tap to Reshuffle'), findsOneWidget);
+    expect(find.byIcon(Icons.fingerprint_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.backspace_outlined), findsOneWidget);
+  });
+
+  testWidgets('SecurityLockoutScreen renders suspended warning, audit box, and recovery action', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const SecurityLockoutScreen(),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Vault Access Suspended'), findsOneWidget);
+    expect(find.text('Security Lockout Activated'), findsOneWidget);
+    expect(find.text('Hardware Keystore'), findsOneWidget);
+    expect(find.text('PURGED & CLEARED'), findsOneWidget);
+    expect(find.text('Restore Access (Reset Demo Lockout)'), findsOneWidget);
   });
 }
 

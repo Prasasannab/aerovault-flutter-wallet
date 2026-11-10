@@ -8,6 +8,9 @@ import '../../features/analytics/data/repositories/analytics_repository_impl.dar
 import '../../features/analytics/domain/repositories/analytics_repository.dart';
 import '../../features/analytics/domain/usecases/get_portfolio_performance_usecase.dart';
 import '../../features/analytics/presentation/bloc/analytics_bloc.dart';
+import '../../features/auth/domain/usecases/authenticate_biometric_usecase.dart';
+import '../../features/auth/domain/usecases/verify_pin_usecase.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/transactions/data/datasources/transaction_mock_datasource.dart';
 import '../../features/transactions/data/repositories/transaction_repository_impl.dart';
 import '../../features/transactions/domain/repositories/transaction_repository.dart';
@@ -147,5 +150,20 @@ Future<void> initCoreDependencies() async {
   // 7. Theme Management
   sl.registerLazySingleton<ThemeCubit>(
     () => ThemeCubit(),
+  );
+
+  // 8. Feature: Auth & Scrambled PIN
+  sl.registerLazySingleton<VerifyPinUseCase>(
+    () => VerifyPinUseCase(sl()),
+  );
+  sl.registerLazySingleton<AuthenticateBiometricUseCase>(
+    () => AuthenticateBiometricUseCase(sl()),
+  );
+  sl.registerFactory<AuthBloc>(
+    () => AuthBloc(
+      verifyPinUseCase: sl(),
+      authenticateBiometricUseCase: sl(),
+      securityService: sl(),
+    ),
   );
 }

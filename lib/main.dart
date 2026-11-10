@@ -12,6 +12,8 @@ import 'core/theme/app_text_styles.dart';
 import 'core/theme/fintech_theme.dart';
 import 'core/theme/glass_decorations.dart';
 import 'core/theme/theme_cubit.dart';
+import 'features/auth/presentation/screens/scrambled_pin_screen.dart';
+import 'features/auth/presentation/screens/security_lockout_screen.dart';
 
 import 'features/wallet/presentation/screens/dashboard_screen.dart';
 
@@ -282,20 +284,51 @@ class _SecurityAuditScreenState extends State<SecurityAuditScreen> {
 
               const SizedBox(height: 28),
 
-              // Quick Test Action
+              // Interactive Security Test Triggers
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
+                  onPressed: () => ScrambledPinScreen.push(context),
+                  icon: const Icon(Icons.dialpad_rounded),
+                  label: const Text('LAUNCH SCRAMBLED PIN PAD'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
                   onPressed: _testBiometrics,
-                  icon: const Icon(Icons.fingerprint),
+                  icon: const Icon(Icons.fingerprint_rounded),
                   label: const Text('TRIGGER BIOMETRIC PROMPT'),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SecurityLockoutScreen(
+                          reason: 'Manual Security Lockdown Simulation • Testing Keystore Purge',
+                        ),
+                      ),
+                    );
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFFEF4444),
+                    side: const BorderSide(color: Color(0xFFEF4444)),
+                  ),
+                  icon: const Icon(Icons.gpp_bad_rounded),
+                  label: const Text('SIMULATE EMERGENCY LOCKOUT'),
+                ),
+              ),
+              const SizedBox(height: 14),
 
               Center(
                 child: Text(
-                  'Phase 1 Core Architecture Ready • Flutter 3.24+ / Dart 3.5+',
+                  'Bank-Grade Defense Active • Anti-Spy Scramble & Root Wipe',
                   style: AppTextStyles.bodySmall(color: AppColors.textDim),
                 ),
               ),
