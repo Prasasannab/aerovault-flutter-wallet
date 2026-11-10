@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/portfolio_performance.dart';
+import '../../domain/entities/wealth_analytics.dart';
 
 abstract class AnalyticsState extends Equatable {
   const AnalyticsState();
@@ -18,11 +19,25 @@ class AnalyticsLoading extends AnalyticsState {
 
 class AnalyticsLoaded extends AnalyticsState {
   final PortfolioPerformance performance;
+  final WealthAnalytics? wealthAnalytics;
 
-  const AnalyticsLoaded(this.performance);
+  const AnalyticsLoaded(
+    this.performance, {
+    this.wealthAnalytics,
+  });
+
+  AnalyticsLoaded copyWith({
+    PortfolioPerformance? performance,
+    WealthAnalytics? wealthAnalytics,
+  }) {
+    return AnalyticsLoaded(
+      performance ?? this.performance,
+      wealthAnalytics: wealthAnalytics ?? this.wealthAnalytics,
+    );
+  }
 
   @override
-  List<Object?> get props => [performance];
+  List<Object?> get props => [performance, wealthAnalytics];
 }
 
 class AnalyticsError extends AnalyticsState {

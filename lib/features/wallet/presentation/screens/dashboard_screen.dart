@@ -26,6 +26,7 @@ import '../../../transfers/presentation/widgets/send_money_sheet.dart';
 import '../../../transfers/presentation/widgets/swap_crypto_sheet.dart';
 import '../../../transfers/presentation/widgets/top_up_sheet.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
+import '../../../analytics/presentation/screens/growth_screen.dart';
 
 import '../../../../main.dart';
 
@@ -100,18 +101,6 @@ class _DashboardViewState extends State<_DashboardView> {
           curve: Curves.easeOutCubic,
         );
       }
-    } else if (index == 3) {
-      // Growth / Analytics: switch to Vault and scroll to chart
-      setState(() {
-        _selectedNavIndex = 0;
-      });
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          320,
-          duration: const Duration(milliseconds: 350),
-          curve: Curves.easeOutCubic,
-        );
-      }
     }
   }
 
@@ -127,7 +116,9 @@ class _DashboardViewState extends State<_DashboardView> {
         onItemSelected: _onNavItemSelected,
       ),
       body: IndexedStack(
-        index: _selectedNavIndex == 1 ? 1 : 0,
+        index: _selectedNavIndex == 1
+            ? 1
+            : (_selectedNavIndex == 3 ? 2 : 0),
         children: [
           SafeArea(
             bottom: false,
@@ -236,6 +227,7 @@ class _DashboardViewState extends State<_DashboardView> {
         ),
       ),
       const CardsScreen(isStandalone: false),
+      const GrowthScreen(isStandalone: false),
     ],
   ),
 );

@@ -7,6 +7,7 @@ import '../../features/analytics/data/datasources/analytics_mock_datasource.dart
 import '../../features/analytics/data/repositories/analytics_repository_impl.dart';
 import '../../features/analytics/domain/repositories/analytics_repository.dart';
 import '../../features/analytics/domain/usecases/get_portfolio_performance_usecase.dart';
+import '../../features/analytics/domain/usecases/get_wealth_analytics_usecase.dart';
 import '../../features/analytics/presentation/bloc/analytics_bloc.dart';
 import '../../features/auth/domain/usecases/authenticate_biometric_usecase.dart';
 import '../../features/auth/domain/usecases/verify_pin_usecase.dart';
@@ -154,8 +155,14 @@ Future<void> initCoreDependencies() async {
   sl.registerLazySingleton<GetPortfolioPerformanceUseCase>(
     () => GetPortfolioPerformanceUseCase(sl()),
   );
+  sl.registerLazySingleton<GetWealthAnalyticsUseCase>(
+    () => GetWealthAnalyticsUseCase(sl()),
+  );
   sl.registerFactory<AnalyticsBloc>(
-    () => AnalyticsBloc(getPortfolioPerformanceUseCase: sl()),
+    () => AnalyticsBloc(
+      getPortfolioPerformanceUseCase: sl(),
+      getWealthAnalyticsUseCase: sl(),
+    ),
   );
 
   // 7. Theme Management

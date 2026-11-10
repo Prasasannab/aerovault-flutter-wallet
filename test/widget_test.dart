@@ -4,6 +4,7 @@ import 'package:aerovault/core/constants/app_constants.dart';
 import 'package:aerovault/core/di/injection_container.dart';
 import 'package:aerovault/core/theme/aerovault_colors.dart';
 import 'package:aerovault/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:aerovault/features/analytics/presentation/screens/growth_screen.dart';
 import 'package:aerovault/features/auth/presentation/screens/scrambled_pin_screen.dart';
 import 'package:aerovault/features/auth/presentation/screens/security_lockout_screen.dart';
 import 'package:aerovault/features/cards/presentation/screens/cards_screen.dart';
@@ -208,6 +209,23 @@ void main() {
     expect(find.text('SECURITY & CHANNEL PERMISSIONS'), findsOneWidget);
     expect(find.text('Freeze & Lock Card'), findsOneWidget);
     expect(find.text('Online & In-App Purchases'), findsOneWidget);
+  });
+
+  testWidgets('GrowthScreen renders net worth, allocation profile, and statement action', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const GrowthScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 700));
+
+    expect(find.text('Wealth Growth'), findsOneWidget);
+    expect(find.text('PDF STMT'), findsOneWidget);
+    expect(find.text('TOTAL CONSOLIDATED NET WORTH'), findsOneWidget);
+    expect(find.text('ASSET ALLOCATION PROFILE'), findsOneWidget);
+    expect(find.text('EXPENDITURE BREAKDOWN'), findsOneWidget);
   });
 }
 

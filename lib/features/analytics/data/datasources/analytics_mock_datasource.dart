@@ -1,10 +1,12 @@
 import 'dart:async';
 import '../../../../core/constants/app_constants.dart';
 import '../../domain/entities/portfolio_performance.dart';
+import '../../domain/entities/wealth_analytics.dart';
 import '../models/portfolio_performance_model.dart';
 
 abstract class AnalyticsDataSource {
   Future<PortfolioPerformanceModel> getHistoricalPerformance({required String timeframe});
+  Future<WealthAnalytics> getWealthAnalytics();
 }
 
 class AnalyticsDataSourceImpl implements AnalyticsDataSource {
@@ -74,5 +76,66 @@ class AnalyticsDataSourceImpl implements AnalyticsDataSource {
           ],
         ),
     };
+  }
+
+  @override
+  Future<WealthAnalytics> getWealthAnalytics() async {
+    await Future.delayed(const Duration(milliseconds: 250));
+    return const WealthAnalytics(
+      totalNetWorth: 246553.25,
+      monthlyInflow: 18450.00,
+      monthlyOutflow: 6200.00,
+      financialHealthScore: 94,
+      ratingTier: 'Tier 1 Prime',
+      allocations: [
+        AssetAllocation(
+          symbol: 'USD',
+          name: 'US Treasury & Cash',
+          valueUsd: 84392.50,
+          percentage: 0.342,
+          colorHex: 0xFF00E599,
+        ),
+        AssetAllocation(
+          symbol: 'BTC',
+          name: 'Bitcoin Cold Reserve',
+          valueUsd: 97780.75,
+          percentage: 0.397,
+          colorHex: 0xFFF59E0B,
+        ),
+        AssetAllocation(
+          symbol: 'ETH',
+          name: 'Ethereum Smart Liquidity',
+          valueUsd: 64380.00,
+          percentage: 0.261,
+          colorHex: 0xFF8B5CF6,
+        ),
+      ],
+      spendingBreakdown: [
+        SpendingCategoryBreakdown(
+          category: 'Tech & Infrastructure',
+          amount: 2604.0,
+          percentage: 0.42,
+          colorHex: 0xFF00E599,
+        ),
+        SpendingCategoryBreakdown(
+          category: 'Travel & Concierge',
+          amount: 1736.0,
+          percentage: 0.28,
+          colorHex: 0xFF0070F3,
+        ),
+        SpendingCategoryBreakdown(
+          category: 'Cloud Operations',
+          amount: 1116.0,
+          percentage: 0.18,
+          colorHex: 0xFF8B5CF6,
+        ),
+        SpendingCategoryBreakdown(
+          category: 'Escrow & Wire Fees',
+          amount: 744.0,
+          percentage: 0.12,
+          colorHex: 0xFFFFB020,
+        ),
+      ],
+    );
   }
 }
