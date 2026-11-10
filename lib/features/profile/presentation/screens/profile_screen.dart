@@ -13,6 +13,7 @@ import '../bloc/profile_state.dart';
 import '../../domain/entities/authorized_device.dart';
 import '../../domain/entities/kyc_document.dart';
 import '../../domain/entities/user_profile.dart';
+import '../../../concierge/presentation/screens/concierge_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -174,6 +175,10 @@ class ProfileScreen extends StatelessWidget {
 
           // 2. Sovereign Tier Verification Card
           _buildSovereignTierCard(context, colors, profile),
+          const SizedBox(height: 20),
+
+          // 2.5 Dedicated Private Wealth Concierge Banner
+          _buildConciergeLauncherCard(context, colors),
           const SizedBox(height: 20),
 
           // 3. Liquidity & Banking Limits Panel
@@ -466,6 +471,108 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConciergeLauncherCard(BuildContext context, AeroVaultColors colors) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.violet.withValues(alpha: 0.35)),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.violetGlow,
+            blurRadius: 16,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.violet, width: 1.5),
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/sample_avatar.jpg',
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => Container(
+                      color: colors.surfaceElevated,
+                      child: const Center(
+                        child: Text('CD', style: TextStyle(color: AppColors.violet, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: 11,
+                  height: 11,
+                  decoration: BoxDecoration(
+                    color: AppColors.emerald,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colors.surface, width: 2),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Claire Delacroix',
+                        style: AppTextStyles.heading3(color: colors.textPrimary).copyWith(fontSize: 13.5),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.verified, color: AppColors.emerald, size: 13),
+                  ],
+                ),
+                const SizedBox(height: 1),
+                Text('Geneva Private Wealth Concierge', style: AppTextStyles.label(color: AppColors.violetSoft, fontSize: 8.5)),
+                Text('24/7 E2EE Direct Banking Desk • < 1 min SLA', style: AppTextStyles.label(color: colors.textMuted, fontSize: 8)),
+              ],
+            ),
+          ),
+          BounceButton(
+            onTap: () => ConciergeScreen.navigate(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+              decoration: BoxDecoration(
+                color: AppColors.violet.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.violet),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.chat_bubble_outline_rounded, color: AppColors.violetSoft, size: 12),
+                  const SizedBox(width: 4),
+                  Text('Connect', style: AppTextStyles.label(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
           ),
         ],
       ),

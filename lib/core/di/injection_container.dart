@@ -58,6 +58,12 @@ import '../../features/profile/domain/usecases/get_user_profile_use_case.dart';
 import '../../features/profile/domain/usecases/revoke_device_use_case.dart';
 import '../../features/profile/domain/usecases/update_transfer_limits_use_case.dart';
 import '../../features/profile/presentation/bloc/profile_bloc.dart';
+import '../../features/concierge/data/datasources/concierge_data_source.dart';
+import '../../features/concierge/data/repositories/concierge_repository_impl.dart';
+import '../../features/concierge/domain/repositories/concierge_repository.dart';
+import '../../features/concierge/domain/usecases/get_concierge_session_use_case.dart';
+import '../../features/concierge/domain/usecases/send_concierge_message_use_case.dart';
+import '../../features/concierge/presentation/bloc/concierge_bloc.dart';
 import '../network/api_client.dart';
 import '../network/auth_interceptor.dart';
 import '../network/ssl_pinning_client.dart';
@@ -320,6 +326,26 @@ Future<void> initCoreDependencies() async {
       getUserProfileUseCase: sl(),
       updateTransferLimitsUseCase: sl(),
       revokeDeviceUseCase: sl(),
+    ),
+  );
+
+  // 13. Feature: VIP Private Wealth Concierge & Chat Studio
+  sl.registerLazySingleton<ConciergeDataSource>(
+    () => ConciergeLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<ConciergeRepository>(
+    () => ConciergeRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetConciergeSessionUseCase>(
+    () => GetConciergeSessionUseCase(sl()),
+  );
+  sl.registerLazySingleton<SendConciergeMessageUseCase>(
+    () => SendConciergeMessageUseCase(sl()),
+  );
+  sl.registerFactory<ConciergeBloc>(
+    () => ConciergeBloc(
+      getConciergeSessionUseCase: sl(),
+      sendConciergeMessageUseCase: sl(),
     ),
   );
 }

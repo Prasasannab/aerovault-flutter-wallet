@@ -25,6 +25,9 @@ import 'package:aerovault/features/wallet/presentation/bloc/wallet_state.dart';
 import 'package:aerovault/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:aerovault/features/profile/presentation/bloc/profile_event.dart';
 import 'package:aerovault/features/profile/presentation/screens/profile_screen.dart';
+import 'package:aerovault/features/concierge/presentation/bloc/concierge_bloc.dart';
+import 'package:aerovault/features/concierge/presentation/bloc/concierge_event.dart';
+import 'package:aerovault/features/concierge/presentation/screens/concierge_screen.dart';
 import 'package:aerovault/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -375,6 +378,39 @@ void main() {
     // Compliance Actions
     expect(find.text('Export Swiss DPA & GDPR Ledger Archive'), findsOneWidget);
     expect(find.text('Purge Session & Hardware Keystore'), findsOneWidget);
+  });
+
+  testWidgets('ConciergeScreen renders private wealth banker header, E2EE banner, prompt chips, and message input', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      BlocProvider<ConciergeBloc>(
+        create: (_) => sl<ConciergeBloc>()..add(const LoadConciergeSessionEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const ConciergeScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Banker Identity & SLA
+    expect(find.text('Claire Delacroix'), findsOneWidget);
+    expect(find.text('Geneva Private Wealth • < 1 min SLA'), findsOneWidget);
+
+    // E2EE Banner
+    expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
+
+    // Message Content
+    expect(find.textContaining('Good afternoon, Mr. Gayashan'), findsOneWidget);
+
+    // Quick Prompts
+    expect(find.text('Request \$1,000,000 Outbound Wire Headroom'), findsWidgets);
+    expect(find.text('Order Bespoke Obsidian Titanium Card'), findsWidgets);
+
+    // Input Bar
+    expect(find.text('Instruction to Private Wealth Desk...'), findsOneWidget);
+    expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
   });
 }
 
