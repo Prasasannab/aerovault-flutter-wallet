@@ -8,6 +8,7 @@ import 'package:aerovault/features/analytics/presentation/screens/growth_screen.
 import 'package:aerovault/features/auth/presentation/screens/scrambled_pin_screen.dart';
 import 'package:aerovault/features/auth/presentation/screens/security_lockout_screen.dart';
 import 'package:aerovault/features/cards/presentation/screens/cards_screen.dart';
+import 'package:aerovault/features/transfers/presentation/screens/transfers_screen.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/receive_funds_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/send_money_sheet.dart';
 import 'package:aerovault/features/transfers/presentation/widgets/swap_crypto_sheet.dart';
@@ -231,6 +232,24 @@ void main() {
     expect(find.text('TOTAL CONSOLIDATED NET WORTH'), findsOneWidget);
     expect(find.text('ASSET ALLOCATION PROFILE'), findsOneWidget);
     expect(find.text('EXPENDITURE BREAKDOWN'), findsOneWidget);
+  });
+
+  testWidgets('TransfersScreen renders FX hub, action launchpad, and standing orders', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+        home: const TransfersScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+
+    expect(find.text('Transfers & FX Hub'), findsOneWidget);
+    expect(find.text('TRANSFER ACTIONS'), findsOneWidget);
+    expect(find.text('LIVE INSTITUTIONAL FX RATES'), findsOneWidget);
+    expect(find.text('Instant Interbank Converter'), findsOneWidget);
+    expect(find.text('STANDING ORDERS & RECURRING TRANSFERS'), findsOneWidget);
+    expect(find.text('Swiss Wire Routing Specs'), findsOneWidget);
   });
 }
 

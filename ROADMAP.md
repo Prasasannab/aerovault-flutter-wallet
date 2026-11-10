@@ -205,6 +205,16 @@ lib/
 - [x] **Growth Dock Navigation Integration**: Linked Bottom Navigation Bar "Growth" (index 3) tab directly to `GrowthScreen` via `IndexedStack`.
 - [x] **100% Test Pass Rate**: Added comprehensive widget testing in `test/widget_test.dart`, achieving **40/40 tests green** and **0 analyzer warnings**.
 
+### Phase 9: Dedicated Transfers Hub & Global FX Exchange Studio (Completed)
+- [x] **Transfers & FX Clean Architecture Domain**: Engineered `FxRate`, `ScheduledTransfer`, and `WireRoutingInfo` domain entities with dedicated use cases (`GetFxRatesUseCase`, `GetScheduledTransfersUseCase`, `ToggleScheduledTransferUseCase`, `GetWireRoutingUseCase`).
+- [x] **Transfers State Management (`TransfersBloc`)**: Reactive BLoC handling market feed ingestion, real-time standing order toggling, and instant cross-currency spot calculations with institutional 0% spread.
+- [x] **Live Global FX & Crypto Rates Matrix**: Horizontal scrolling ticker for 6 live institutional currency pairs (`EUR/USD`, `GBP/USD`, `USD/CHF`, `BTC/USD`, `ETH/USD`, `SOL/USD`) with 24h percentage chips and market trend indicators.
+- [x] **Interactive Interbank Converter**: Instant calculator with preset quick chips (\$1K, \$5K, \$25K, \$100K), dual-currency dropdowns, and live spot-rate execution preview.
+- [x] **Standing Orders & Automated Direct Debits**: Interactive recurring treasury disbursement manager with individual active/pause hardware switches and category icons.
+- [x] **Swiss Wire Routing Specifications**: Full banking wire specs (Swiss IBAN, SWIFT BIC, Fedwire, Clearing code) with one-tap clipboard copy and animated feedback toast.
+- [x] **Complete Dock Navigation Integration**: Elevated "Transfers" (index 2) into a first-class screen inside `IndexedStack`, achieving 100% full-screen coverage across all bottom navigation tabs.
+- [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `transfers_bloc_test.dart` and widget tests, achieving **45/45 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)

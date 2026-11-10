@@ -36,6 +36,14 @@ import '../../features/wallet/domain/usecases/get_wallet_account_usecase.dart';
 import '../../features/wallet/domain/usecases/toggle_balance_visibility_usecase.dart';
 import '../../features/wallet/domain/usecases/toggle_card_freeze_usecase.dart';
 import '../../features/wallet/presentation/bloc/wallet_bloc.dart';
+import '../../features/transfers/data/datasources/transfers_data_source.dart';
+import '../../features/transfers/data/repositories/transfers_repository_impl.dart';
+import '../../features/transfers/domain/repositories/transfers_repository.dart';
+import '../../features/transfers/domain/usecases/get_fx_rates_use_case.dart';
+import '../../features/transfers/domain/usecases/get_scheduled_transfers_use_case.dart';
+import '../../features/transfers/domain/usecases/get_wire_routing_use_case.dart';
+import '../../features/transfers/domain/usecases/toggle_scheduled_transfer_use_case.dart';
+import '../../features/transfers/presentation/bloc/transfers_bloc.dart';
 import '../network/api_client.dart';
 import '../network/auth_interceptor.dart';
 import '../network/ssl_pinning_client.dart';
@@ -222,6 +230,34 @@ Future<void> initCoreDependencies() async {
       revealCardDetailsUseCase: sl(),
       regenerateDisposableCardUseCase: sl(),
       issueNewCardUseCase: sl(),
+    ),
+  );
+
+  // 10. Feature: Transfers Hub & Global FX Exchange
+  sl.registerLazySingleton<TransfersDataSource>(
+    () => TransfersLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<TransfersRepository>(
+    () => TransfersRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetFxRatesUseCase>(
+    () => GetFxRatesUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetScheduledTransfersUseCase>(
+    () => GetScheduledTransfersUseCase(sl()),
+  );
+  sl.registerLazySingleton<ToggleScheduledTransferUseCase>(
+    () => ToggleScheduledTransferUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetWireRoutingUseCase>(
+    () => GetWireRoutingUseCase(sl()),
+  );
+  sl.registerFactory<TransfersBloc>(
+    () => TransfersBloc(
+      getFxRatesUseCase: sl(),
+      getScheduledTransfersUseCase: sl(),
+      toggleScheduledTransferUseCase: sl(),
+      getWireRoutingUseCase: sl(),
     ),
   );
 }

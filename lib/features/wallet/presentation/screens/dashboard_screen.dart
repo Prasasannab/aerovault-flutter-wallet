@@ -27,6 +27,7 @@ import '../../../transfers/presentation/widgets/swap_crypto_sheet.dart';
 import '../../../transfers/presentation/widgets/top_up_sheet.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../analytics/presentation/screens/growth_screen.dart';
+import '../../../transfers/presentation/screens/transfers_screen.dart';
 
 import '../../../../main.dart';
 
@@ -78,11 +79,7 @@ class _DashboardViewState extends State<_DashboardView> {
   }
 
   void _onNavItemSelected(int index) {
-    if (index == 2) {
-      // Transfers: prompt or sheet
-      _showTransfersNotice(context);
-      return;
-    } else if (index == 4) {
+    if (index == 4) {
       // Security
       _showSecurityAuditDialog(context);
       return;
@@ -116,9 +113,7 @@ class _DashboardViewState extends State<_DashboardView> {
         onItemSelected: _onNavItemSelected,
       ),
       body: IndexedStack(
-        index: _selectedNavIndex == 1
-            ? 1
-            : (_selectedNavIndex == 3 ? 2 : 0),
+        index: _selectedNavIndex.clamp(0, 3),
         children: [
           SafeArea(
             bottom: false,
@@ -227,6 +222,7 @@ class _DashboardViewState extends State<_DashboardView> {
         ),
       ),
       const CardsScreen(isStandalone: false),
+      const TransfersScreen(isStandalone: false),
       const GrowthScreen(isStandalone: false),
     ],
   ),
@@ -329,25 +325,6 @@ class _DashboardViewState extends State<_DashboardView> {
         ),
         content: Text(
           'Security alert: New direct deposit from Upwork Global Escrow confirmed.',
-          style: AppTextStyles.bodySmall(color: context.colors.textPrimary),
-        ),
-      ),
-    );
-  }
-
-  void _showTransfersNotice(BuildContext context) {
-    HapticFeedback.lightImpact();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: context.colors.surfaceElevated,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: context.colors.border),
-        ),
-        content: Text(
-          'Multi-Currency Transfer Rails: SEPA Instant, FedNow & Lightning active.',
           style: AppTextStyles.bodySmall(color: context.colors.textPrimary),
         ),
       ),
