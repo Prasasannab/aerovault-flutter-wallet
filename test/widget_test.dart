@@ -31,6 +31,9 @@ import 'package:aerovault/features/concierge/presentation/screens/concierge_scre
 import 'package:aerovault/features/earn/presentation/bloc/earn_bloc.dart';
 import 'package:aerovault/features/earn/presentation/bloc/earn_event.dart';
 import 'package:aerovault/features/earn/presentation/screens/earn_vaults_screen.dart';
+import 'package:aerovault/features/governance/presentation/bloc/governance_bloc.dart';
+import 'package:aerovault/features/governance/presentation/bloc/governance_event.dart';
+import 'package:aerovault/features/governance/presentation/screens/governance_screen.dart';
 import 'package:aerovault/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -453,6 +456,46 @@ void main() {
 
     // Simulator
     expect(find.text('INSTITUTIONAL YIELD SIMULATOR'), findsOneWidget);
+  });
+
+  testWidgets('GovernanceScreen renders corporate dual-control header, quorum banner, and pending requests', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1200, 2600);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(
+      BlocProvider<GovernanceBloc>(
+        create: (_) => sl<GovernanceBloc>()..add(const LoadGovernanceRequestsEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const GovernanceScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Screen Header & Regulatory Compliance
+    expect(find.text('Corporate Governance'), findsOneWidget);
+    expect(find.text('FINMA ART. 47'), findsWidgets);
+
+    // Quorum Telemetry Banner
+    expect(find.text('SOVEREIGN TREASURY DUAL-CONTROL'), findsOneWidget);
+    expect(find.textContaining('Pending Wires'), findsOneWidget);
+
+    // Tab Selector
+    expect(find.textContaining('Action Required'), findsOneWidget);
+    expect(find.textContaining('Audit Trail'), findsOneWidget);
+
+    // Requests List
+    expect(find.textContaining('Escrow Deposit'), findsOneWidget);
+    expect(find.textContaining('Baker McKenzie Zurich Escrow'), findsOneWidget);
+    expect(find.text('Review & Sign'), findsWidgets);
+    expect(find.text('Veto'), findsWidgets);
   });
 }
 

@@ -72,6 +72,13 @@ import '../../features/earn/domain/usecases/get_earn_vaults_use_case.dart';
 import '../../features/earn/domain/usecases/stake_asset_use_case.dart';
 import '../../features/earn/domain/usecases/unstake_asset_use_case.dart';
 import '../../features/earn/presentation/bloc/earn_bloc.dart';
+import '../../features/governance/data/datasources/governance_data_source.dart';
+import '../../features/governance/data/repositories/governance_repository_impl.dart';
+import '../../features/governance/domain/repositories/governance_repository.dart';
+import '../../features/governance/domain/usecases/get_governance_requests_use_case.dart';
+import '../../features/governance/domain/usecases/reject_governance_request_use_case.dart';
+import '../../features/governance/domain/usecases/sign_governance_request_use_case.dart';
+import '../../features/governance/presentation/bloc/governance_bloc.dart';
 import '../network/api_client.dart';
 import '../network/auth_interceptor.dart';
 import '../network/ssl_pinning_client.dart';
@@ -382,6 +389,30 @@ Future<void> initCoreDependencies() async {
       stakeAssetUseCase: sl(),
       unstakeAssetUseCase: sl(),
       claimAllYieldUseCase: sl(),
+    ),
+  );
+
+  // 15. Feature: Corporate Multi-Sig Treasury Governance & Approvals
+  sl.registerLazySingleton<GovernanceDataSource>(
+    () => GovernanceDataSourceImpl(),
+  );
+  sl.registerLazySingleton<GovernanceRepository>(
+    () => GovernanceRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetGovernanceRequestsUseCase>(
+    () => GetGovernanceRequestsUseCase(sl()),
+  );
+  sl.registerLazySingleton<SignGovernanceRequestUseCase>(
+    () => SignGovernanceRequestUseCase(sl()),
+  );
+  sl.registerLazySingleton<RejectGovernanceRequestUseCase>(
+    () => RejectGovernanceRequestUseCase(sl()),
+  );
+  sl.registerFactory<GovernanceBloc>(
+    () => GovernanceBloc(
+      getGovernanceRequestsUseCase: sl(),
+      signGovernanceRequestUseCase: sl(),
+      rejectGovernanceRequestUseCase: sl(),
     ),
   );
 }

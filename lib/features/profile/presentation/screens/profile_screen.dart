@@ -14,6 +14,7 @@ import '../../domain/entities/authorized_device.dart';
 import '../../domain/entities/kyc_document.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../../concierge/presentation/screens/concierge_screen.dart';
+import '../../../governance/presentation/screens/governance_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -179,6 +180,10 @@ class ProfileScreen extends StatelessWidget {
 
           // 2.5 Dedicated Private Wealth Concierge Banner
           _buildConciergeLauncherCard(context, colors),
+          const SizedBox(height: 20),
+
+          // 2.8 Corporate Multi-Sig Governance & Dual-Control Approvals
+          _buildGovernanceLauncherCard(context, colors),
           const SizedBox(height: 20),
 
           // 3. Liquidity & Banking Limits Panel
@@ -570,6 +575,85 @@ class ProfileScreen extends StatelessWidget {
                   const Icon(Icons.chat_bubble_outline_rounded, color: AppColors.violetSoft, size: 12),
                   const SizedBox(width: 4),
                   Text('Connect', style: AppTextStyles.label(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGovernanceLauncherCard(BuildContext context, AeroVaultColors colors) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.warning.withValues(alpha: 0.35)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.warning.withValues(alpha: 0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.warning.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+            ),
+            child: const Icon(
+              Icons.admin_panel_settings_rounded,
+              color: AppColors.warning,
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Treasury Dual-Control',
+                        style: AppTextStyles.heading3(color: colors.textPrimary).copyWith(fontSize: 13.5),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.verified, color: AppColors.emerald, size: 13),
+                  ],
+                ),
+                const SizedBox(height: 1),
+                Text('Corporate Multi-Sig Approvals', style: AppTextStyles.label(color: AppColors.warning, fontSize: 8.5)),
+                Text('FINMA Art. 47 M-of-N Key Governance', style: AppTextStyles.label(color: colors.textMuted, fontSize: 8)),
+              ],
+            ),
+          ),
+          BounceButton(
+            onTap: () => GovernanceScreen.navigate(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+              decoration: BoxDecoration(
+                color: AppColors.warning.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.vpn_key_outlined, color: AppColors.warning, size: 12),
+                  const SizedBox(width: 4),
+                  Text('Review', style: AppTextStyles.label(color: AppColors.warning, fontSize: 10, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),

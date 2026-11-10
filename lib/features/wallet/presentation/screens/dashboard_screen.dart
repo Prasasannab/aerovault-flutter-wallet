@@ -6,6 +6,7 @@ import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/glass_decorations.dart';
+import '../../../../core/widgets/bounce_button.dart';
 import '../../../analytics/presentation/bloc/analytics_bloc.dart';
 import '../../../analytics/presentation/bloc/analytics_event.dart';
 import '../../../analytics/presentation/bloc/analytics_state.dart';
@@ -31,6 +32,7 @@ import '../../../analytics/presentation/screens/growth_screen.dart';
 import '../../../transfers/presentation/screens/transfers_screen.dart';
 import '../../../notifications/presentation/widgets/notifications_sheet.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../governance/presentation/screens/governance_screen.dart';
 
 import '../../../../main.dart';
 
@@ -195,6 +197,10 @@ class _DashboardViewState extends State<_DashboardView> {
                 ),
                 const SizedBox(height: 14),
 
+                // Corporate Dual-Control Governance Action Banner
+                _buildGovernancePendingBanner(context, colors),
+                const SizedBox(height: 14),
+
                 // 4. Portfolio Growth Curve (Interactive fl_chart with Live Tip Dot)
                 BlocBuilder<AnalyticsBloc, AnalyticsState>(
                   builder: (context, state) {
@@ -313,6 +319,101 @@ class _DashboardViewState extends State<_DashboardView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildGovernancePendingBanner(BuildContext context, AeroVaultColors colors) {
+    return BounceButton(
+      scaleAmount: 0.98,
+      onTap: () => GovernanceScreen.navigate(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              colors.surface,
+              colors.surfaceElevated,
+              AppColors.warning.withValues(alpha: 0.12),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.warning.withValues(alpha: 0.08),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: AppColors.warning.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.admin_panel_settings_rounded,
+                color: AppColors.warning,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'DUAL-CONTROL ACTION REQUIRED',
+                        style: AppTextStyles.label(
+                          color: AppColors.warning,
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                        decoration: BoxDecoration(
+                          color: AppColors.warning,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '2 PENDING',
+                          style: AppTextStyles.monospace(
+                            color: Colors.black,
+                            fontSize: 8.5,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '2 corporate wires await your cryptographic signature',
+                    style: AppTextStyles.bodySmall(color: colors.textMuted),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.warning,
+              size: 13,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -266,6 +266,16 @@ lib/
 - [x] **Seamless Neobank Integration**: Embedded direct navigation launch banners in both `GrowthScreen` (Wealth Analytics) and `TransfersScreen` (Settlement Hub).
 - [x] **100% Test Pass Rate & Zero Regressions**: Added 5 unit tests in `earn_bloc_test.dart` and `EarnVaultsScreen` widget test in `test/widget_test.dart`, achieving **71/71 tests green** and **0 analyzer warnings**.
 
+### Phase 15: Corporate Multi-Sig Approval Engine & Dual-Control Treasury Governance (Completed)
+- [x] **Corporate Governance Domain Architecture**: Engineered `ApprovalSigner` and `GovernanceRequest` domain entities with dedicated use cases (`GetGovernanceRequestsUseCase`, `SignGovernanceRequestUseCase`, `RejectGovernanceRequestUseCase`).
+- [x] **Reactive Governance State Management (`GovernanceBloc`)**: Implemented BLoC handling multi-sig authorization pipelines, dynamic cryptographic co-signing, FINMA veto processing, and tab filtering between action items and executed audit history.
+- [x] **Dual-Control Governance Studio (`GovernanceScreen`)**: Built full-screen executive studio featuring live FINMA Art. 47 dual-control compliance banner, 4 registered key custodians telemetry, segmented dual-tab navigation, and pull-to-refresh synchronization.
+- [x] **Stepped Quorum Progress Tracker (`MultiSigProgressBar`)**: Visual M-of-N signature progression bar with individual signer badges (`Alexander Vance (CEO)`, `Elena Rostova (CFO)`, `Pasindu Gayashan (Lead Architect)`), verified status checks, and percentage completion.
+- [x] **Hardware Co-Signing Sheet (`SignAuthorizationSheet`)**: High-security biometric authorization modal featuring transaction metadata, `SEC-ENCLAVE-ED25519-8842-CH` key confirmation, SHA-256 payload preview, and single-tap Face ID cryptographic approval.
+- [x] **Audit Veto Modal (`RejectRequestSheet`)**: Regulatory cancellation sheet allowing key custodians to record immutable FINMA audit justifications and reject unauthorized high-value treasury operations.
+- [x] **Ecosystem Deep Linking**: Embedded prominent pending action badges on the master `DashboardScreen` and a dedicated governance launcher tile inside `ProfileScreen`.
+- [x] **100% Test Pass Rate & Zero Regressions**: Added 6 unit tests in `governance_bloc_test.dart` and `GovernanceScreen` widget test in `test/widget_test.dart`, achieving **78/78 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)
