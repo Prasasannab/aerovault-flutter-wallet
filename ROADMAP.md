@@ -230,6 +230,18 @@ lib/
 - [x] **Concurrent Banking Asset Fetching**: Optimized `WalletBloc._onLoadWallet` using Dart 3 concurrent tuple records `(getWalletAccountUseCase(), getVirtualCardUseCase()).wait` to cut initial network latency in half.
 - [x] **100% Test Pass Rate & Zero Regressions**: Expanded unit tests in `wallet_bloc_test.dart` and added `MultiCurrencySheet` and `MultiCurrencySelectorBar` tests in `test/widget_test.dart`, achieving **54/54 tests green** and **0 analyzer warnings**.
 
+### Phase 12: Executive Profile & Institutional KYC / Tier Verification Center (Completed)
+- [x] **Profile & KYC Domain Architecture**: Engineered `UserProfile`, `KycDocument`, and `AuthorizedDevice` domain entities with dedicated use cases (`GetUserProfileUseCase`, `UpdateTransferLimitsUseCase`, `RevokeDeviceUseCase`).
+- [x] **Reactive Profile State Management (`ProfileBloc`)**: Built robust BLoC handling client profile hydration, interactive treasury wire & card limits mutation, and hardware key revocation.
+- [x] **Executive Client Profile Studio (`ProfileScreen`)**: Full-screen luxury dark-mode studio featuring double-glow avatar, VIP crown badge, legal metadata, and one-tap clipboard copying for client identifier and registered phone.
+- [x] **FINMA Tier 3 Sovereign Clearance Card**: High-security regulatory compliance card displaying Swiss Banking Act Art. 47 certification, live AML risk score assessment (`Ultra-Low 0.01`), and instant Fedwire/SIC clearing badge.
+- [x] **Interactive Treasury & Liquidity Limits Panel**: Real-time modal with sliders allowing dynamic authorized adjustments to Daily Outbound Wire limits (up to \$2,000,000) and Monthly Card caps.
+- [x] **Verified KYC & Regulatory Document Vault**: Itemized verifiable documents (Swiss Biometric Passport, Canton Zurich Residence, W-8BEN Tax Treaty, PwC Origin of Wealth) with expiration dates and authority badges.
+- [x] **Hardware Enclave Telemetry & Device Key Revocation**: Displays cryptographic hardware enclave key ID (`SEC-ENCLAVE-ED25519-8842-CH`), Level 3 TEE chip indicator, and active authorized device list with instant key revocation action.
+- [x] **Compliance Export & Keystore Purge Actions**: Single-tap encrypted Swiss DPA & GDPR audit archive export, alongside emergency hardware keystore purge with protective confirmation.
+- [x] **Header Avatar Launchpad**: Linked the top dashboard user greeting and avatar directly to `ProfileScreen.navigate(context)` with micro-haptics.
+- [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `profile_bloc_test.dart` and `ProfileScreen` widget test in `test/widget_test.dart`, achieving **60/60 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)

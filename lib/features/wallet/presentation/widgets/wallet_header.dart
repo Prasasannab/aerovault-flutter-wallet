@@ -10,12 +10,14 @@ import 'vault_theme_customizer_sheet.dart';
 /// Top App Header with User Avatar, Security Badge, Theme & Accent Studio, and Notifications
 class WalletHeader extends StatelessWidget {
   final String userName;
+  final VoidCallback? onProfileTap;
   final VoidCallback? onSecurityTap;
   final VoidCallback? onNotificationTap;
 
   const WalletHeader({
     super.key,
     required this.userName,
+    this.onProfileTap,
     this.onSecurityTap,
     this.onNotificationTap,
   });
@@ -31,10 +33,13 @@ class WalletHeader extends StatelessWidget {
       children: [
         // User Profile Info with Double Ring Glow Avatar
         Expanded(
-          child: Row(
-            children: [
-              Stack(
-                children: [
+          child: BounceButton(
+            scaleAmount: 0.96,
+            onTap: onProfileTap,
+            child: Row(
+              children: [
+                Stack(
+                  children: [
                   Container(
                     width: 40,
                     height: 40,
@@ -152,6 +157,7 @@ class WalletHeader extends StatelessWidget {
             ],
           ),
         ),
+      ),
 
         const SizedBox(width: 6),
 

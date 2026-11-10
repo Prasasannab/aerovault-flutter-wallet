@@ -51,6 +51,13 @@ import '../../features/transfers/domain/usecases/get_scheduled_transfers_use_cas
 import '../../features/transfers/domain/usecases/get_wire_routing_use_case.dart';
 import '../../features/transfers/domain/usecases/toggle_scheduled_transfer_use_case.dart';
 import '../../features/transfers/presentation/bloc/transfers_bloc.dart';
+import '../../features/profile/data/datasources/profile_data_source.dart';
+import '../../features/profile/data/repositories/profile_repository_impl.dart';
+import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/profile/domain/usecases/get_user_profile_use_case.dart';
+import '../../features/profile/domain/usecases/revoke_device_use_case.dart';
+import '../../features/profile/domain/usecases/update_transfer_limits_use_case.dart';
+import '../../features/profile/presentation/bloc/profile_bloc.dart';
 import '../network/api_client.dart';
 import '../network/auth_interceptor.dart';
 import '../network/ssl_pinning_client.dart';
@@ -289,6 +296,30 @@ Future<void> initCoreDependencies() async {
       getNotificationsUseCase: sl(),
       markNotificationReadUseCase: sl(),
       markAllNotificationsReadUseCase: sl(),
+    ),
+  );
+
+  // 12. Feature: Executive Profile & Institutional KYC Center
+  sl.registerLazySingleton<ProfileDataSource>(
+    () => ProfileLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetUserProfileUseCase>(
+    () => GetUserProfileUseCase(sl()),
+  );
+  sl.registerLazySingleton<UpdateTransferLimitsUseCase>(
+    () => UpdateTransferLimitsUseCase(sl()),
+  );
+  sl.registerLazySingleton<RevokeDeviceUseCase>(
+    () => RevokeDeviceUseCase(sl()),
+  );
+  sl.registerFactory<ProfileBloc>(
+    () => ProfileBloc(
+      getUserProfileUseCase: sl(),
+      updateTransferLimitsUseCase: sl(),
+      revokeDeviceUseCase: sl(),
     ),
   );
 }

@@ -22,6 +22,9 @@ import 'package:aerovault/features/wallet/presentation/widgets/multi_currency_se
 import 'package:aerovault/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:aerovault/features/wallet/presentation/bloc/wallet_event.dart';
 import 'package:aerovault/features/wallet/presentation/bloc/wallet_state.dart';
+import 'package:aerovault/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:aerovault/features/profile/presentation/bloc/profile_event.dart';
+import 'package:aerovault/features/profile/presentation/screens/profile_screen.dart';
 import 'package:aerovault/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -329,6 +332,49 @@ void main() {
     expect(find.text('USD'), findsOneWidget);
     expect(find.text('EUR'), findsOneWidget);
     expect(find.text('CHF'), findsOneWidget);
+  });
+
+  testWidgets('ProfileScreen renders executive KYC status, banking limits, document vault, and enclave telemetry', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      BlocProvider<ProfileBloc>(
+        create: (_) => sl<ProfileBloc>()..add(const LoadProfileEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const ProfileScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Header & KYC Verification
+    expect(find.text('Client Profile & KYC'), findsOneWidget);
+    expect(find.text('FINMA TIER 3 SOVEREIGN'), findsOneWidget);
+    expect(find.text('Pasindu Gayashan'), findsOneWidget);
+    expect(find.text('pasindu.g@aerovault.swiss'), findsOneWidget);
+    expect(find.text('FINMA Tier 3 Sovereign Clearance'), findsOneWidget);
+    expect(find.text('AUDITED'), findsOneWidget);
+
+    // Liquidity & Limits
+    expect(find.text('TREASURY & LIQUIDITY LIMITS'), findsOneWidget);
+    expect(find.text('Daily Outbound Wire'), findsOneWidget);
+    expect(find.text('\$500,000'), findsOneWidget);
+    expect(find.text('Modify Limits'), findsOneWidget);
+
+    // KYC Vault
+    expect(find.text('VERIFIED KYC & REGULATORY VAULT'), findsOneWidget);
+    expect(find.text('Swiss Biometric Passport'), findsOneWidget);
+
+    // Hardware Enclave & Authorized Devices
+    expect(find.text('HARDWARE ENCLAVE & AUTHORIZED DEVICES'), findsOneWidget);
+    expect(find.text('iPhone 16 Pro (This Device)'), findsOneWidget);
+    expect(find.text('THIS DEVICE'), findsOneWidget);
+    expect(find.text('Revoke'), findsOneWidget);
+
+    // Compliance Actions
+    expect(find.text('Export Swiss DPA & GDPR Ledger Archive'), findsOneWidget);
+    expect(find.text('Purge Session & Hardware Keystore'), findsOneWidget);
   });
 }
 

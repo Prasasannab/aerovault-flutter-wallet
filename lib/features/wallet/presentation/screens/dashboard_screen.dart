@@ -30,6 +30,7 @@ import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../analytics/presentation/screens/growth_screen.dart';
 import '../../../transfers/presentation/screens/transfers_screen.dart';
 import '../../../notifications/presentation/widgets/notifications_sheet.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
 
 import '../../../../main.dart';
 
@@ -138,6 +139,7 @@ class _DashboardViewState extends State<_DashboardView> {
                         : 'Pasindu G.';
                     return WalletHeader(
                       userName: userName,
+                      onProfileTap: () => ProfileScreen.navigate(context),
                       onSecurityTap: () => _showSecurityAuditDialog(context),
                       onNotificationTap: () => _showNotifications(context),
                     );
