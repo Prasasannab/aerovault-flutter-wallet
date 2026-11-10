@@ -18,6 +18,7 @@ import '../widgets/receive_funds_sheet.dart';
 import '../widgets/send_money_sheet.dart';
 import '../widgets/swap_crypto_sheet.dart';
 import '../widgets/top_up_sheet.dart';
+import '../../../earn/presentation/screens/earn_vaults_screen.dart';
 
 class TransfersScreen extends StatelessWidget {
   final bool isStandalone;
@@ -174,6 +175,8 @@ class _TransfersScreenContentState extends State<_TransfersScreenContent> {
                       _buildHeader(context, colors),
                       const SizedBox(height: 18),
                       _buildLaunchpadSection(context, colors),
+                      const SizedBox(height: 18),
+                      _buildEarnVaultsBanner(context, colors),
                       const SizedBox(height: 24),
                       _buildFxTickerSection(context, colors, state.fxRates),
                       const SizedBox(height: 24),
@@ -331,6 +334,87 @@ class _TransfersScreenContentState extends State<_TransfersScreenContent> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildEarnVaultsBanner(BuildContext context, AeroVaultColors colors) {
+    return BounceButton(
+      onTap: () => EarnVaultsScreen.navigate(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              colors.surface,
+              AppColors.emerald.withValues(alpha: 0.1),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.emerald.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.emerald.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.account_balance_wallet_outlined,
+                color: AppColors.emerald,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'CRYPTO YIELD VAULTS',
+                        style: AppTextStyles.label(
+                          color: AppColors.emerald,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                        decoration: BoxDecoration(
+                          color: AppColors.emerald.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          '6.80% APY',
+                          style: AppTextStyles.label(
+                            color: AppColors.emerald,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Stake ETH, BTC, USD & SOL with FINMA protection',
+                    style: AppTextStyles.bodySmall(color: colors.textMuted),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppColors.emerald),
+          ],
+        ),
+      ),
     );
   }
 

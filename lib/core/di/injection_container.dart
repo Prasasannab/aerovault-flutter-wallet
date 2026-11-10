@@ -64,6 +64,14 @@ import '../../features/concierge/domain/repositories/concierge_repository.dart';
 import '../../features/concierge/domain/usecases/get_concierge_session_use_case.dart';
 import '../../features/concierge/domain/usecases/send_concierge_message_use_case.dart';
 import '../../features/concierge/presentation/bloc/concierge_bloc.dart';
+import '../../features/earn/data/datasources/earn_data_source.dart';
+import '../../features/earn/data/repositories/earn_repository_impl.dart';
+import '../../features/earn/domain/repositories/earn_repository.dart';
+import '../../features/earn/domain/usecases/claim_all_yield_use_case.dart';
+import '../../features/earn/domain/usecases/get_earn_vaults_use_case.dart';
+import '../../features/earn/domain/usecases/stake_asset_use_case.dart';
+import '../../features/earn/domain/usecases/unstake_asset_use_case.dart';
+import '../../features/earn/presentation/bloc/earn_bloc.dart';
 import '../network/api_client.dart';
 import '../network/auth_interceptor.dart';
 import '../network/ssl_pinning_client.dart';
@@ -346,6 +354,34 @@ Future<void> initCoreDependencies() async {
     () => ConciergeBloc(
       getConciergeSessionUseCase: sl(),
       sendConciergeMessageUseCase: sl(),
+    ),
+  );
+
+  // 14. Feature: Institutional Crypto Yield Vaults & Staking Studio
+  sl.registerLazySingleton<EarnDataSource>(
+    () => EarnLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<EarnRepository>(
+    () => EarnRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<GetEarnVaultsUseCase>(
+    () => GetEarnVaultsUseCase(sl()),
+  );
+  sl.registerLazySingleton<StakeAssetUseCase>(
+    () => StakeAssetUseCase(sl()),
+  );
+  sl.registerLazySingleton<UnstakeAssetUseCase>(
+    () => UnstakeAssetUseCase(sl()),
+  );
+  sl.registerLazySingleton<ClaimAllYieldUseCase>(
+    () => ClaimAllYieldUseCase(sl()),
+  );
+  sl.registerFactory<EarnBloc>(
+    () => EarnBloc(
+      getEarnVaultsUseCase: sl(),
+      stakeAssetUseCase: sl(),
+      unstakeAssetUseCase: sl(),
+      claimAllYieldUseCase: sl(),
     ),
   );
 }

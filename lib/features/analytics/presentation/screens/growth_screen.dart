@@ -5,6 +5,9 @@ import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/aerovault_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../domain/entities/wealth_analytics.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/bounce_button.dart';
+import '../../../earn/presentation/screens/earn_vaults_screen.dart';
 import '../bloc/analytics_bloc.dart';
 import '../bloc/analytics_event.dart';
 import '../bloc/analytics_state.dart';
@@ -339,6 +342,139 @@ class _GrowthScreenContent extends StatelessWidget {
                       onTimeframeChanged: (timeframe) {
                         context.read<AnalyticsBloc>().add(ChangeTimeframeEvent(timeframe));
                       },
+                    ),
+                    const SizedBox(height: 18),
+
+                    // Institutional Staking & Yield Vaults Studio Banner
+                    BounceButton(
+                      onTap: () => EarnVaultsScreen.navigate(context),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colors.surface,
+                              AppColors.surfaceElevated,
+                              AppColors.emerald.withValues(alpha: 0.1),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(22),
+                          border: Border.all(color: AppColors.emerald.withValues(alpha: 0.35)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.emerald.withValues(alpha: 0.08),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.emerald.withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Icon(
+                                        Icons.account_balance_wallet_rounded,
+                                        color: AppColors.emerald,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'YIELD VAULTS & STAKING',
+                                          style: AppTextStyles.label(
+                                            color: AppColors.emerald,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Proof-of-Stake & Cold Reserves',
+                                          style: AppTextStyles.bodySmall(color: colors.textSecondary),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.emerald.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: AppColors.emerald.withValues(alpha: 0.3)),
+                                  ),
+                                  child: Text(
+                                    'UP TO 6.80% APY',
+                                    style: AppTextStyles.label(
+                                      color: AppColors.emerald,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'ACTIVE STAKED CAPITAL',
+                                      style: AppTextStyles.label(color: colors.textSecondary, fontSize: 10),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      '\$212,160.82',
+                                      style: AppTextStyles.monospace(
+                                        color: colors.textPrimary,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.emerald,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Open Vaults',
+                                        style: AppTextStyles.label(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.arrow_forward_rounded, size: 14, color: Colors.black),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 18),
 

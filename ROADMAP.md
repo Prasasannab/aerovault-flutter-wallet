@@ -250,6 +250,22 @@ lib/
 - [x] **Profile & Ecosystem Integration**: Embedded direct `_buildConciergeLauncherCard` with online status indicator inside `ProfileScreen`, allowing one-tap launching of the 24/7 private wealth banker desk.
 - [x] **100% Test Pass Rate & Zero Regressions**: Added comprehensive `concierge_bloc_test.dart` and `ConciergeScreen` widget test in `test/widget_test.dart`, achieving **65/65 tests green** and **0 analyzer warnings**.
 
+### Phase 14: Institutional Crypto Yield Vaults & Staking Studio (Completed)
+- [x] **Earn & Staking Domain Architecture**: Engineered `StakingVault` and `YieldSummary` domain entities with dedicated use cases (`GetEarnVaultsUseCase`, `StakeAssetUseCase`, `UnstakeAssetUseCase`, `ClaimAllYieldUseCase`).
+- [x] **Reactive Staking State Management (`EarnBloc`)**: Implemented BLoC handling protocol vaults loading, dynamic principal staking/unstaking, and real-time yield distribution claiming with optimistic state mutations.
+- [x] **Institutional Yield Vaults Studio (`EarnVaultsScreen`)**: Built full-screen Obsidian dark mode studio featuring live FINMA validator pool status, \$212,160.82 total staked portfolio hero card, live settlement countdown timer, and glowing single-tap "Claim All Yield" action.
+- [x] **Multi-Horizon Earnings Projections**: Designed responsive 3-column run-rate telemetry cards showcasing Daily (`+\$25.59`), Monthly (`+\$767.73`), and Annual APY Output (`+\$9,340.75`) with emerald highlight accents.
+- [x] **Curated Protocol Staking Vaults**: Implemented 4 audited staking nodes with distinct smart contracts and custodians:
+  - ⟠ **Ethereum PoS Validator**: 4.50% APY, Flexible exit, audited by Swisscom Blockchain & Consensys Diligence.
+  - ₿ **Bitcoin Cold Reserve Liquidity**: 3.80% APY, 90-day institutional lock (+0.5% bonus), Anchorage Digital cold storage.
+  - 🏛️ **US Treasury Short-Term Yield**: 5.20% APY, sovereign-backed liquidity, BNY Mellon & Fedwire direct clearing.
+  - ◎ **Solana High-Yield Validator**: 6.80% APY, flexible exit, Kudelski Security audited.
+- [x] **Interactive Stake & Unstake Modal (`StakeDepositSheet`)**: Built tactile bottom sheet featuring dynamic asset balance validation, percentage slider, quick MAX capital selector, and projected APY calculation.
+- [x] **Institutional Yield Simulator & Calculator (`YieldCalculatorCard`)**: Interactive APY investment calculator allowing clients to adjust principal capital (\$5k to \$500k) with real-time daily, monthly, and annual returns compounding projections.
+- [x] **Enterprise Custody & Slashing Guarantee**: Added institutional safeguards section detailing Tier IV Zurich data centers, zero fund co-mingling, and Swiss Re underwritten slashing insurance.
+- [x] **Seamless Neobank Integration**: Embedded direct navigation launch banners in both `GrowthScreen` (Wealth Analytics) and `TransfersScreen` (Settlement Hub).
+- [x] **100% Test Pass Rate & Zero Regressions**: Added 5 unit tests in `earn_bloc_test.dart` and `EarnVaultsScreen` widget test in `test/widget_test.dart`, achieving **71/71 tests green** and **0 analyzer warnings**.
+
 ---
 
 ## 9. Upwork Case Study & Proposal Weapon (Copy-Paste Kit)

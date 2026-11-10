@@ -28,6 +28,9 @@ import 'package:aerovault/features/profile/presentation/screens/profile_screen.d
 import 'package:aerovault/features/concierge/presentation/bloc/concierge_bloc.dart';
 import 'package:aerovault/features/concierge/presentation/bloc/concierge_event.dart';
 import 'package:aerovault/features/concierge/presentation/screens/concierge_screen.dart';
+import 'package:aerovault/features/earn/presentation/bloc/earn_bloc.dart';
+import 'package:aerovault/features/earn/presentation/bloc/earn_event.dart';
+import 'package:aerovault/features/earn/presentation/screens/earn_vaults_screen.dart';
 import 'package:aerovault/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -411,6 +414,45 @@ void main() {
     // Input Bar
     expect(find.text('Instruction to Private Wealth Desk...'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
+  });
+
+  testWidgets('EarnVaultsScreen renders staking overview, vaults list, claim action, and APY simulator', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1200, 2600);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(
+      BlocProvider<EarnBloc>(
+        create: (_) => sl<EarnBloc>()..add(const LoadEarnVaultsEvent()),
+        child: MaterialApp(
+          theme: ThemeData(extensions: [AeroVaultColors.dark()]),
+          home: const EarnVaultsScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Screen Header & Audit Badge
+    expect(find.text('Yield Vaults & Staking'), findsOneWidget);
+    expect(find.text('FINMA AUDITED'), findsOneWidget);
+
+    // Hero Card
+    expect(find.text('TOTAL STAKED CAPITAL'), findsOneWidget);
+    expect(find.text('Claim All'), findsOneWidget);
+
+    // Vaults
+    expect(find.text('Ethereum PoS Validator'), findsOneWidget);
+    expect(find.textContaining('Bitcoin Cold Reserve'), findsOneWidget);
+    expect(find.text('US Treasury Short-Term Yield'), findsOneWidget);
+    expect(find.text('Solana High-Yield Validator'), findsOneWidget);
+
+    // Simulator
+    expect(find.text('INSTITUTIONAL YIELD SIMULATOR'), findsOneWidget);
   });
 }
 
