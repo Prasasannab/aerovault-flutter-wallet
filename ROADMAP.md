@@ -63,7 +63,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ 👤 Welcome back, Pasindu G.            [🔔] [🛡️ Secure]     │
+│ 👤 Welcome back, Prasanna B.            [🔔] [🛡️ Secure]     │
 ├─────────────────────────────────────────────────────────────┤
 │ ┌─────────────────────────────────────────────────────────┐ │
 │ │  AeroVault Platinum Card                     (👁️ Hide Balance)│ │
@@ -159,7 +159,7 @@ lib/
 - [x] Configured native bank-grade security: `FLAG_SECURE` on Android (`MainActivity.kt`) and `UIVisualEffectView` blur masking on iOS (`AppDelegate.swift`).
 - [x] Verified full UI/UX responsiveness and 60fps animations across all screen sizes and simulators.
 - [x] Packaged repository with high-converting `README.md`, status badges, ASCII architecture diagrams, and security disclosures.
-- [x] Added MIT License with author attribution (Pasindu Gayashan).
+- [x] Added MIT License with author attribution (Prasanna Buddhika).
 - [x] Prepared Upwork Case Study & Proposal Weapon copy-paste kit for high-ticket fintech client acquisition.
 
 ### Phase 5: Interactive Financial Flows & White-Label Brand Studio (Completed)
@@ -270,7 +270,7 @@ lib/
 - [x] **Corporate Governance Domain Architecture**: Engineered `ApprovalSigner` and `GovernanceRequest` domain entities with dedicated use cases (`GetGovernanceRequestsUseCase`, `SignGovernanceRequestUseCase`, `RejectGovernanceRequestUseCase`).
 - [x] **Reactive Governance State Management (`GovernanceBloc`)**: Implemented BLoC handling multi-sig authorization pipelines, dynamic cryptographic co-signing, FINMA veto processing, and tab filtering between action items and executed audit history.
 - [x] **Dual-Control Governance Studio (`GovernanceScreen`)**: Built full-screen executive studio featuring live FINMA Art. 47 dual-control compliance banner, 4 registered key custodians telemetry, segmented dual-tab navigation, and pull-to-refresh synchronization.
-- [x] **Stepped Quorum Progress Tracker (`MultiSigProgressBar`)**: Visual M-of-N signature progression bar with individual signer badges (`Alexander Vance (CEO)`, `Elena Rostova (CFO)`, `Pasindu Gayashan (Lead Architect)`), verified status checks, and percentage completion.
+- [x] **Stepped Quorum Progress Tracker (`MultiSigProgressBar`)**: Visual M-of-N signature progression bar with individual signer badges (`Alexander Vance (CEO)`, `Elena Rostova (CFO)`, `Prasanna Buddhika (Lead Architect)`), verified status checks, and percentage completion.
 - [x] **Hardware Co-Signing Sheet (`SignAuthorizationSheet`)**: High-security biometric authorization modal featuring transaction metadata, `SEC-ENCLAVE-ED25519-8842-CH` key confirmation, SHA-256 payload preview, and single-tap Face ID cryptographic approval.
 - [x] **Audit Veto Modal (`RejectRequestSheet`)**: Regulatory cancellation sheet allowing key custodians to record immutable FINMA audit justifications and reject unauthorized high-value treasury operations.
 - [x] **Ecosystem Deep Linking**: Embedded prominent pending action badges on the master `DashboardScreen` and a dedicated governance launcher tile inside `ProfileScreen`.

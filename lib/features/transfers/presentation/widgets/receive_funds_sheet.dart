@@ -325,7 +325,7 @@ class _ReceiveFundsSheetState extends State<ReceiveFundsSheet> {
             children: [
               _buildDetailItem(
                 label: 'Beneficiary Name',
-                value: 'Pasindu Gayashan',
+                value: 'Prasanna Buddhika',
               ),
               _buildDivider(),
               _buildDetailItem(
@@ -369,7 +369,7 @@ class _ReceiveFundsSheetState extends State<ReceiveFundsSheet> {
         BounceButton(
           onTap: () {
             HapticFeedback.lightImpact();
-            _copyToClipboard('Wire Instructions', '''Beneficiary: Pasindu Gayashan
+            _copyToClipboard('Wire Instructions', '''Beneficiary: Prasanna Buddhika
 Bank: AeroVault Sovereign Trust Ltd
 IBAN: CH93 0076 2011 6238 5295 7
 SWIFT/BIC: AEROCHZZ80A

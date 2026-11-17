@@ -47,7 +47,7 @@ class _GrowthScreenContent extends StatelessWidget {
     StatementPdfGenerator.showStatementPreview(
       context,
       wealth: wealth,
-      holderName: 'Pasindu Gayashan',
+      holderName: 'Prasanna Buddhika',
       accountNumber: 'ACC-8842-ENTERPRISE',
       iban: 'CH93 0076 2011 6238 5295 7',
     );

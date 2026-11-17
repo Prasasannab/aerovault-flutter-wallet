@@ -138,7 +138,7 @@ class _DashboardViewState extends State<_DashboardView> {
                   builder: (context, state) {
                     final userName = (state is WalletLoaded)
                         ? state.account.holderName
-                        : 'Pasindu G.';
+                        : 'Prasanna B.';
                     return WalletHeader(
                       userName: userName,
                       onProfileTap: () => ProfileScreen.navigate(context),

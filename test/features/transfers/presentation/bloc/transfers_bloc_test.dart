@@ -52,7 +52,7 @@ void main() {
     swiftBic: 'AEROCHZZ80A',
     clearingCode: 'BC 08765',
     fedwireRouting: '026009593',
-    accountHolder: 'Pasindu G.',
+    accountHolder: 'Prasanna B.',
     address: 'Bahnhofstrasse 45, 8001 Zurich',
   );
 

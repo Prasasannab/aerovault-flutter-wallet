@@ -20,7 +20,7 @@ class SignGovernanceRequestEvent extends GovernanceEvent {
   const SignGovernanceRequestEvent({
     required this.requestId,
     this.signerId = 'SIGNER-ARCHITECT-03',
-    this.signerName = 'Pasindu Gayashan',
+    this.signerName = 'Prasanna Buddhika',
     this.note,
   });
 

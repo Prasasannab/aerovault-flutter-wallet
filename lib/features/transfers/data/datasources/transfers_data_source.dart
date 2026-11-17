@@ -123,7 +123,7 @@ class TransfersLocalDataSourceImpl implements TransfersDataSource {
     swiftBic: 'AEROCHZZ80A',
     clearingCode: 'BC 08765 (SIX Interbank)',
     fedwireRouting: '026009593',
-    accountHolder: 'Pasindu G. (VIP Tier 1)',
+    accountHolder: 'Prasanna B. (VIP Tier 1)',
     address: 'Bahnhofstrasse 45, 8001 Zurich, Switzerland',
   );
 

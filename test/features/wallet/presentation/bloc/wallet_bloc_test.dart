@@ -27,7 +27,7 @@ void main() {
 
   const testAccount = WalletAccount(
     id: 'ACC-1',
-    holderName: 'Pasindu G.',
+    holderName: 'Prasanna B.',
     fiatBalance: 84392.50,
     btcBalance: 1.4,
     ethBalance: 18.0,
@@ -38,7 +38,7 @@ void main() {
   const testCard = VirtualCard(
     id: 'CARD-1',
     cardNumberMasked: '•••• •••• •••• 8842',
-    cardholderName: 'Pasindu G.',
+    cardholderName: 'Prasanna B.',
     expiry: '11/29',
     cvvMasked: '•••',
   );

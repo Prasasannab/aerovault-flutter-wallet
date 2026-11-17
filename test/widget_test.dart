@@ -55,7 +55,7 @@ void main() {
 
     // Verify User Greeting & Security Badge
     expect(find.text('Welcome back,'), findsOneWidget);
-    expect(find.text('Pasindu G.'), findsWidgets);
+    expect(find.text('Prasanna B.'), findsWidgets);
     expect(find.text('SECURE'), findsOneWidget);
 
     // Verify Quick Actions
@@ -360,7 +360,7 @@ void main() {
     // Header & KYC Verification
     expect(find.text('Client Profile & KYC'), findsOneWidget);
     expect(find.text('FINMA TIER 3 SOVEREIGN'), findsOneWidget);
-    expect(find.text('Pasindu Gayashan'), findsOneWidget);
+    expect(find.text('Prasanna Buddhika'), findsOneWidget);
     expect(find.text('pasindu.g@aerovault.swiss'), findsOneWidget);
     expect(find.text('FINMA Tier 3 Sovereign Clearance'), findsOneWidget);
     expect(find.text('AUDITED'), findsOneWidget);

@@ -51,7 +51,7 @@ class _SignAuthorizationSheetState extends State<SignAuthorizationSheet> {
           SignGovernanceRequestEvent(
             requestId: widget.request.id,
             signerId: 'SIGNER-ARCHITECT-03',
-            signerName: 'Pasindu Gayashan',
+            signerName: 'Prasanna Buddhika',
           ),
         );
 
@@ -229,7 +229,7 @@ class _SignAuthorizationSheetState extends State<SignAuthorizationSheet> {
                           ),
                         ),
                         Text(
-                          'SEC-ENCLAVE-ED25519-8842-CH (Pasindu G.)',
+                          'SEC-ENCLAVE-ED25519-8842-CH (Prasanna B.)',
                           style: AppTextStyles.monospace(
                             color: colors.textMuted,
                             fontSize: 9.5,

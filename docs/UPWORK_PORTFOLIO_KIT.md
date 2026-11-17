@@ -1,6 +1,6 @@
 # 🚀 Upwork High-Ticket Client Acquisition Blueprint ($8,000 – $20,000)
 **Project: AeroVault — Enterprise Multi-Currency Neobank & Crypto Mobile App (Flutter)**  
-**Author: Pasindu Gayashan (Lead Senior Mobile Architect)**
+**Author: Prasanna Buddhika (Lead Senior Mobile Architect)**
 
 ---
 
@@ -95,7 +95,7 @@ https://github.com/pasindugayashan/aerovault-flutter-wallet
 I would love to learn more about your design vision and timeline. Do you have a Figma file or prototype ready that we could review on a brief 15-minute intro call?
 
 Best regards,
-Pasindu Gayashan
+Prasanna Buddhika
 Lead Senior Mobile Architect
 ```
 
@@ -121,7 +121,7 @@ https://github.com/pasindugayashan/aerovault-flutter-wallet
 I would be happy to discuss your technical stack, state management preferences, and CI/CD pipelines. Are you available for a brief technical alignment call this week?
 
 Best regards,
-Pasindu Gayashan
+Prasanna Buddhika
 Senior Flutter Architect
 ```
 
@@ -149,7 +149,7 @@ https://github.com/pasindugayashan/aerovault-flutter-wallet
 Let's jump on a 15-minute call to discuss your security requirements, compliance roadmap, and milestones.
 
 Best regards,
-Pasindu Gayashan
+Prasanna Buddhika
 Lead Mobile Security & Flutter Architect
 ```
 

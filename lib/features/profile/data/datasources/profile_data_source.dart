@@ -20,8 +20,8 @@ class ProfileLocalDataSourceImpl implements ProfileDataSource {
   UserProfileModel _buildDefaultProfile() {
     return const UserProfileModel(
       id: 'USR-8842-ENTERPRISE',
-      fullName: 'Pasindu Gayashan',
-      preferredName: 'Pasindu',
+      fullName: 'Prasanna Buddhika',
+      preferredName: 'Prasanna',
       email: 'pasindu.g@aerovault.swiss',
       phoneMasked: '+41 79 ••• •• 42',
       taxResidence: 'Zurich, Switzerland (CH)',

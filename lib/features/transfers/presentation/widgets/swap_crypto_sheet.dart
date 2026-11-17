@@ -217,7 +217,7 @@ class _SwapCryptoSheetState extends State<SwapCryptoSheet> {
         ? walletState.account
         : const WalletAccount(
             id: 'mock',
-            holderName: 'Pasindu G.',
+            holderName: 'Prasanna B.',
             fiatBalance: 148250.0,
             btcBalance: 1.842,
             ethBalance: 24.5,

@@ -46,7 +46,7 @@ void main() {
       ),
       ApprovalSigner(
         id: 'SIGNER-02',
-        name: 'Pasindu Gayashan',
+        name: 'Prasanna Buddhika',
         role: 'Lead Architect',
         hasApproved: false,
       ),
@@ -117,7 +117,7 @@ void main() {
           ),
           ApprovalSigner(
             id: 'SIGNER-02',
-            name: 'Pasindu Gayashan',
+            name: 'Prasanna Buddhika',
             role: 'Lead Architect',
             hasApproved: true,
           ),
@@ -138,7 +138,7 @@ void main() {
     act: (bloc) => bloc.add(const SignGovernanceRequestEvent(
       requestId: 'GOV-WIRE-01',
       signerId: 'SIGNER-02',
-      signerName: 'Pasindu Gayashan',
+      signerName: 'Prasanna Buddhika',
     )),
     expect: () => [
       isA<GovernanceLoaded>().having(

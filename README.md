@@ -129,7 +129,7 @@ AeroVault was engineered to satisfy stringent compliance audits by financial reg
 
 ### 4. Corporate Multi-Sig Approval Engine & Dual-Control Governance
 - **FINMA Dual-Control Compliance (Art. 47)**: Treasury operations over \$50,000 require M-of-N quorum consensus.
-- **Stepped Quorum Progress Tracker**: Visual M-of-N signature progression bar with individual custodian badges (`Alexander Vance (CEO)`, `Elena Rostova (CFO)`, `Pasindu Gayashan (Lead Architect)`).
+- **Stepped Quorum Progress Tracker**: Visual M-of-N signature progression bar with individual custodian badges (`Alexander Vance (CEO)`, `Elena Rostova (CFO)`, `Prasanna Buddhika (Lead Architect)`).
 - **Hardware Co-Signing Sheet**: Cryptographic biometric co-signing with hardware key verification (`SEC-ENCLAVE-ED25519-8842-CH`) and payload hash confirmation.
 
 ### 5. Official FINMA Vector PDF Statement Studio
@@ -210,4 +210,4 @@ Primary Value Proposition: Bank-Grade Security + Clean Architecture + 60fps Luxu
 
 ## 📄 License & Attribution
 
-This project is licensed under the [MIT License](LICENSE) — engineered by **[Pasindu Gayashan](https://github.com/pasindugayashan)**.
+This project is licensed under the [MIT License](LICENSE) — engineered by **[Prasanna Buddhika](https://github.com/pasindugayashan)**.

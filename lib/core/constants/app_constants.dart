@@ -17,7 +17,7 @@ class AppConstants {
   static const String keyBalanceHidden = 'aerovault_balance_hidden_v1';
 
   // Default Mock Holder
-  static const String defaultHolderName = 'Pasindu G.';
+  static const String defaultHolderName = 'Prasanna B.';
   static const String defaultCardNumberMasked = '•••• •••• •••• 8842';
   static const String defaultCardExpiry = '11/29';
   static const String defaultCardCvvMasked = '•••';

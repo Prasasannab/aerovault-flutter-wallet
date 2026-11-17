@@ -58,7 +58,7 @@ class GovernanceDataSourceImpl implements GovernanceDataSource {
           ),
           ApprovalSignerModel(
             id: 'SIGNER-ARCHITECT-03',
-            name: 'Pasindu Gayashan',
+            name: 'Prasanna Buddhika',
             role: 'Lead Architect & Key Custodian',
             hasApproved: false,
             signedAt: null,
@@ -100,7 +100,7 @@ class GovernanceDataSourceImpl implements GovernanceDataSource {
           ),
           ApprovalSignerModel(
             id: 'SIGNER-ARCHITECT-03',
-            name: 'Pasindu Gayashan',
+            name: 'Prasanna Buddhika',
             role: 'Lead Architect & Key Custodian',
             hasApproved: false,
             signedAt: null,
@@ -142,7 +142,7 @@ class GovernanceDataSourceImpl implements GovernanceDataSource {
           ),
           ApprovalSignerModel(
             id: 'SIGNER-ARCHITECT-03',
-            name: 'Pasindu Gayashan',
+            name: 'Prasanna Buddhika',
             role: 'Lead Architect & Key Custodian',
             hasApproved: true,
             signedAt: now.subtract(const Duration(days: 1, hours: 20)),
