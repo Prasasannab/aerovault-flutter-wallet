@@ -22,6 +22,9 @@ class AppConstants {
   static const String defaultCardExpiry = '11/29';
   static const String defaultCardCvvMasked = '•••';
 
+  // Demo & Video Showcase
+  static const bool enableAutomatedDemoTour = false;
+
   // Network & Session
   static const int connectTimeoutSeconds = 15;
   static const int receiveTimeoutSeconds = 15;

@@ -27,7 +27,7 @@ void main() {
     id: 'USR-8842-ENTERPRISE',
     fullName: 'Prasanna Buddhika',
     preferredName: 'Prasanna',
-    email: 'pasindu.g@aerovault.swiss',
+    email: 'prasanna.b@aerovault.swiss',
     phoneMasked: '+41 79 ••• •• 42',
     taxResidence: 'Zurich, Switzerland (CH)',
     clientTier: 'Tier 3 Sovereign Private',

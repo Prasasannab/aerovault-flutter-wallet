@@ -17,3 +17,9 @@ ios/.generated/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Local portfolio recording assets
+docs/upwork_ready/
+docs/screenshots/*.mp4
+docs/screenshots/*_prasanna.png
+*.apk

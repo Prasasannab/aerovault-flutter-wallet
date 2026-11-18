@@ -39,7 +39,7 @@ class ConciergeLocalDataSourceImpl implements ConciergeDataSource {
       ChatMessageModel(
         id: 'MSG-002',
         sender: MessageSender.agent,
-        text: 'Good afternoon, Mr. Gayashan. I am Claire Delacroix, your dedicated Swiss Private Wealth Concierge. Your \$246,553.33 portfolio and Tier 3 clearing lines are active and audited. How may I assist your treasury or international settlements today?',
+        text: 'Good afternoon, Mr. Buddhika. I am Claire Delacroix, your dedicated Swiss Private Wealth Concierge. Your \$246,553.33 portfolio and Tier 3 clearing lines are active and audited. How may I assist your treasury or international settlements today?',
         timestampFormatted: timeFormat.format(now.subtract(const Duration(minutes: 14))),
         actionPrompts: const [
           'Request \$1,000,000 Outbound Wire Headroom',
@@ -113,7 +113,7 @@ class ConciergeLocalDataSourceImpl implements ConciergeDataSource {
     String? attachmentType;
 
     if (lower.contains('wire') || lower.contains('limit') || lower.contains('headroom') || lower.contains('1,000,000')) {
-      agentReply = 'Understood, Mr. Gayashan. I have elevated your daily outbound wire headroom to \$1,000,000.00. The allocation has been signed on the Swiss SIC interbank core and is available immediately.';
+      agentReply = 'Understood, Mr. Buddhika. I have elevated your daily outbound wire headroom to \$1,000,000.00. The allocation has been signed on the Swiss SIC interbank core and is available immediately.';
     } else if (lower.contains('card') || lower.contains('metal') || lower.contains('titanium')) {
       agentReply = 'Your order for a custom engraved AeroVault Obsidian Metal Card (Physical Titanium) has been placed on priority Swiss diplomatic courier dispatch to your Zurich residence.';
     } else if (lower.contains('staking') || lower.contains('yield') || lower.contains('crypto')) {
@@ -123,7 +123,7 @@ class ConciergeLocalDataSourceImpl implements ConciergeDataSource {
       attachmentName = 'AeroVault_FINMA_Tax_Audit_2026.pdf';
       attachmentType = 'PDF';
     } else {
-      agentReply = 'Thank you for your instruction, Mr. Gayashan. Your request has been logged under Geneva Private Wealth priority protocol and is being executed immediately.';
+      agentReply = 'Thank you for your instruction, Mr. Buddhika. Your request has been logged under Geneva Private Wealth priority protocol and is being executed immediately.';
     }
 
     final agentMsg = ChatMessageModel(

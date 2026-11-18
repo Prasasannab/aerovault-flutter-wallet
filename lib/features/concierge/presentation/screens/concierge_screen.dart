@@ -163,13 +163,23 @@ class _ConciergeScreenState extends State<ConciergeScreen> {
                   ],
                 ),
                 child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/sample_avatar.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      color: colors.surfaceElevated,
-                      child: const Center(
-                        child: Text('CD', style: TextStyle(color: AppColors.emerald, fontWeight: FontWeight.bold)),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'CD',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ),
@@ -339,10 +349,24 @@ class _ConciergeScreenState extends State<ConciergeScreen> {
                 color: AppColors.surfaceElevated,
               ),
               child: ClipOval(
-                child: Image.asset(
-                  'assets/images/sample_avatar.jpg',
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => const Icon(Icons.person, size: 16, color: AppColors.emerald),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'CD',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -517,10 +541,24 @@ class _ConciergeScreenState extends State<ConciergeScreen> {
               color: AppColors.surfaceElevated,
             ),
             child: ClipOval(
-              child: Image.asset(
-                'assets/images/sample_avatar.jpg',
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => const Icon(Icons.person, size: 16, color: AppColors.emerald),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    'CD',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

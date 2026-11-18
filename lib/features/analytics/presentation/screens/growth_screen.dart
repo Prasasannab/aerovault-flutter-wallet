@@ -16,8 +16,13 @@ import '../widgets/statement_pdf_generator.dart';
 
 class GrowthScreen extends StatelessWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const GrowthScreen({super.key, this.isStandalone = false});
+  const GrowthScreen({
+    super.key,
+    this.isStandalone = false,
+    this.scrollController,
+  });
 
   static Future<void> push(BuildContext context) {
     return Navigator.push(
@@ -32,15 +37,22 @@ class GrowthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<AnalyticsBloc>(
       create: (_) => sl<AnalyticsBloc>()..add(const LoadAnalyticsEvent()),
-      child: _GrowthScreenContent(isStandalone: isStandalone),
+      child: _GrowthScreenContent(
+        isStandalone: isStandalone,
+        scrollController: scrollController,
+      ),
     );
   }
 }
 
 class _GrowthScreenContent extends StatelessWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const _GrowthScreenContent({required this.isStandalone});
+  const _GrowthScreenContent({
+    required this.isStandalone,
+    this.scrollController,
+  });
 
   void _exportStatement(BuildContext context, WealthAnalytics wealth) {
     HapticFeedback.mediumImpact();
@@ -153,6 +165,7 @@ class _GrowthScreenContent extends StatelessWidget {
               color: colors.primary,
               backgroundColor: colors.surfaceElevated,
               child: SingleChildScrollView(
+                controller: scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 110),
                 child: Column(
@@ -376,40 +389,47 @@ class _GrowthScreenContent extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.emerald.withValues(alpha: 0.15),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.account_balance_wallet_rounded,
-                                        color: AppColors.emerald,
-                                        size: 18,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'YIELD VAULTS & STAKING',
-                                          style: AppTextStyles.label(
-                                            color: AppColors.emerald,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                          ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.emerald.withValues(alpha: 0.15),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
-                                        Text(
-                                          'Proof-of-Stake & Cold Reserves',
-                                          style: AppTextStyles.bodySmall(color: colors.textSecondary),
+                                        child: const Icon(
+                                          Icons.account_balance_wallet_rounded,
+                                          color: AppColors.emerald,
+                                          size: 18,
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'YIELD VAULTS & STAKING',
+                                              style: AppTextStyles.label(
+                                                color: AppColors.emerald,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              'Proof-of-Stake & Cold Reserves',
+                                              style: AppTextStyles.bodySmall(color: colors.textSecondary),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(width: 8),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(

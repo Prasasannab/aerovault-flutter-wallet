@@ -22,8 +22,13 @@ import '../../../earn/presentation/screens/earn_vaults_screen.dart';
 
 class TransfersScreen extends StatelessWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const TransfersScreen({super.key, this.isStandalone = false});
+  const TransfersScreen({
+    super.key,
+    this.isStandalone = false,
+    this.scrollController,
+  });
 
   static Future<void> push(BuildContext context) {
     return Navigator.push(
@@ -38,15 +43,22 @@ class TransfersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<TransfersBloc>(
       create: (_) => sl<TransfersBloc>()..add(const LoadTransfersHubEvent()),
-      child: _TransfersScreenContent(isStandalone: isStandalone),
+      child: _TransfersScreenContent(
+        isStandalone: isStandalone,
+        scrollController: scrollController,
+      ),
     );
   }
 }
 
 class _TransfersScreenContent extends StatefulWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const _TransfersScreenContent({required this.isStandalone});
+  const _TransfersScreenContent({
+    required this.isStandalone,
+    this.scrollController,
+  });
 
   @override
   State<_TransfersScreenContent> createState() => _TransfersScreenContentState();
@@ -167,6 +179,7 @@ class _TransfersScreenContentState extends State<_TransfersScreenContent> {
                 color: colors.primary,
                 backgroundColor: colors.surfaceElevated,
                 child: SingleChildScrollView(
+                  controller: widget.scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Column(

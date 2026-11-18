@@ -15,8 +15,13 @@ import '../widgets/sensitive_card_details_widget.dart';
 
 class CardsScreen extends StatelessWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const CardsScreen({super.key, this.isStandalone = false});
+  const CardsScreen({
+    super.key,
+    this.isStandalone = false,
+    this.scrollController,
+  });
 
   static Future<void> push(BuildContext context) {
     return Navigator.push(
@@ -31,15 +36,22 @@ class CardsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CardsBloc>(
       create: (_) => sl<CardsBloc>()..add(const LoadCardsEvent()),
-      child: _CardsScreenContent(isStandalone: isStandalone),
+      child: _CardsScreenContent(
+        isStandalone: isStandalone,
+        scrollController: scrollController,
+      ),
     );
   }
 }
 
 class _CardsScreenContent extends StatefulWidget {
   final bool isStandalone;
+  final ScrollController? scrollController;
 
-  const _CardsScreenContent({required this.isStandalone});
+  const _CardsScreenContent({
+    required this.isStandalone,
+    this.scrollController,
+  });
 
   @override
   State<_CardsScreenContent> createState() => _CardsScreenContentState();
@@ -140,6 +152,7 @@ class _CardsScreenContentState extends State<_CardsScreenContent> {
               color: colors.primary,
               backgroundColor: colors.surfaceElevated,
               child: SingleChildScrollView(
+                controller: widget.scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
                 child: Column(

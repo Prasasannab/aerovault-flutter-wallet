@@ -509,13 +509,23 @@ class ProfileScreen extends StatelessWidget {
                   border: Border.all(color: AppColors.violet, width: 1.5),
                 ),
                 child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/sample_avatar.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      color: colors.surfaceElevated,
-                      child: const Center(
-                        child: Text('CD', style: TextStyle(color: AppColors.violet, fontWeight: FontWeight.bold)),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'CD',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ),

@@ -361,7 +361,7 @@ void main() {
     expect(find.text('Client Profile & KYC'), findsOneWidget);
     expect(find.text('FINMA TIER 3 SOVEREIGN'), findsOneWidget);
     expect(find.text('Prasanna Buddhika'), findsOneWidget);
-    expect(find.text('pasindu.g@aerovault.swiss'), findsOneWidget);
+    expect(find.text('prasanna.b@aerovault.swiss'), findsOneWidget);
     expect(find.text('FINMA Tier 3 Sovereign Clearance'), findsOneWidget);
     expect(find.text('AUDITED'), findsOneWidget);
 
@@ -408,7 +408,7 @@ void main() {
     expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
 
     // Message Content
-    expect(find.textContaining('Good afternoon, Mr. Gayashan'), findsOneWidget);
+    expect(find.textContaining('Good afternoon, Mr. Buddhika'), findsOneWidget);
 
     // Quick Prompts
     expect(find.text('Request \$1,000,000 Outbound Wire Headroom'), findsWidgets);
